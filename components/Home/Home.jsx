@@ -34,12 +34,29 @@ function Home() {
             <Text>Most Loved</Text>
           </View>
         </View>
-        <View>
-          <Text>Running Out</Text>
-          <View>
-            
-          </View>
+
+        {/* Running Out */}
+        <View style={styles.maincontent}>
+          <Text style={{ fontWeight: 'bold' }}>Running Out</Text>
+          <View></View>
         </View>
+
+        {/* Selected Partners */}
+        <Text style={{ fontWeight: 'bold', marginLeft: 18 }}>Selected Partners</Text>
+        <ScrollView style={styles.maincontent}>
+          <View>
+            <Image source={require('../../assets/partner_1.png')} style={{ height: 50 }} />
+          </View>
+          <View>
+            <Image source={require('../../assets/partner_2.png')} style={{ height: 50 }} />
+          </View>
+          <View>
+            <Image source={require('../../assets/partner_3.png')} style={{ height: 50 }} />
+          </View>
+          <View>
+            <Image source={require('../../assets/partner_4.png')} style={{ height: 50 }} />
+          </View>
+        </ScrollView>
       </ScrollView>
       <View >
 
@@ -80,6 +97,11 @@ const styles = StyleSheet.create({
   },
   maincategory_items: {
     alignItems: 'center'
+  },
+  maincontent: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingHorizontal: 18,
   }
 })
 export default Home;
