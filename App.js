@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import Vendorpage from './components/vendorpage/vendorpage';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Testing</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <SafeAreaView style={styles.container}>
+      <Vendorpage></Vendorpage>
+    </SafeAreaView>
   );
 }
 
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop : 50,
+    // justifyContent: 'center',
   },
 });
