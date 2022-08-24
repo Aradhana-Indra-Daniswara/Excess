@@ -1,22 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import Vendorpage from './components/vendorpage/vendorpage';
+import { NavigationContainer } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import PageNavigator from './pageNavigator'
+import React, { useCallback, useEffect } from 'react'
+import { Text } from 'react-native'
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
   return (
-
-    <SafeAreaView style={styles.container}>
-      <Vendorpage></Vendorpage>
-    </SafeAreaView>
-  );
+    <NavigationContainer>
+      <PageNavigator />
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    marginTop : 50,
-    // justifyContent: 'center',
-  },
-});
