@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
@@ -36,9 +37,28 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigator = useNavigation();
+
+  const sendLoginRequest = async () => {
+    const url = "http://localhost:3000/login"
+    const response = await fetch(url, {
+      method: "POST", 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    })
+
+    if(response.code === 200) {
+      navigator.navigate("Register")
+    }
+  }
 
   return (
-    <SafeAreaView style={[Styles.centerContainer, { marginTop: 130 }]}>
+    <SafeAreaView style={[Styles.centerContainer, { marginTop: 205 }]}>
       <Text
         style={{ 
           fontSize: 30,
@@ -54,7 +74,7 @@ const Login = () => {
           style={[Styles.inputField]}
           autoCapitalize='none'
           autoComplete='email'
-          autoCorrect='none'
+          autoCorrect='false'
           autoFocus
           onChangeText={(input) => setEmail(input)}
         />
@@ -64,7 +84,7 @@ const Login = () => {
         <Text style={[Styles.label]}>Password</Text>
         <TextInput 
           style={[Styles.inputField]}
-          autoCapitalize='none'
+          autoCapitalize='false'
           secureTextEntry
           onChangeText={(input) => setPassword(input)}
         />
@@ -73,7 +93,7 @@ const Login = () => {
       <View style={[Styles.centerContainer, { marginTop: 43  }]}>
         <TouchableOpacity 
           style={[Styles.button, { backgroundColor: '#51C699' }]}
-          // TODO: onPress={}
+          onPress={sendLoginRequest}
         >
           <Text style={[Styles.buttonFont]}>Login</Text>
         </TouchableOpacity>
@@ -86,7 +106,10 @@ const Login = () => {
       </View>
 
       <View style={[Styles.centerContainer, { marginTop: 10  }]}>
-        <TouchableOpacity style={[Styles.button, { backgroundColor: '#000000' }]}>
+        <TouchableOpacity 
+          style={[Styles.button, { backgroundColor: '#000000' }]}
+          onPress={() => {navigator.navigate('Register')}}  
+        >
           <Text style={[Styles.buttonFont]}>Register</Text>
         </TouchableOpacity>
       </View>
