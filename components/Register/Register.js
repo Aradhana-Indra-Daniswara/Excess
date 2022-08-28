@@ -40,9 +40,45 @@ export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isAgreed, setIsAgreed] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const validateInput = () => {
+    if(name === '' 
+        || phoneNumber === ''
+        || email === ''
+        || password === '' 
+        || !isAgreed
+      ){
+      setError(true)
+      setErrorMessage('All fields must be filled')
+      return false
+    } else {
+      setError(false)
+      return true
+    }
+  }
 
   const sendRegisterRequest = async() => {
+    if(validateInput()) {
+      const url = 'http://localhost:3000/register'
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          phoneNumber, 
+          email,
+          password
+        })
+      })
 
+      const JSONResponse = await response.json()
+
+      console.log(JSONResponse)
+    }
   }
   
   return (
@@ -97,6 +133,7 @@ export default function Register() {
             style={[Styles.inputField]}
             autoCapitalize='none'
             autoCorrect='false'
+            secureTextEntry
             onChangeText={(input) => setPassword(input)}
           />
         </View>
@@ -123,12 +160,16 @@ export default function Register() {
           {/* <Text>I Agree to the <Text style={{ color: '#6C25b4' }}>terms and conditions</Text> </Text> */}
         </View>
 
+        {error && <Text>{errorMessage}</Text>}
+
         <View style={{ marginTop: 43 }}>
           <TouchableOpacity
             style={[Styles.button, { backgroundColor: '#51C699' }]}
             onPress={sendRegisterRequest}
           >
-            <Text style={[Styles.buttonFont]}>Register</Text>
+            <Text style={[Styles.buttonFont]}>
+              Register
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

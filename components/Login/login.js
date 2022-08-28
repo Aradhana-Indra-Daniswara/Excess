@@ -37,23 +37,46 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const navigator = useNavigation();
 
-  const sendLoginRequest = async () => {
-    const url = "http://localhost:3000/login"
-    const response = await fetch(url, {
-      method: "POST", 
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
+  const validateInput = () => {
+    if(email === '' || password === '') {
+      return false
+    } else {
+      return true
+    }
+  }
 
-    if(response.code === 200) {
-      navigator.navigate("Register")
+  const sendLoginRequest = async () => {
+    
+    if(validateInput()) {
+      setError(false)
+      const url = "http://localhost:3000/login"
+      const response = await fetch(url, {
+        method: "POST", 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+  
+      const JSONResponse = await response.json()
+  
+      console.log(JSONResponse)
+  
+      if(JSONResponse.code === 200) {
+        navigator.navigate("Register")
+      } else {
+        setError(!error)
+        setErrorMessage(JSONResponse.message)
+      }
+    } else {
+
     }
   }
 
@@ -89,6 +112,9 @@ const Login = () => {
           onChangeText={(input) => setPassword(input)}
         />
       </View>
+
+      {/* TODO: ERROR VIEW */}
+      {error && <Text>{errorMessage}</Text>}
 
       <View style={[Styles.centerContainer, { marginTop: 43  }]}>
         <TouchableOpacity 
