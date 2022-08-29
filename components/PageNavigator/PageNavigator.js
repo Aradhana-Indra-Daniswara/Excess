@@ -1,8 +1,8 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Login from './components/Login'
-import Register from './components/Register'
-import Checkout from './components/Checkout'
+import Checkout from '../Checkout'
+import Register from '../Register'
+import Login from '../Login'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
@@ -14,7 +14,7 @@ export default function PageNavigator() {
         headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#F9F9F9'
-        },
+        }
       }}
     >
       <Stack.Group>
@@ -22,7 +22,12 @@ export default function PageNavigator() {
           name="Checkout"
           component={Checkout}
           options={{  
-            headerShown: true
+            headerShown: true,
+            headerTitle: 'Check out',
+            headerTitleStyle: {
+              fontSize: 30,
+              fontWeight: '900'
+            }
           }}
         />
         <Stack.Screen

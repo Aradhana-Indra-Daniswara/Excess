@@ -1,3 +1,3 @@
-import PageNavigator from "./pageNavigator";
+import PageNavigator from "./PageNavigator";
 
 export default PageNavigator;

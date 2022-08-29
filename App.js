@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import PageNavigator from './components/PageNavigator'
 
 export default function App() {
