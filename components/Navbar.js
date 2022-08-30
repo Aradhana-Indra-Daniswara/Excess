@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons';
 import Home from "./Home/Home";
+import Activity from "./Activity/Activity";
 const Tab = createBottomTabNavigator();
 
 // Screens
@@ -40,6 +41,8 @@ export default function Navbar() {
       >
         {/* Navbar Selections */}
         <Tab.Screen name={homeName} component={Home} />
+        <Tab.Screen name={activityName} component={Activity} />
+
 
 
       </Tab.Navigator>
