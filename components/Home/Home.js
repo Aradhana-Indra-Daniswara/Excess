@@ -1,18 +1,19 @@
-import React from 'react'
+import React from 'react';
 import { ScrollView, StyleSheet, View, Image, Text, TextInput } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 
-function Home() {
+export default function Home() {
   return (
     <View>
       <View style={styles.header}>
         <View style={styles.actionHeader}>
-          <Image source={require('../../assets/location-icon.png')} />
+          <Ionicons name='location-sharp' size={18} color={'black'} />
 
           <Text style={{ marginHorizontal: 4 }}>Binus Alam Sutera</Text>
-          <Image source={require('../../assets/dropdown-icon.png')} />
+          <Ionicons name='caret-down-sharp' size={14} color={'black'} />
         </View>
         <View style={styles.actionHeader}>
-          <Image source={require('../../assets/profile-icon.png')} />
+          <Ionicons name='person-sharp' size={18} color={'black'} />
           <Text style={{ marginLeft: 4 }}>Edo</Text>
         </View>
       </View>
@@ -66,17 +67,17 @@ function Home() {
   )
 }
 
+
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: 18,
-    marginTop: 80
   },
   actionHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
   searchBar: {
     borderRadius: 100,
@@ -107,18 +108,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D9D9D9',
     marginRight: 8,
-    borderRadius: 5
-  }
+    borderRadius: 5,
+  },
 })
-const shadowOpt = {
-  width: 160,
-  height: 170,
-  color: "#000",
-  border: 2,
-  radius: 3,
-  opacity: 0.2,
-  x: 0,
-  y: 3,
-  style: { marginVertical: 5 }
-};
-export default Home;
