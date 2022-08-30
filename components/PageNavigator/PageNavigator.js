@@ -13,8 +13,12 @@ export default function PageNavigator() {
         headerShown: false,
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#F9F9F9'
-        }
+          backgroundColor: '#F9F9F9',
+        },  
+        headerTitleStyle: {
+          fontSize: 30,
+          fontWeight: '900'
+        },
       }}
     >
       <Stack.Group>
@@ -23,11 +27,6 @@ export default function PageNavigator() {
           component={Checkout}
           options={{  
             headerShown: true,
-            headerTitle: 'Check out',
-            headerTitleStyle: {
-              fontSize: 30,
-              fontWeight: '900'
-            }
           }}
         />
         <Stack.Screen
