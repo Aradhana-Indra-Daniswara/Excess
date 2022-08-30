@@ -4,7 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function Home() {
   return (
-    <View>
+    <View style={{
+      backgroundColor: 'white'
+    }}>
       <View style={styles.header}>
         <View style={styles.actionHeader}>
           <Ionicons name='location-sharp' size={18} color={'black'} />
@@ -81,13 +83,17 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     borderRadius: 100,
-    borderWidth: 1,
-    borderColor: '#D9D9D9',
     width: '80%',
     alignSelf: 'center',
     marginVertical: 16,
     paddingVertical: 6,
     paddingHorizontal: 15,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 3,
   },
   maincategory: {
     flexDirection: 'row',
