@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Checkout from '../Checkout'
 import Register from '../Register'
 import Login from '../Login'
+import Voucher from '../Voucher'
+import Home from '../Home/Home'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
@@ -41,6 +43,26 @@ export default function PageNavigator() {
           component={Register}
           options={{ 
             headerShown: true
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen
+          name="Voucher"
+          component={Voucher}
+          options={{  
+            headerShown: true,
+            headerBackVisible: true,
+            headerBackButtonMenuEnabled: true,
+            headerTitle: "Vouchers Available",
+            headerTitleStyle: {
+              fontWeight: '900',
+              fontSize: 20
+            }
           }}
         />
       </Stack.Group>

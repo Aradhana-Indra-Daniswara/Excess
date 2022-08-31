@@ -1,45 +1,44 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-const Login = () => {
-  const Styles = StyleSheet.create({
-    centerContainer: {
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    label: {
-      fontSize: 15,
-      fontWeight: '500',
-      letterSpacing: -0.33
-    },
-    inputField: {
-      width: 250,
-      height: 45,
-      padding: 10,
-      borderColor: '#000000',
-      borderRadius: 10,
-      borderWidth: 1,
-    },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 250,
-      height: 45,
-      padding: 10,
-      borderRadius: 10,
-    },
-    buttonFont: {
-      color: '#FFFFFF',
-      fontSize: 20
-    }
-  })
+const Styles = StyleSheet.create({
+  centerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: -0.33
+  },
+  inputField: {
+    width: 250,
+    height: 45,
+    padding: 10,
+    borderColor: '#000000',
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 250,
+    height: 45,
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonFont: {
+    color: '#FFFFFF',
+    fontSize: 20
+  }
+})
+
+const Login = ({ navigation }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const navigator = useNavigation();
 
   const validateInput = () => {
     if(email === '' || password === '') {
@@ -134,7 +133,7 @@ const Login = () => {
       <View style={[Styles.centerContainer, { marginTop: 10  }]}>
         <TouchableOpacity 
           style={[Styles.button, { backgroundColor: '#000000' }]}
-          onPress={() => {navigator.navigate('Register')}}  
+          onPress={() => {navigation.navigate('Register')}}  
         >
           <Text style={[Styles.buttonFont]}>Register</Text>
         </TouchableOpacity>

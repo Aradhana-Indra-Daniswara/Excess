@@ -2,38 +2,39 @@ import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
-export default function Register() {
-  const Styles = StyleSheet.create({
-    centerContainer: {
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    label: {
-      fontSize: 15,
-      fontWeight: '500',
-      letterSpacing: -0.33
-    },
-    inputField: {
-      width: 250,
-      height: 45,
-      padding: 10,
-      borderColor: '#000000',
-      borderRadius: 10,
-      borderWidth: 1,
-    },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 250,
-      height: 45,
-      padding: 10,
-      borderRadius: 10,
-    },
-    buttonFont: {
-      color: '#FFFFFF',
-      fontSize: 20
-    }
-  })
+const Styles = StyleSheet.create({
+  centerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: -0.33
+  },
+  inputField: {
+    width: 250,
+    height: 45,
+    padding: 10,
+    borderColor: '#000000',
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 250,
+    height: 45,
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonFont: {
+    color: '#FFFFFF',
+    fontSize: 20
+  }
+})
+
+export default function Register({ navigation }) {
 
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
