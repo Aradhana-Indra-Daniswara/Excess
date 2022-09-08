@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Image, Text, TextInput } from 'react-native'
 import AppText from '../AppText';
-
+import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 // Icons
 import { Ionicons } from '@expo/vector-icons';
 import Nearme_icon from '../../assets/nearme.svg';
@@ -32,7 +32,7 @@ export default function Home() {
         {/* Banner */}
         <View style={{ position: 'relative', marginBottom: 32 }}>
           <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', height: 200, resizeMode: 'contain' }} />
-          <SearchBar placeholder='Cheap Snack?'/>
+          <SearchBar placeholder='Cheap Snack?' />
         </View>
 
         {/* Category */}
@@ -61,16 +61,28 @@ export default function Home() {
         <AppText style={{ fontWeight: 'bold', marginLeft: 18 }}>Selected Partners</AppText>
         <ScrollView style={styles.maincontent} horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={styles.horizontalCards}>
-            <Image source={require('../../assets/partner_1.png')} style={{ height: 50 }} />
+            <AutoDimensionImage
+              source={require('../../assets/partner_1.png')}
+              dimensionType={imageDimensionTypes.HEIGHT}
+              dimensionValue={50} />
           </View>
           <View style={styles.horizontalCards}>
-            <Image source={require('../../assets/partner_2.png')} style={{ height: 50 }} />
+            <AutoDimensionImage
+              source={require('../../assets/partner_2.png')}
+              dimensionType={imageDimensionTypes.HEIGHT}
+              dimensionValue={50} />
           </View>
           <View style={styles.horizontalCards}>
-            <Image source={require('../../assets/partner_3.png')} style={{ height: 50 }} />
+            <AutoDimensionImage
+              source={require('../../assets/partner_3.png')}
+              dimensionType={imageDimensionTypes.HEIGHT}
+              dimensionValue={50} />
           </View>
           <View style={styles.horizontalCards}>
-            <Image source={require('../../assets/partner_4.png')} style={{ height: 50 }} />
+            <AutoDimensionImage
+              source={require('../../assets/partner_4.png')}
+              dimensionType={imageDimensionTypes.HEIGHT}
+              dimensionValue={50} />
           </View>
         </ScrollView>
       </ScrollView>
@@ -108,8 +120,8 @@ const styles = StyleSheet.create({
   horizontalCards: {
     padding: 8,
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: '#D9D9D9',
     marginRight: 8,
-    borderRadius: 5,
   },
 })
