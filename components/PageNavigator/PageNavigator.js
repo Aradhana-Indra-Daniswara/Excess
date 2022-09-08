@@ -5,6 +5,7 @@ import Register from '../Register'
 import Login from '../Login'
 import Voucher from '../Voucher'
 import Home from '../Home/Home'
+import Cart from '../Cart'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
@@ -24,11 +25,19 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
+        <Stack.Screen 
+          name="Cart"
+          component={Cart}
+          options={{ 
+            headerShown: true
+          }}
+        />  
         <Stack.Screen
           name="Checkout"
           component={Checkout}
           options={{  
             headerShown: true,
+            headerBackButtonMenuEnabled: true
           }}
         />
         <Stack.Screen

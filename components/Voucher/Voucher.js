@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import VoucherContainer from './VoucherContainer'
 
 const Styles = StyleSheet.create({
@@ -27,28 +27,46 @@ const Styles = StyleSheet.create({
 
 export default function Voucher({ navigation, route }) {
 
-  // TODO: pass props to previous screen
-  // https://reactnavigation.org/docs/params
+  // TODO: ganti warna pas vouchernya diklik
   
-  const [voucherIsClicked, setVoucherIsClicked] = useState(false);
-  const [voucher, setVoucher] = useState({})
+  const [voucher, setVoucher] = useState(null);
+  const [voucherData, setVoucherData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const getVouchers = async () => {
+    const url = "http://localhost:3000/vouchers"
+    const repsonse = await fetch(url)
+    const JSONResponse = await repsonse.json()
+    setVoucherData(JSONResponse.vouchers)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getVouchers()
+  }, [])
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }} >
-      <ScrollView contentContainerStyle={[Styles.centerContainer, { marginTop: 20 }]} showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={[Styles.centerContainer]}>
-          <VoucherContainer discount={30} minimumOrder={45} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={10} minimumOrder={20} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={20} minimumOrder={15} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={35} minimumOrder={25} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={10} minimumOrder={20} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={10} minimumOrder={20} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <VoucherContainer discount={40} minimumOrder={30} setIsClicked={setVoucherIsClicked} setVoucher={setVoucher} />
-          <View style={{ height: 100 }}></View>
-        </SafeAreaView>
-      </ScrollView> 
+      <SafeAreaView style={[Styles.centerContainer, { marginTop: 20}]}>
+        {isLoading 
+          ? (<Text>Loading</Text>)
+          :  (
+            <FlatList
+              data={voucherData}
+              renderItem={({item}) => 
+                <VoucherContainer
+                  discount={item.discountPercentage}
+                  minimumOrder={item.minimumPrice}
+                  setVoucher={setVoucher}
+                />
+              }
+              showsVerticalScrollIndicator={false}
+            />
+        )}
+        <View style={{ height: 100 }}></View>
+      </SafeAreaView>
       
-      {voucherIsClicked && (
+      {voucher && (
         <TouchableOpacity 
           style={Styles.applyVoucherButton}
           onPress={() => navigation.navigate({
@@ -57,7 +75,7 @@ export default function Voucher({ navigation, route }) {
             merge: true
           })}
         >
-          <Text style={Styles.buttonFont}>Apply Voucher {voucher.discount}</Text>
+          <Text style={Styles.buttonFont}>Apply Voucher</Text>
         </TouchableOpacity>
       )}
 

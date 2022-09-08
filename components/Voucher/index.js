@@ -1,3 +1,1 @@
-import Voucher from "./Voucher";
-
-export default Voucher;
+export { default } from './Voucher';

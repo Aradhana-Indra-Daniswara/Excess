@@ -28,11 +28,11 @@ const Styles = StyleSheet.create({
   }
 })
 
-export default function VoucherContainer({ discount, minimumOrder, setIsClicked, setVoucher }) {
+export default function VoucherContainer({ discount, minimumOrder, setVoucher }) {
   return (
     <TouchableOpacity 
       style={[Styles.centerContainer, Styles.voucherContainer]}
-      onPress={() => (setIsClicked(true), setVoucher({ discount, minimumOrder }))}
+      onPress={() => setVoucher({ discount, minimumOrder })}
     >
       <Text style={[Styles.voucherHeading]}>{discount}% Off</Text>
       {minimumOrder === 0 && (
