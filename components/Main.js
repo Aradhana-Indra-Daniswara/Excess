@@ -10,7 +10,7 @@ const homeName = 'Home';
 const activityName = 'Activity';
 const profileName = 'Profile';
 
-export default function Navbar() {
+export default function Main() {
   return (
     <NavigationContainer>
       <Tab.Navigator
