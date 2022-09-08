@@ -1,8 +1,12 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Image, Text, TextInput } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
 
 export default function Home() {
+  const [fontsLoaded] = useFonts({
+    'Montserrat-Regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
+  });
   return (
     <View style={{
       backgroundColor: 'white'
@@ -10,8 +14,8 @@ export default function Home() {
       <View style={styles.header}>
         <View style={styles.actionHeader}>
           <Ionicons name='location-sharp' size={18} color={'black'} />
-
-          <Text style={{ marginHorizontal: 4 }}>Binus Alam Sutera</Text>
+        
+          <Text style={{ marginHorizontal: 4, fontFamily:'Montserrat-Regular' }}>Binus Alam Sutera</Text>
           <Ionicons name='caret-down-sharp' size={14} color={'black'} />
         </View>
         <View style={styles.actionHeader}>
