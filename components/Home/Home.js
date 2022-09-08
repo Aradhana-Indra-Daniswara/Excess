@@ -30,7 +30,7 @@ export default function Home() {
       <ScrollView >
 
         {/* Banner */}
-        <View>
+        <View style={{ position: 'relative', marginBottom: 32 }}>
           <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', height: 200, resizeMode: 'contain' }} />
           <SearchBar placeholder='Cheap Snack?'/>
         </View>

@@ -31,6 +31,9 @@ export default function SearchBar({ placeholder }) {
       shadowOpacity: 0.5,
       shadowRadius: 2,
       elevation: 3,
+
+      position: 'absolute',
+      bottom: -24
     }}>
       <Search_icon height={32} width={32} />
       <TextInput style={{
