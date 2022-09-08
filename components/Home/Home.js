@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Nearme_icon from '../../assets/nearme.svg';
 import Bestprice_icon from '../../assets/bestprice.svg';
 import Mostloved_icon from '../../assets/mostloved.svg';
+import SearchBar from './SearchBar';
 
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
         {/* Banner */}
         <View>
           <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', height: 200, resizeMode: 'contain' }} />
-          <TextInput style={styles.searchBar} placeholder="Search Food" />
+          <SearchBar placeholder='Cheap Snack?'/>
         </View>
 
         {/* Category */}
@@ -89,20 +90,6 @@ const styles = StyleSheet.create({
   actionHeader: {
     flexDirection: 'row',
     alignItems: 'baseline',
-  },
-  searchBar: {
-    borderRadius: 100,
-    width: '80%',
-    alignSelf: 'center',
-    marginVertical: 16,
-    paddingVertical: 6,
-    paddingHorizontal: 15,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 3,
   },
   maincategory: {
     flexDirection: 'row',
