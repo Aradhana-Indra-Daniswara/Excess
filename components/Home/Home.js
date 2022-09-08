@@ -38,15 +38,15 @@ export default function Home() {
         <View style={styles.maincategory}>
           <View style={styles.maincategory_items}>
             <Nearme_icon width={120} height={40} />
-            <AppText>Near Me</AppText>
+            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Near Me</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Bestprice_icon width={120} height={40} />
-            <AppText>Best Price</AppText>
+            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Best Price</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Mostloved_icon width={120} height={40} />
-            <AppText>Most Loved</AppText>
+            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Most Loved</AppText>
           </View>
         </View>
 
