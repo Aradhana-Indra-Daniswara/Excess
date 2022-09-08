@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'; 
+import formatCurrency from '../../utils/formatters/formatCurrency';
 
 
 const Styles = StyleSheet.create({
@@ -30,29 +31,33 @@ const Styles = StyleSheet.create({
 export default function ProductCard({ productName, productPrice, productImageId }) {
   const [qty, setQty] = useState(1);
 
+  const decrementQty = () => {
+    qty === 1 ? null : setQty(qty - 1)
+  }
+
   return (
     <View style={[Styles.cardContainer, ]}>
       <View style={{ marginTop: 16 }}>
         <View style={{ flexDirection: 'row' }}>
           <View>
             <Text>{productName}</Text>
-            <Text>{productPrice}</Text>
+            <Text>{formatCurrency(productPrice)}</Text>
           </View>
-          {/* <View>
+          <View>
             <Ionicons name="md-trash-outline" size={24} color="black" />
-          </View> */}
+          </View>
         </View>
         
         {/* QTY BTN */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', borderWidth: 1, alignItems: 'center',  width: 128 }}>
-          <Pressable onPress={() => setQty(qty - 1)} style={{ borderWidth: 1 }}>
-            <Image source={require('../../assets/MinusButton.png')} style={{  }} />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderWidth: 1, alignItems: 'center',  width: 128 }}>
+          <Pressable onPress={() => decrementQty()} >
+            <Image source={require('../../assets/MinusButton.png')} style={{ height: 35, width: 35 }} />
           </Pressable>
           <View style={[Styles.centerContainer, Styles.qtyContainer]}>
             <Text>{qty}</Text>
           </View>
-          <Pressable onPress={() => setQty(qty + 1)} style={{ borderWidth: 1, }}>
-            <Image source={require('../../assets/PlusButton.png')} />
+          <Pressable onPress={() => setQty(qty + 1)} >
+            <Image source={require('../../assets/PlusButton.png')} style={{ height: 35, width: 35 }}/>
           </Pressable>
         </View>
       </View>

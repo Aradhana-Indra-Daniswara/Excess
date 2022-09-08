@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import AppText from '../AppText'
 import ProductCard from './ProductCard'
+import * as Font from 'expo-font'
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -43,6 +45,7 @@ const Styles = StyleSheet.create({
 })
 
 export default function Cart({ navigation }) {
+  
   // ini jadiin props dikasih dari vendorpage?
   const ORDER_ITEMS = [
     { vendor_id: 1, product_id: 1, product_name: 'Product 1', price: 30000, qty: 1 },
@@ -59,7 +62,7 @@ export default function Cart({ navigation }) {
     openingHour: 8,
     closingHour: 22
   }
-
+  
   return (
     <SafeAreaView style={[Styles.centerContainer, { marginTop: 10, }]}>
 
@@ -79,7 +82,7 @@ export default function Cart({ navigation }) {
             />
           <Text style={[Styles.operationalHoursFont, ]}>{VENDOR_DETAILS.openingHour}.00 - {VENDOR_DETAILS.closingHour}.00</Text>
         </View>
-        <Text style={[Styles.vendorInfoFont]}>{VENDOR_DETAILS.name}, {VENDOR_DETAILS.address}</Text>
+        <AppText fontFamily={"Montserrat-Black"}>{VENDOR_DETAILS.name}, {VENDOR_DETAILS.address}</AppText>
       </View>
       
       <FlatList
