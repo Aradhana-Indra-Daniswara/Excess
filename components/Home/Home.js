@@ -1,53 +1,63 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Image, Text, TextInput } from 'react-native'
 import AppText from '../AppText';
+
+// Icons
 import { Ionicons } from '@expo/vector-icons';
+import Nearme_icon from '../../assets/nearme.svg';
+import Bestprice_icon from '../../assets/bestprice.svg';
+import Mostloved_icon from '../../assets/mostloved.svg';
+
 
 export default function Home() {
-  
+
   return (
     <View style={{
       backgroundColor: 'white'
     }}>
+
+      {/* Header */}
       <View style={styles.header}>
+        <AppText>Delivery Area</AppText>
         <View style={styles.actionHeader}>
-          <Ionicons name='location-sharp' size={18} color={'black'} />
-          <AppText weight={'600'}>Binus Alam Sutera</AppText>
-          <Ionicons name='caret-down-sharp' size={14} color={'black'} />
-        </View>
-        <View style={styles.actionHeader}>
-          <Ionicons name='person-sharp' size={18} color={'black'} />
-          <Text style={{ marginLeft: 4 }}>Edo</Text>
+          <AppText fontFamily={'Montserrat-Bold'}>Tangerang, Banten</AppText>
+          <Ionicons name='caret-down-sharp' size={14} color={'black'} style={{ marginLeft: 4 }} />
         </View>
       </View>
+
+      {/* Main Content */}
       <ScrollView >
+
+        {/* Banner */}
         <View>
-          <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', marginTop: 16 }} />
+          <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', height: 200, resizeMode: 'contain' }} />
           <TextInput style={styles.searchBar} placeholder="Search Food" />
         </View>
+
+        {/* Category */}
         <View style={styles.maincategory}>
           <View style={styles.maincategory_items}>
-            <Image source={require('../../assets/nearme.png')} style={{ width: 45, height: 45 }} />
-            <Text>Near Me</Text>
+            <Nearme_icon width={120} height={40} />
+            <AppText>Near Me</AppText>
           </View>
           <View style={styles.maincategory_items}>
-            <Image source={require('../../assets/bestprice.png')} style={{ width: 45, height: 45 }} />
-            <Text>Best Price</Text>
+            <Bestprice_icon width={120} height={40} />
+            <AppText>Best Price</AppText>
           </View>
           <View style={styles.maincategory_items}>
-            <Image source={require('../../assets/mostloved.png')} style={{ width: 45, height: 45 }} />
-            <Text>Most Loved</Text>
+            <Mostloved_icon width={120} height={40} />
+            <AppText>Most Loved</AppText>
           </View>
         </View>
 
         {/* Running Out */}
-        <Text style={{ fontWeight: 'bold', marginLeft: 18 }}>Running Out</Text>
+        <AppText style={{ fontWeight: 'bold', marginLeft: 18 }}>Running Out</AppText>
         <View style={styles.maincontent}>
           <View></View>
         </View>
 
         {/* Selected Partners */}
-        <Text style={{ fontWeight: 'bold', marginLeft: 18 }}>Selected Partners</Text>
+        <AppText style={{ fontWeight: 'bold', marginLeft: 18 }}>Selected Partners</AppText>
         <ScrollView style={styles.maincontent} horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={styles.horizontalCards}>
             <Image source={require('../../assets/partner_1.png')} style={{ height: 50 }} />
@@ -73,10 +83,8 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 18,
+    alignItems: 'center',
+    padding: 8
   },
   actionHeader: {
     flexDirection: 'row',
