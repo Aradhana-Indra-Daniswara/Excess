@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Image, Text, TextInput } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, Text, TextInput, SafeAreaView, StatusBar} from 'react-native'
 import AppText from '../AppText';
 import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 // Icons
@@ -13,8 +13,10 @@ import SearchBar from './SearchBar';
 export default function Home() {
 
   return (
-    <View style={{
-      backgroundColor: 'white'
+    <SafeAreaView style={{
+      backgroundColor: 'white',
+      paddingTop: StatusBar.currentHeight,
+      height: '100%'
     }}>
 
       {/* Header */}
@@ -39,15 +41,15 @@ export default function Home() {
         <View style={styles.maincategory}>
           <View style={styles.maincategory_items}>
             <Nearme_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Near Me</AppText>
+            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 8 }}>Near Me</AppText>
           </View>
           <View style={styles.maincategory_items}>
-            <Bestprice_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Best Price</AppText>
+            <Bestprice_icon width={120} height={40} /> 
+            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 50 }}>Best Price</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Mostloved_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} color='#666666'>Most Loved</AppText>
+            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 8 }}>Most Loved</AppText>
           </View>
         </View>
 
@@ -86,10 +88,7 @@ export default function Home() {
           </View>
         </ScrollView>
       </ScrollView>
-      <View >
-
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

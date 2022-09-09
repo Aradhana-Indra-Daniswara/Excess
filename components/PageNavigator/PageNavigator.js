@@ -4,20 +4,20 @@ import Checkout from '../Checkout'
 import Register from '../Register'
 import Login from '../Login'
 import Voucher from '../Voucher'
-import Home from '../Home/Home'
 import Cart from '../Cart'
+import MainNavigator from '../MainNavigator'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
-  
+
   return (
     <Stack.Navigator
-      screenOptions={{  
+      screenOptions={{
         headerShown: false,
         headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#F9F9F9',
-        },  
+        },
         headerTitleStyle: {
           fontSize: 30,
           fontWeight: '900'
@@ -25,17 +25,22 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-        <Stack.Screen 
+
+        <Stack.Screen
+          name="Main"
+          component={MainNavigator}
+        />
+        <Stack.Screen
           name="Cart"
           component={Cart}
-          options={{ 
+          options={{
             headerShown: true
           }}
-        />  
+        />
         <Stack.Screen
           name="Checkout"
           component={Checkout}
-          options={{  
+          options={{
             headerShown: true,
             headerBackButtonMenuEnabled: true
           }}
@@ -43,27 +48,24 @@ export default function PageNavigator() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{  
+          options={{
             headerShown: false
           }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name="Register"
           component={Register}
-          options={{ 
+          options={{
             headerShown: true
           }}
         />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-        />
+
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
           name="Voucher"
           component={Voucher}
-          options={{  
+          options={{
             headerShown: true,
             headerBackVisible: true,
             headerBackButtonMenuEnabled: true,

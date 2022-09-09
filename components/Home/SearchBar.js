@@ -32,7 +32,7 @@ export default function SearchBar({ placeholder }) {
       shadowRadius: 2,
       elevation: 3,
 
-      position: 'absolute',
+      position: 'absolute', 
       bottom: -24
     }}>
       <Search_icon height={32} width={32} />
