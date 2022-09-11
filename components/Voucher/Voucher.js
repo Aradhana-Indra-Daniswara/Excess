@@ -35,10 +35,14 @@ export default function Voucher({ navigation, route }) {
 
   const getVouchers = async () => {
     const url = "http://localhost:3000/vouchers"
-    const repsonse = await fetch(url)
-    const JSONResponse = await repsonse.json()
-    setVoucherData(JSONResponse.vouchers)
-    setIsLoading(false)
+    try {
+      const repsonse = await fetch(url)
+      const JSONResponse = await repsonse.json()
+      setVoucherData(JSONResponse.vouchers)
+      setIsLoading(false)
+    } catch(e) {
+      console.warn(e)
+    }
   }
 
   useEffect(() => {

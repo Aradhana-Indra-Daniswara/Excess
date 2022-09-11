@@ -6,9 +6,18 @@ import Login from '../Login'
 import Voucher from '../Voucher'
 import Home from '../Home/Home'
 import Cart from '../Cart'
+import { useFonts } from 'expo-font'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
+
+  const [fontsLoaded] = useFonts({
+    'Montserrat-ExtraBold': require('../../assets/fonts/Montserrat-ExtraBold.ttf')
+  })
+
+  if(!fontsLoaded) {
+    return null
+  }
   
   return (
     <Stack.Navigator
@@ -19,25 +28,26 @@ export default function PageNavigator() {
           backgroundColor: '#F9F9F9',
         },  
         headerTitleStyle: {
-          fontSize: 30,
-          fontWeight: '900'
+          fontSize: 20,
+          fontFamily: 'Montserrat-ExtraBold'
         },
       }}
     >
       <Stack.Group>
-        <Stack.Screen 
+        {/* <Stack.Screen 
           name="Cart"
           component={Cart}
           options={{ 
             headerShown: true
           }}
-        />  
+        />   */}
         <Stack.Screen
           name="Checkout"
           component={Checkout}
           options={{  
             headerShown: true,
-            headerBackButtonMenuEnabled: true
+            headerBackButtonMenuEnabled: true,
+            animation: 'slide_from_right'
           }}
         />
         <Stack.Screen
@@ -71,7 +81,8 @@ export default function PageNavigator() {
             headerTitleStyle: {
               fontWeight: '900',
               fontSize: 20
-            }
+            },
+            // animation: 'slide_from_bottom'
           }}
         />
       </Stack.Group>
