@@ -94,9 +94,10 @@ const Login = ({ navigation }) => {
         <Text style={[Styles.label]}>Email</Text>
         <TextInput 
           style={[Styles.inputField]}
+          keyboardType='email-address'
           autoCapitalize='none'
           autoComplete='email'
-          autoCorrect='false'
+          autoCorrect={false}
           autoFocus
           onChangeText={(input) => setEmail(input)}
         />

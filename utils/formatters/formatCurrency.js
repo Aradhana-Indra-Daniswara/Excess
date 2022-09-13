@@ -1,8 +1,6 @@
-// const formatter = new Intl.NumberFormat('id-ID', { // TODO: Intl NOT FOUND ON ANDROID
-//   style: 'currency',
-//   currency: 'IDR'
-// })
+const formatCurrency = (value) => {
+  return `Rp${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`
+}
 
-// const formatCurrency = (value) => formatter.format(value)
 
-// export default formatCurrency;
+export default formatCurrency;
