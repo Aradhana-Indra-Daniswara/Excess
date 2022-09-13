@@ -1,7 +1,7 @@
 import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
 
-export default function AppText({ children, size, color, fontFamily }) {
+export default function AppText({ children, size, color, fontFamily, style }) {
 
   const [fontsLoaded] = useFonts({
     'Montserrat-Regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
@@ -19,6 +19,7 @@ export default function AppText({ children, size, color, fontFamily }) {
       fontFamily: fontFamily || 'Montserrat-Regular',
       fontSize: size || 16,
       color: color || 'black',
+      ...style
     }}>{children}</Text>
   )
 }
