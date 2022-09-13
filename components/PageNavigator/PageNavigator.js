@@ -25,11 +25,6 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-
-        <Stack.Screen
-          name="Main"
-          component={MainNavigator}
-        />
         <Stack.Screen
           name="Cart"
           component={Cart}
@@ -37,6 +32,11 @@ export default function PageNavigator() {
             headerShown: true
           }}
         />
+        <Stack.Screen
+          name="Main"
+          component={MainNavigator}
+        />
+
         <Stack.Screen
           name="Checkout"
           component={Checkout}
