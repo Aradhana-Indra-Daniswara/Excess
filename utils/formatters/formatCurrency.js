@@ -1,5 +1,5 @@
 const formatCurrency = (value) => {
-  return `Rp. ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`
+  return `Rp${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`
 }
 
 

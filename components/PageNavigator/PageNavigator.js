@@ -34,13 +34,13 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-        {/* <Stack.Screen 
+        <Stack.Screen 
           name="Cart"
           component={Cart}
           options={{ 
             headerShown: true
           }}
-        />   */}
+        />  
         <Stack.Screen
           name="Checkout"
           component={Checkout}

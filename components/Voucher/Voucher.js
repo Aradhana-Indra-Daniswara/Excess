@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import VoucherContainer from './VoucherContainer'
 
 const Styles = StyleSheet.create({
@@ -34,7 +34,10 @@ export default function Voucher({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const getVouchers = async () => {
-    const url = "http://localhost:3000/vouchers"
+    const url = Platform.OS === 'ios' 
+      ? "http://localhost:3000/voucher" 
+      : "http://10.0.2.2:3000/voucher"
+
     try {
       const repsonse = await fetch(url)
       const JSONResponse = await repsonse.json()
