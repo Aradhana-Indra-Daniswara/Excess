@@ -15,10 +15,10 @@ export default function PageNavigator() {
     'Montserrat-ExtraBold': require('../../assets/fonts/Montserrat-ExtraBold.ttf')
   })
 
-  if(!fontsLoaded) {
+  if (!fontsLoaded) {
     return null
   }
-  
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -35,16 +35,17 @@ export default function PageNavigator() {
     >
       <Stack.Group>
         <Stack.Screen
+          name="Main"
+          component={MainNavigator}
+        />
+        <Stack.Screen
           name="Cart"
           component={Cart}
           options={{
             headerShown: true
           }}
         />
-        <Stack.Screen
-          name="Main"
-          component={MainNavigator}
-        />
+
 
         <Stack.Screen
           name="Checkout"
