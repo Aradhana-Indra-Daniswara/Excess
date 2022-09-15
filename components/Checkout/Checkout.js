@@ -58,7 +58,7 @@ export default function Checkout({ navigation, route }) {
       <SafeAreaView style={[Styles.centerContainer]}>
         <View style={[Styles.centerContainer, { marginTop: 10, marginRight: 122, alignItems: 'flex-start' }]}>
           <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
-            <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 4 }} />
+            <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 6 }} />
             <AppText fontFamily={"Montserrat-SemiBold"} size={15}>09.00 - 22.00</AppText>
           </View>
           <AppText fontFamily={"Montserrat-Bold"} size={18} style={{ color: '#51C699' }} >

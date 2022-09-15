@@ -117,7 +117,7 @@ export default function Cart({ navigation }) {
       {/* Vendor Information */}
       <View style={{ alignItems: 'flex-start' }} > 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 4 }} />
+          <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 6 }} />
           <AppText fontFamily="Montserrat-SemiBold" size={16} >
             {VENDOR_DETAILS.openingHour}.00 - {VENDOR_DETAILS.closingHour}.00
           </AppText>

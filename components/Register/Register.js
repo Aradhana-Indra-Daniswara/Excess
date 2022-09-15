@@ -110,7 +110,7 @@ export default function Register({ navigation }) {
             style={[Styles.inputField]}
             autoCapitalize='words'
             autoComplete='name'
-            autoCorrect='false'
+            autoCorrect={false}
             autoFocus
             onChangeText={(input) => setName(input)}
           />
@@ -131,7 +131,7 @@ export default function Register({ navigation }) {
             style={[Styles.inputField]}
             autoCapitalize='none'
             autoComplete='email'
-            autoCorrect='false'
+            autoCorrect={false}
             keyboardType='email-address'
             onChangeText={(input) => setEmail(input)}
           />
@@ -142,7 +142,7 @@ export default function Register({ navigation }) {
           <TextInput 
             style={[Styles.inputField]}
             autoCapitalize='none'
-            autoCorrect='false'
+            autoCorrect={false}
             secureTextEntry
             onChangeText={(input) => setPassword(input)}
           />
