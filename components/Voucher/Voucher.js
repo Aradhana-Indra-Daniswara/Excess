@@ -52,6 +52,20 @@ export default function Voucher({ navigation, route }) {
     getVouchers()
   }, [])
 
+  const renderVoucher = ({item}) => {
+    const [backgroundColor, color] = item.id === voucher?.id ? ['#51C699', 'white'] : [null, 'black']
+
+    return (
+      <VoucherContainer
+        discount={item.discountPercentage}
+        minimumOrder={item.minimumPrice}
+        setVoucher={setVoucher}
+        style={{ backgroundColor: backgroundColor, color: color }}
+        id={item.id}
+      />
+    )
+  }
+
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }} >
       <SafeAreaView style={[Styles.centerContainer, { marginTop: 20}]}>
@@ -60,13 +74,7 @@ export default function Voucher({ navigation, route }) {
           :  (
             <FlatList
               data={voucherData}
-              renderItem={({item}) => 
-                <VoucherContainer
-                  discount={item.discountPercentage}
-                  minimumOrder={item.minimumPrice}
-                  setVoucher={setVoucher}
-                />
-              }
+              renderItem={renderVoucher}
               showsVerticalScrollIndicator={false}
             />
         )}

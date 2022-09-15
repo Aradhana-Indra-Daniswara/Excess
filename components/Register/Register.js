@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
+import AppText from '../AppText'
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -27,6 +28,14 @@ const Styles = StyleSheet.create({
     height: 45,
     padding: 10,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 10
   },
   buttonFont: {
     color: '#FFFFFF',
@@ -60,9 +69,12 @@ export default function Register({ navigation }) {
     }
   }
 
-  const sendRegisterRequest = async() => {
+  const registerHandler = async() => {
     if(validateInput()) {
-      const url = 'http://localhost:3000/register'
+      const url = Platform.OS === 'ios' 
+        ? 'http://localhost:3000/register'
+        : 'http://10.0.2.2:3000/register'
+        
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -76,27 +88,24 @@ export default function Register({ navigation }) {
         })
       })
 
-      const JSONResponse = await response.json()
+      const {error, message} = await response.json()
 
-      console.log(JSONResponse)
+      if(!error) {
+        navigation.navigate("Home")
+      } else {
+        setError(true)
+        setErrorMessage(message)
+      }
     }
   }
   
   return (
     <SafeAreaView style={[Styles.centerContainer, { marginTop: 112 }]}>
-      <Text 
-        style={{  
-          fontSize: 30,
-          fontWeight: '800'
-        }}
-      >
-        Welcome Aboard!
-      </Text>
+      <AppText fontFamily={'Montserrat-ExtraBold'} size={30}>Welcome Aboard!</AppText>
 
       <View style={{ marginTop: 25, alignItems: 'flex-start', width: 250 }}>
-
         <View>
-          <Text style={[Styles.label]}>Nama Lengkap</Text>
+          <AppText fontFamily={'Montserrat-Medium'} size={16}>Nama Lengkap</AppText>
           <TextInput 
             style={[Styles.inputField]}
             autoCapitalize='words'
@@ -108,7 +117,7 @@ export default function Register({ navigation }) {
         </View>
 
         <View style={{ marginTop: 11 }}>
-          <Text style={[Styles.label]}>No. Handphone</Text>
+          <AppText fontFamily={'Montserrat-Medium'} size={16}>No. Handphone</AppText>
           <TextInput 
             style={[Styles.inputField]}
             keyboardType='phone-pad'
@@ -117,7 +126,7 @@ export default function Register({ navigation }) {
         </View>
 
         <View style={{ marginTop: 11 }}>
-          <Text style={[Styles.label]}>Email</Text>
+          <AppText fontFamily={'Montserrat-Medium'} size={16}>Email</AppText>
           <TextInput 
             style={[Styles.inputField]}
             autoCapitalize='none'
@@ -129,7 +138,7 @@ export default function Register({ navigation }) {
         </View>
 
         <View style={{ marginTop: 11 }}>
-          <Text style={[Styles.label]}>Password</Text>
+          <AppText fontFamily={'Montserrat-Medium'} size={16}>Password</AppText>
           <TextInput 
             style={[Styles.inputField]}
             autoCapitalize='none'
@@ -158,7 +167,6 @@ export default function Register({ navigation }) {
             }}
             onPress={() => setIsAgreed(!isAgreed)}
           />
-          {/* <Text>I Agree to the <Text style={{ color: '#6C25b4' }}>terms and conditions</Text> </Text> */}
         </View>
 
         {error && <Text>{errorMessage}</Text>}
@@ -166,15 +174,14 @@ export default function Register({ navigation }) {
         <View style={{ marginTop: 43 }}>
           <TouchableOpacity
             style={[Styles.button, { backgroundColor: '#51C699' }]}
-            onPress={sendRegisterRequest}
+            onPress={registerHandler}
           >
-            <Text style={[Styles.buttonFont]}>
+            <AppText fontFamily={'Montserrat-SemiBold'} size={20} color="white">
               Register
-            </Text>
+            </AppText>
           </TouchableOpacity>
         </View>
       </View>
-
     </SafeAreaView>
   )
 }
