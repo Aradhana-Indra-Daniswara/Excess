@@ -1,6 +1,6 @@
 // l means a black with x% of lightness
 // 20-l means black with 20% lightness
-const colors = {
+export const colors = {
   'excess': '#51C699',
   'white': '#F9F9F9',
   '20-l': '#333333',
