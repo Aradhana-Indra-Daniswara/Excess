@@ -1,18 +1,19 @@
-// l means a black with x% of lightness
-// 20-l means black with 20% lightness
-export const colors = {
+import { StyleSheet } from "react-native";
+
+// number means a black with x% of lightness
+// 20 means black with 20% lightness
+export const colorStyles = {
   'excess': '#51C699',
   'white': '#F9F9F9',
-  '20-l': '#333333',
-  '50-l': '#808080',
-  '70-l': '#B3B3B3',
-  '80-l': '#CCCCCC'
+  20: '#333333',
+  50: '#808080',
+  70: '#B3B3B3',
+  80: '#CCCCCC'
 }
 
-const globalStyles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
   container: {
     marginHorizontal: 32
   },
 })
 
-export default globalStyles;

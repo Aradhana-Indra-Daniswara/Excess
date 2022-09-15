@@ -1,8 +1,8 @@
 import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
 
-export default function AppText({ children, size, color, fontFamily, style }) {
-
+export default function AppText(props) {
+  const { children, style, weight, onPress} = props;
   const [fontsLoaded] = useFonts({
     'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
     'OpenSauceSans-Medium': require('../../assets/fonts/OpenSauceSans-Medium.ttf'),
@@ -12,14 +12,24 @@ export default function AppText({ children, size, color, fontFamily, style }) {
     'OpenSauceSans-Black': require('../../assets/fonts/OpenSauceSans-Black.ttf'),
     'OpenSauceSans-Light': require('../../assets/fonts/OpenSauceSans-Light.ttf'),
   });
+  const weightFont = {
+    '300': 'OpenSauceSans-Light',
+    '400': 'OpenSauceSans-Regular',
+    '500': 'OpenSauceSans-Medium',
+    '600': 'OpenSauceSans-SemiBold',
+    '700': 'OpenSauceSans-Bold',
+    '800': 'OpenSauceSans-ExtraBold',
+    '900': 'OpenSauceSans-Black',
+  }
+  const handlePress = (e) =>{
+    onPress(e);
+  }
   if (!fontsLoaded) {
     return null;
   }
   return (
-    <Text style={{
-      fontFamily: fontFamily || 'OpenSauceSans-Regular',
-      fontSize: size || 16,
-      color: color || 'black',
+    <Text onPress={handlePress} style={{
+      fontFamily: weight ? weightFont[weight] : weightFont[400],
       ...style
     }}>{children}</Text>
   )
