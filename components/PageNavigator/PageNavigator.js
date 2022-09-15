@@ -7,6 +7,8 @@ import Voucher from '../Voucher'
 import Cart from '../Cart'
 import MainNavigator from '../MainNavigator'
 import { useFonts } from 'expo-font'
+import { AntDesign } from '@expo/vector-icons'
+import { Pressable } from 'react-native'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
@@ -31,6 +33,11 @@ export default function PageNavigator() {
           fontSize: 20,
           fontFamily: 'Montserrat-ExtraBold'
         },
+        // headerLeft: () => (
+        //   <Pressable>
+        //     <AntDesign name="left" size={24} color="black" />
+        //   </Pressable>
+        // )
       }}
     >
       <Stack.Group>
@@ -53,7 +60,7 @@ export default function PageNavigator() {
           options={{
             headerShown: true,
             headerBackButtonMenuEnabled: true,
-            animation: 'slide_from_right'
+            animation: 'slide_from_right',
           }}
         />
         <Stack.Screen

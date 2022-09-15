@@ -1,5 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import formatCurrency from '../../utils/formatters/formatCurrency'
+import AppText from '../AppText/AppText'
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -16,30 +18,21 @@ const Styles = StyleSheet.create({
     paddingLeft: 32,
     marginBottom: 20,
     flex: 1
-  },
-  voucherHeading: {
-    fontSize: 20,
-    fontWeight: '900',
-    marginBottom: 6
-  },
-  voucherDetail: {
-    fontSize: 15,
-    fontWeight: '500'
   }
 })
 
-export default function VoucherContainer({ discount, minimumOrder, setVoucher }) {
+export default function VoucherContainer({ id, discount, minimumOrder, setVoucher, style }) {
   return (
     <TouchableOpacity 
-      style={[Styles.centerContainer, Styles.voucherContainer]}
-      onPress={() => setVoucher({ discount, minimumOrder })}
+      style={[Styles.centerContainer, Styles.voucherContainer, {...style}]}
+      onPress={() => setVoucher({ id, discount, minimumOrder })}
     >
-      <Text style={[Styles.voucherHeading]}>{discount}% Off</Text>
+      <AppText fontFamily={'Montserrat-ExtraBold'} style={{ marginBottom: 8 }}>{discount}% Off</AppText>
       {minimumOrder === 0 && (
-        <Text style={[Styles.voucherDetail]}>No minimum order</Text>
+        <AppText fontFamily={'Montserrat-Medium'} size={15} >No minimum order</AppText>
       )}
       {minimumOrder !== 0 && (
-        <Text style={[Styles.voucherDetail]}>Min. Order {minimumOrder}K</Text>
+        <AppText fontFamily={'Montserrat-Medium'} size={15} >Min. Order {formatCurrency(minimumOrder)}</AppText>
       )}
     </TouchableOpacity>
   )

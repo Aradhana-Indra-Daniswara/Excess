@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import AppText from '../AppText';
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -26,11 +27,19 @@ const Styles = StyleSheet.create({
     height: 45,
     padding: 10,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 10
   },
   buttonFont: {
     color: '#FFFFFF',
     fontSize: 20
-  }
+  },
 })
 
 const Login = ({ navigation }) => {
@@ -48,11 +57,14 @@ const Login = ({ navigation }) => {
     }
   }
 
-  const sendLoginRequest = async () => {
-    
+  const loginHandler = async () => {
     if(validateInput()) {
       setError(false)
-      const url = "http://localhost:3000/login"
+
+      const url = Platform.OS === 'ios' 
+        ? "http://localhost:3000/login"
+        : "http://10.0.2.2:3000/login"
+
       const response = await fetch(url, {
         method: "POST", 
         headers: {
@@ -64,34 +76,26 @@ const Login = ({ navigation }) => {
         })
       })
   
-      const JSONResponse = await response.json()
+      const {error, message} = await response.json()
   
-      console.log(JSONResponse)
-  
-      if(JSONResponse.code === 200) {
-        navigator.navigate("Register")
+      if(!error) {
+        navigation.navigate("Home")
       } else {
-        setError(!error)
-        setErrorMessage(JSONResponse.message)
+        setError(true)
+        setErrorMessage(message)
       }
     } else {
-
+      setError(true)
+      setErrorMessage("Field is blank")
     }
   }
 
   return (
     <SafeAreaView style={[Styles.centerContainer, { marginTop: 205 }]}>
-      <Text
-        style={{ 
-          fontSize: 30,
-          fontWeight: "800"
-        }}
-      >
-        Welcome Back!
-      </Text>
+      <AppText fontFamily={"Montserrat-ExtraBold"} size={30}>Welcome Back!</AppText>
 
       <View style={{ marginTop: 25, alignItems: 'flex-start', width: 250 }}>
-        <Text style={[Styles.label]}>Email</Text>
+        <AppText fontFamily={"Montserrat-Medium"} size={16}>Email</AppText>
         <TextInput 
           style={[Styles.inputField]}
           keyboardType='email-address'
@@ -104,7 +108,7 @@ const Login = ({ navigation }) => {
       </View>
       
       <View style={{ marginTop: 11, alignItems: 'flex-start', width: 250 }}>
-        <Text style={[Styles.label]}>Password</Text>
+      <AppText fontFamily={"Montserrat-Medium"} size={16}>Password</AppText>
         <TextInput 
           style={[Styles.inputField]}
           autoCapitalize='false'
@@ -119,15 +123,15 @@ const Login = ({ navigation }) => {
       <View style={[Styles.centerContainer, { marginTop: 43  }]}>
         <TouchableOpacity 
           style={[Styles.button, { backgroundColor: '#51C699' }]}
-          onPress={sendLoginRequest}
+          onPress={loginHandler}
         >
-          <Text style={[Styles.buttonFont]}>Login</Text>
+          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Email</AppText>
         </TouchableOpacity>
       </View>
 
       <View style={[Styles.centerContainer, { marginTop: 10, flexDirection: 'row' }]}>
         <View style={{ width: 105, borderWidth: 1, borderColor: '#DDDDDD' }}></View>
-        <Text style={{ marginHorizontal: 8 }}>Or</Text>
+        <AppText fontFamily={"Montserrat-SemiBold"} size={18} style={{ marginHorizontal: 8 }}>Or</AppText>
         <View style={{ width: 105, borderWidth: 1, borderColor: '#DDDDDD' }}></View>
       </View>
 
@@ -136,7 +140,7 @@ const Login = ({ navigation }) => {
           style={[Styles.button, { backgroundColor: '#000000' }]}
           onPress={() => {navigation.navigate('Register')}}  
         >
-          <Text style={[Styles.buttonFont]}>Register</Text>
+          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Register</AppText>
         </TouchableOpacity>
       </View>
 

@@ -1,6 +1,8 @@
+import { SimpleLineIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import formatCurrency from '../../utils/formatters/formatCurrency';
+import AppText from '../AppText';
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -37,7 +39,7 @@ const Styles = StyleSheet.create({
 })
 
 export default function Checkout({ navigation, route }) {
-
+  // TODO: price jadiin props dari Cart
   // watch for voucher application & update grand total
   useEffect(() => {
     if(route.params?.voucherSelected) {
@@ -56,24 +58,12 @@ export default function Checkout({ navigation, route }) {
       <SafeAreaView style={[Styles.centerContainer]}>
         <View style={[Styles.centerContainer, { marginTop: 10, marginRight: 122, alignItems: 'flex-start' }]}>
           <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
-            <Image 
-              source={require('../../assets/clock.png')}
-              style={{ 
-                marginRight: 4,
-                height: 10,
-                width: 10
-              }}
-            />
-            <Text style={{ fontWeight: '400', fontSize: 11 }}>09.00 - 22.00</Text>
+            <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 4 }} />
+            <AppText fontFamily={"Montserrat-SemiBold"} size={15}>09.00 - 22.00</AppText>
           </View>
-          <Text style={{  
-            color: '#51C699',
-            fontSize: 18,
-            fontWeight: '500'
-          }}
-          >
+          <AppText fontFamily={"Montserrat-Bold"} size={18} style={{ color: '#51C699' }} >
             Garlic Bread
-          </Text>
+          </AppText>
         </View>
         
         {/* Voucher Button */}
@@ -98,9 +88,9 @@ export default function Checkout({ navigation, route }) {
               source={require('../../assets/discount-icon.png')}
               style={{ width: 35, height: 35 }}
             />
-            <Text style={{ fontWeight: '600',fontSize: 20 }}>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={20} >
               Apply Voucher
-            </Text>
+            </AppText>
 
           </TouchableOpacity>
         </View>
@@ -108,33 +98,31 @@ export default function Checkout({ navigation, route }) {
         {/* Payment Summary */}
         <View style={[{ marginTop: 13, borderWidth: 1, borderRadius: 10, height: 142, width: 310 }]}>
           <View style={{ alignItems: 'center', marginTop: 10 }}>
-            <Text style={[Styles.normalFont]}>Payment Summary</Text>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={16} >Payment Summary</AppText>
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 18, marginTop: 8 }}>
-            <Text style={[Styles.normalFont]}>Price</Text>
-            <Text style={[Styles.normalFont]}>{formatCurrency(price)}</Text>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >Price</AppText>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >{formatCurrency(price)}</AppText>
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 18, marginTop: 8 }}>
-            <Text style={[Styles.normalFont]}>Voucher</Text>
-            <Text style={[Styles.normalFont]}>-{formatCurrency(voucher)}</Text>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >Voucher</AppText>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >-{formatCurrency(voucher)}</AppText>
           </View>
           
           <View 
             style={{ 
               width: 280, 
-              borderWidth: 1, 
+              borderWidth: 0.8, 
               borderColor: '#C4C4C4', 
-              alignItems: 'center', 
-              justifyContent: 'center',
               marginTop: 10,
             }}
           ></View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 18, marginTop: 13  }}>
-            <Text style={[Styles.normalFont]}>Grand Total</Text>
-            <Text style={[Styles.normalFont]}>{formatCurrency(grandTotal)}</Text>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >Grand Total</AppText>  
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >-{formatCurrency(grandTotal)}</AppText>
           </View>
         </View>
 
@@ -142,9 +130,7 @@ export default function Checkout({ navigation, route }) {
           <TouchableOpacity 
             style={[Styles.button, Styles.shadow, { backgroundColor: '#51C699' }]}
             >
-            <Text style={[Styles.buttonFont]}>
-              Place Order
-            </Text>
+            <AppText fontFamily={"Montserrat-ExtraBold"} size={18} color={'white'} >Place Order</AppText>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

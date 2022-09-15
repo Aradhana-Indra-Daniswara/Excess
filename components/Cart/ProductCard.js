@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'; 
-// import formatCurrency from '../../utils/formatters/formatCurrency';
+import { AntDesign, Ionicons } from '@expo/vector-icons'; 
 import AppText from '../AppText';
-import formatCurrency from '../../utils/formatters/formatCurrency';
+import formatCurrency from '../../utils/formatters/formatCurrency';   
 
 const Styles = StyleSheet.create({
   cardContainer: {
@@ -12,9 +11,7 @@ const Styles = StyleSheet.create({
     flexDirection: 'row',
     height: 130,
     width: 310,
-    // borderTopWidth: 1,
     borderColor: '#C2C2C2',
-    // marginTop: 10
   },
   centerContainer: {
     justifyContent: 'center',
@@ -29,7 +26,7 @@ const Styles = StyleSheet.create({
   }
 })
 
-export default function ProductCard({ productName, productPrice, productImageId }) {
+export default function ProductCard({ productId, productName, productPrice, productImageId }) {
   const [qty, setQty] = useState(1);
 
   const decrementQty = () => {
@@ -43,8 +40,8 @@ export default function ProductCard({ productName, productPrice, productImageId 
           <View>
             <View style={{ flexDirection: 'row',  alignItems: 'center' }}>
               <AppText fontFamily="Montserrat-SemiBold" size={16} >{productName}</AppText>
-              <Pressable style={{ }}>
-                <Ionicons style={{ marginLeft: 10 }} name="md-trash-outline" size={30} color="black" />
+              <Pressable style={{ marginLeft: 10, height: 30, width: 40, alignItems: 'center' }} >
+                <Ionicons name="md-trash-outline" size={28} color="black" />
               </Pressable>
             </View>
             <AppText fontFamily="Montserrat-Regular" size={14}>{formatCurrency(productPrice)}</AppText>
@@ -52,15 +49,15 @@ export default function ProductCard({ productName, productPrice, productImageId 
         </View>
         
         {/* QTY BTN */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center',  width: 130, marginTop: 18 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center',  width: 140, marginTop: 18 }}>
           <Pressable onPress={() => decrementQty()} >
-            <Image source={require('../../assets/MinusButton.png')} style={{ height: 35, width: 35 }} />
+            <AntDesign name="minuscircle" size={35} color="black" />
           </Pressable>
           <View style={[Styles.centerContainer, Styles.qtyContainer]}>
-            <Text>{qty}</Text>
+            <AppText fontFamily={"Montserrat-Regular"}>{qty}</AppText>
           </View>
           <Pressable onPress={() => setQty(qty + 1)} >
-            <Image source={require('../../assets/PlusButton.png')} style={{ height: 35, width: 35 }}/>
+          <AntDesign name="pluscircle" size={35} color="black" />
           </Pressable>
         </View>
       </View>
