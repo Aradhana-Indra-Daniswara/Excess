@@ -22,7 +22,9 @@ export default function AppText(props) {
     '900': 'OpenSauceSans-Black',
   }
   const handlePress = (e) =>{
-    onPress(e);
+    if(onPress){
+      onPress(e);
+    }
   }
   if (!fontsLoaded) {
     return null;

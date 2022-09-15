@@ -72,7 +72,7 @@ const Login = ({ navigation }) => {
           position: 'absolute',
           justifyContent: 'center', 
           alignItems: 'center',
-          top: -180,
+          top: -210,
           left: 0,
           right: 0,
         }}>
@@ -83,13 +83,12 @@ const Login = ({ navigation }) => {
           <Excess_Logo_White />
           <Excess_Logo_Text style={{ marginLeft: 10 }} />
         </View>
-        <AppText style={{ color: colorStyles['white'], fontSize: 24, textAlign: 'center', marginTop: 16 }}>Good Food,</AppText>
-        <AppText style={{ color: colorStyles['white'], fontSize: 24, textAlign: 'center' }}>Cheap Prices</AppText>
+        <AppText style={{ color: colorStyles['white'], fontSize: 18, textAlign: 'center', marginTop: 16 }}>Good Food, Cheap Prices</AppText>
       </View>
 
       <AppText weight={'700'} style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}>Login</AppText>
       <View style={{ marginTop: 32, width: '100%' }}>
-        <AppText weight={'500'} size={16}>Email</AppText>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Email</AppText>
         <TextInput
           style={[Styles.inputField]}
           keyboardType='email-address'
@@ -102,7 +101,7 @@ const Login = ({ navigation }) => {
         />
       </View>
 
-      <View style={{ marginTop: 16, width: '100%' }}>
+      <View style={{ marginTop: 14, width: '100%' }}>
         <AppText weight={'500'} style={{ fontSize: 16, color: colorStyles[20] }}>Password</AppText>
         <TextInput
           style={[Styles.inputField]}
