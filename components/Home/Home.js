@@ -9,7 +9,6 @@ import { Ionicons } from '@expo/vector-icons';
 import Nearme_icon from '../../assets/nearme.svg';
 import Bestprice_icon from '../../assets/bestprice.svg';
 import Mostloved_icon from '../../assets/mostloved.svg';
-
 import Vendor_icon from '../../assets/vendor_icon.svg';
 
 
