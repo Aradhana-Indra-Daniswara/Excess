@@ -122,7 +122,7 @@ export default function Checkout({ navigation, route }) {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 18, marginTop: 13  }}>
             <AppText fontFamily={"Montserrat-SemiBold"} size={14} >Grand Total</AppText>  
-            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >-{formatCurrency(grandTotal)}</AppText>
+            <AppText fontFamily={"Montserrat-SemiBold"} size={14} >{formatCurrency(grandTotal)}</AppText>
           </View>
         </View>
 

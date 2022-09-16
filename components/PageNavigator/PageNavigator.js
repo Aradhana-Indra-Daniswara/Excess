@@ -41,7 +41,7 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-        {/* <Stack.Screen 
+        <Stack.Screen 
           name="Cart"
           component={Cart}
           options={{ 
@@ -56,7 +56,7 @@ export default function PageNavigator() {
             headerBackButtonMenuEnabled: true,
             animation: 'slide_from_right',
           }}
-        /> */}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

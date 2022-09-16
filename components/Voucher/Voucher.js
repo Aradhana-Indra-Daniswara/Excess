@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import VoucherContainer from './VoucherContainer'
+import { firestore } from '../../config/firebase-config'
+import { collection, getDocs } from 'firebase/firestore'
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -34,17 +36,17 @@ export default function Voucher({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const getVouchers = async () => {
-    const url = Platform.OS === 'ios' 
-      ? "http://localhost:3000/voucher" 
-      : "http://10.0.2.2:3000/voucher"
-
     try {
-      const repsonse = await fetch(url)
-      const JSONResponse = await repsonse.json()
-      setVoucherData(JSONResponse.vouchers)
-      setIsLoading(false)
+      const querySnapshot = await getDocs(collection(firestore, "vouchers"));
+      const filteredData = []
+      querySnapshot.forEach((doc) => {
+        filteredData.push({id: doc.id, ...doc.data()})
+      })
+      setVoucherData(filteredData);
     } catch(e) {
-      console.warn(e)
+      console.warn(e);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -57,8 +59,8 @@ export default function Voucher({ navigation, route }) {
 
     return (
       <VoucherContainer
-        discount={item.discountPercentage}
-        minimumOrder={item.minimumPrice}
+        discount={item.discount_percentage}
+        minimumOrder={item.minimum_order}
         setVoucher={setVoucher}
         style={{ backgroundColor: backgroundColor, color: color }}
         id={item.id}
