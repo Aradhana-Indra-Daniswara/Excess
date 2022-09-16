@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AppText from '../AppText';
+import { auth } from '../../config/firebase-config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -58,37 +60,20 @@ const Login = ({ navigation }) => {
   }
 
   const loginHandler = async () => {
+    setError(false);
     if(validateInput()) {
-      setError(false)
-
-      const url = Platform.OS === 'ios' 
-        ? "http://localhost:3000/login"
-        : "http://10.0.2.2:3000/login"
-
-      const response = await fetch(url, {
-        method: "POST", 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      })
-  
-      const {error, message} = await response.json()
-  
-      if(!error) {
-        navigation.navigate("Home")
-      } else {
-        setError(true)
-        setErrorMessage(message)
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        navigation.navigate("Home");
+      } catch(e) {
+        setError(true);
+        setErrorMessage(e.message);
       }
     } else {
-      setError(true)
-      setErrorMessage("Field is blank")
+      setError(true);
+      setErrorMessage("Fields can't be blank")
     }
-  }
+  };
 
   return (
     <SafeAreaView style={[Styles.centerContainer, { marginTop: 205 }]}>
@@ -125,7 +110,7 @@ const Login = ({ navigation }) => {
           style={[Styles.button, { backgroundColor: '#51C699' }]}
           onPress={loginHandler}
         >
-          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Email</AppText>
+          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Login</AppText>
         </TouchableOpacity>
       </View>
 

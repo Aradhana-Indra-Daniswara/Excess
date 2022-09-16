@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import AppText from '../AppText'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth, firestore } from '../../config/firebase-config'
+import { doc, setDoc } from 'firebase/firestore'
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -68,34 +71,27 @@ export default function Register({ navigation }) {
       return true
     }
   }
-
-  const registerHandler = async() => {
+  
+  const registerHandler = async () => {
+    setError(false);
     if(validateInput()) {
-      const url = Platform.OS === 'ios' 
-        ? 'http://localhost:3000/register'
-        : 'http://10.0.2.2:3000/register'
-        
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name,
-          phoneNumber, 
-          email,
-          password
-        })
-      })
-
-      const {error, message} = await response.json()
-
-      if(!error) {
-        navigation.navigate("Home")
-      } else {
-        setError(true)
-        setErrorMessage(message)
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // figure out how to add phone number lmao 
+        // await setDoc(doc(firestore, "users", userCredential.user.uid), {
+        //   email,
+        //   name,
+        //   phoneNumber
+        // })
+        console.log(userCredential);
+        navigation.navigate("Home");
+      } catch(e) {
+        setError(true);
+        setErrorMessage(e.message);
       }
+    } else {
+      setError(true);
+      setErrorMessage("Fields can't be blank");
     }
   }
   
