@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AppText from '../AppText';
 import { auth } from '../../config/firebase-config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -74,6 +74,14 @@ const Login = ({ navigation }) => {
       setErrorMessage("Fields can't be blank")
     }
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if(user) {
+        navigation.navigate("Home")
+      }
+    })
+  }, [])
 
   return (
     <SafeAreaView style={[Styles.centerContainer, { marginTop: 205 }]}>
