@@ -118,7 +118,7 @@ const Login = ({ navigation }) => {
       </View>
 
       <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'center' }}>
-        <AppText fontFamily={"Montserrat-SemiBold"} style={{ color: colorStyles[50] }}>Don't have an account? </AppText>
+        <AppText style={{ color: colorStyles[50] }}>Don't have an account? </AppText>
         <AppText onPress={() => { navigation.navigate('Register') }} weight='700' style={{ color: colorStyles['excess'] }}>Sign Up</AppText>
       </View>
 

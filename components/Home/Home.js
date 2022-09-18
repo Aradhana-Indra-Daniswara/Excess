@@ -13,16 +13,18 @@ import Nearme_icon from '../../assets/nearme.svg';
 import Bestprice_icon from '../../assets/bestprice.svg';
 import Mostloved_icon from '../../assets/mostloved.svg';
 import Vendor_icon from '../../assets/vendor_icon.svg';
+import { colorStyles } from '../Styling/GlobalStyles';
 
 
 export default function Home() {
   const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  const getData = async () => {
+  const getData = async () => {   
     const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
     try {
       const docSnap = await getDoc(docRef);
+      
       if (docSnap.exists()) {
         let dataWithImage = []
         const data = docSnap.data().products
@@ -38,9 +40,6 @@ export default function Home() {
     }
     catch (e) {
       console.log(e.message);
-    }
-    finally {
-      setIsLoading(false)
     }
   }
 
@@ -59,7 +58,7 @@ export default function Home() {
       }}>
         <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 120 }} />
         <View style={{ padding: 8, }}>
-          <AppText fontFamily={'Montserrat-Medium'}>{item.name}</AppText>
+          <AppText weight='500'>{item.name}</AppText>
           <View style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -68,47 +67,32 @@ export default function Home() {
             <Vendor_icon height={12} width={12} color='#666666' />
             <AppText style={{ marginLeft: 4 }} size={12}>{'Testing Bakery'}</AppText>
           </View>
-          <AppText fontFamily={'Montserrat-Bold'}>Rp{item.price}</AppText>
+          <AppText weight='700'>Rp{item.price}</AppText>
         </View>
       </View>
     )
   }
 
-  // const getLimitedTimeProducts = async () => {
-  //   const url = Platform.OS === 'ios'
-  //     ? "http://localhost:3000/home"
-  //     : "http://10.0.2.2:3000/home"
-
-  //   try {
-  //     const repsonse = await fetch(url)
-  //     const JSONResponse = await repsonse.json()
-  //     setProducts(JSONResponse.products)
-  //     setIsLoading(false)
-  //   } catch (e) {
-  //     console.warn(e)
-  //   }
-  // }
-
   useEffect(() => {
     getData();
   }, [])
 
-  if (isLoading) {
-    return null;
-  }
+  // if (isLoading) {
+  //   return null;
+  // }
 
   return (
     <SafeAreaView style={{
       backgroundColor: 'white',
-      paddingTop: StatusBar.currentHeight,
       height: '100%'
     }}>
+      <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
 
       {/* Header */}
       <View style={styles.header}>
-        <AppText>Delivery Area</AppText>
+        <AppText style={{ fontSize: 12 }}>Delivery Area</AppText>
         <View style={styles.actionHeader}>
-          <AppText weight='700'>Tangerang, Banten</AppText>
+          <AppText weight='700' style={{ fontSize: 14 }}>Tangerang, Banten</AppText>
           <Ionicons name='caret-down-sharp' size={14} color={'black'} style={{ marginLeft: 4 }} />
         </View>
       </View>

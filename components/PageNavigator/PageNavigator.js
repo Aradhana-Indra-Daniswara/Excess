@@ -48,7 +48,7 @@ export default function PageNavigator() {
           options={{
             headerShown: false
           }}
-        />
+        /> 
         <Stack.Screen
           name="Register"
           component={Register}
