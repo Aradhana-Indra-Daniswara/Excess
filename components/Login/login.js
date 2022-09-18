@@ -1,48 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { useFonts } from 'expo-font';
+import React, { useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AppText from '../AppText';
 import { auth } from '../../config/firebase-config';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
-const Styles = StyleSheet.create({
-  centerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  label: {
-    fontSize: 15,
-    fontWeight: '500',
-    letterSpacing: -0.33
-  },
-  inputField: {
-    width: 250,
-    height: 45,
-    padding: 10,
-    borderColor: '#000000',
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 250,
-    height: 45,
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10
-  },
-  buttonFont: {
-    color: '#FFFFFF',
-    fontSize: 20
-  },
-})
+// Icons
+import Excess_Logo_White from '../../assets/excess_logo-white.svg';
+import Excess_Logo_Text from '../../assets/excess_text-white.svg';
+import Tosca_Blob from '../../assets/tosca_elipse.svg'
+
+// Styling
+import { colorStyles, globalStyles } from '../Styling/GlobalStyles';
 
 const Login = ({ navigation }) => {
 
@@ -50,9 +19,12 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [fontsLoaded] = useFonts({
+    'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
+  });
 
   const validateInput = () => {
-    if(email === '' || password === '') {
+    if (email === '' || password === '') {
       return false
     } else {
       return true
@@ -84,12 +56,31 @@ const Login = ({ navigation }) => {
   }, [])
 
   return (
-    <SafeAreaView style={[Styles.centerContainer, { marginTop: 205 }]}>
-      <AppText fontFamily={"Montserrat-ExtraBold"} size={30}>Welcome Back!</AppText>
+    <SafeAreaView style={{ ...globalStyles.container, position: 'relative' }}>
+      {/* Decorational Blob */}
+      <View
+        style={{
+          position: 'absolute',
+          justifyContent: 'center', 
+          alignItems: 'center',
+          top: -210,
+          left: 0,
+          right: 0,
+        }}>
+        <Tosca_Blob />
+      </View>
+      <View style={{ marginTop: 64 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <Excess_Logo_White />
+          <Excess_Logo_Text style={{ marginLeft: 10 }} />
+        </View>
+        <AppText style={{ color: colorStyles['white'], fontSize: 18, textAlign: 'center', marginTop: 16 }}>Good Food, Cheap Prices</AppText>
+      </View>
 
-      <View style={{ marginTop: 25, alignItems: 'flex-start', width: 250 }}>
-        <AppText fontFamily={"Montserrat-Medium"} size={16}>Email</AppText>
-        <TextInput 
+      <AppText weight={'700'} style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}>Login</AppText>
+      <View style={{ marginTop: 32, width: '100%' }}>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Email</AppText>
+        <TextInput
           style={[Styles.inputField]}
           keyboardType='email-address'
           autoCapitalize='none'
@@ -97,48 +88,63 @@ const Login = ({ navigation }) => {
           autoCorrect={false}
           autoFocus
           onChangeText={(input) => setEmail(input)}
+          placeholder='example@gmail.com'
         />
       </View>
-      
-      <View style={{ marginTop: 11, alignItems: 'flex-start', width: 250 }}>
-      <AppText fontFamily={"Montserrat-Medium"} size={16}>Password</AppText>
-        <TextInput 
+
+      <View style={{ marginTop: 14, width: '100%' }}>
+        <AppText weight={'500'} style={{ fontSize: 16, color: colorStyles[20] }}>Password</AppText>
+        <TextInput
           style={[Styles.inputField]}
           autoCapitalize='false'
           secureTextEntry
           onChangeText={(input) => setPassword(input)}
+          placeholder='***********'
         />
       </View>
 
       {/* TODO: ERROR VIEW */}
       {error && <Text>{errorMessage}</Text>}
 
-      <View style={[Styles.centerContainer, { marginTop: 43  }]}>
-        <TouchableOpacity 
+      <View style={{ marginTop: 32 }}>
+        <TouchableOpacity
           style={[Styles.button, { backgroundColor: '#51C699' }]}
           onPress={loginHandler}
         >
-          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Login</AppText>
+          <AppText weight='600' style={{ fontSize: 16, color: colorStyles['white'] }}>Login</AppText>
         </TouchableOpacity>
       </View>
 
-      <View style={[Styles.centerContainer, { marginTop: 10, flexDirection: 'row' }]}>
-        <View style={{ width: 105, borderWidth: 1, borderColor: '#DDDDDD' }}></View>
-        <AppText fontFamily={"Montserrat-SemiBold"} size={18} style={{ marginHorizontal: 8 }}>Or</AppText>
-        <View style={{ width: 105, borderWidth: 1, borderColor: '#DDDDDD' }}></View>
-      </View>
-
-      <View style={[Styles.centerContainer, { marginTop: 10  }]}>
-        <TouchableOpacity 
-          style={[Styles.button, { backgroundColor: '#000000' }]}
-          onPress={() => {navigation.navigate('Register')}}  
-        >
-          <AppText fontFamily={"Montserrat-SemiBold"} size={20} color={"white"}>Register</AppText>
-        </TouchableOpacity>
+      <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'center' }}>
+        <AppText fontFamily={"Montserrat-SemiBold"} style={{ color: colorStyles[50] }}>Don't have an account? </AppText>
+        <AppText onPress={() => { navigation.navigate('Register') }} weight='700' style={{ color: colorStyles['excess'] }}>Sign Up</AppText>
       </View>
 
     </SafeAreaView>
   )
 }
-
+const Styles = StyleSheet.create({
+  label: {
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  inputField: {
+    width: '100%',
+    marginTop: 4,
+    height: 40,
+    padding: 10,
+    borderColor: colorStyles[80],
+    borderRadius: 5,
+    borderWidth: 1,
+    fontFamily: 'OpenSauceSans-Regular'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+  },
+})
 export default Login;

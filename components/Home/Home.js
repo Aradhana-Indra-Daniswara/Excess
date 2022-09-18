@@ -9,7 +9,6 @@ import { Ionicons } from '@expo/vector-icons';
 import Nearme_icon from '../../assets/nearme.svg';
 import Bestprice_icon from '../../assets/bestprice.svg';
 import Mostloved_icon from '../../assets/mostloved.svg';
-
 import Vendor_icon from '../../assets/vendor_icon.svg';
 
 
@@ -50,7 +49,7 @@ export default function Home() {
       <View style={styles.header}>
         <AppText>Delivery Area</AppText>
         <View style={styles.actionHeader}>
-          <AppText fontFamily={'Montserrat-Bold'}>Tangerang, Banten</AppText>
+          <AppText weight='700'>Tangerang, Banten</AppText>
           <Ionicons name='caret-down-sharp' size={14} color={'black'} style={{ marginLeft: 4 }} />
         </View>
       </View>
@@ -68,20 +67,20 @@ export default function Home() {
         <View style={styles.maincategory}>
           <View style={styles.maincategory_items}>
             <Nearme_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 8 }}>Near Me</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Near Me</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Bestprice_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 8 }}>Best Price</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Best Price</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Mostloved_icon width={120} height={40} />
-            <AppText fontFamily={'Montserrat-Medium'} size={14} color='#666666' style={{ marginTop: 8 }}>Most Loved</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Most Loved</AppText>
           </View>
         </View>
 
         {/* Running Out */}
-        <AppText fontFamily={'Montserrat-Bold'} style={{ marginLeft: 18 }}>Running Out</AppText>
+        <AppText weight='700' style={{ marginLeft: 18 }}>Running Out</AppText>
         <ScrollView contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 18 }} horizontal={true} showsHorizontalScrollIndicator={false}>
           {
             products.map((product) => {
@@ -117,7 +116,7 @@ export default function Home() {
         </ScrollView>
 
         {/* Selected Partners */}
-        <AppText fontFamily={'Montserrat-Bold'} style={{ marginLeft: 18 }}>Selected Partners</AppText>
+        <AppText weight='700' style={{ marginLeft: 18 }}>Selected Partners</AppText>
         <ScrollView style={styles.maincontent} horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={styles.horizontalCards}>
             <AutoDimensionImage

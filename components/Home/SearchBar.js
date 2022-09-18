@@ -5,12 +5,7 @@ import Search_icon from '../../assets/search_icon.svg'
 
 export default function SearchBar({ placeholder }) {
   const [fontsLoaded] = useFonts({
-    'Montserrat-Regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
-    'Montserrat-Medium': require('../../assets/fonts/Montserrat-Medium.ttf'),
-    'Montserrat-SemiBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
-    'Montserrat-Bold': require('../../assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Black': require('../../assets/fonts/Montserrat-Black.ttf'),
-    'Montserrat-Light': require('../../assets/fonts/Montserrat-Light.ttf'),
+    'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
   });
   if (!fontsLoaded) {
     return null;
@@ -38,7 +33,7 @@ export default function SearchBar({ placeholder }) {
       <Search_icon height={32} width={32} />
       <TextInput style={{
         marginLeft: 8,
-        fontFamily: 'Montserrat-Regular',
+        fontFamily: 'OpenSauceSans-Regular',
         width: '100%'
       }} placeholder={placeholder} />
     </View>
