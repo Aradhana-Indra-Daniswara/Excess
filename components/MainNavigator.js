@@ -14,12 +14,13 @@ const profileName = 'Profile';
 
 export default function MainNavigator() {
   const [fontsLoaded] = useFonts({
-    'Montserrat-Regular': require('../assets/fonts/Montserrat-Regular.ttf'),
-    'Montserrat-Medium': require('../assets/fonts/Montserrat-Medium.ttf'),
-    'Montserrat-SemiBold': require('../assets/fonts/Montserrat-SemiBold.ttf'),
-    'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Black': require('../assets/fonts/Montserrat-Black.ttf'),
-    'Montserrat-Light': require('../assets/fonts/Montserrat-Light.ttf'),
+    'OpenSauceSans-Regular': require('../assets/fonts/OpenSauceSans-Regular.ttf'),
+    'OpenSauceSans-Medium': require('../assets/fonts/OpenSauceSans-Medium.ttf'),
+    'OpenSauceSans-SemiBold': require('../assets/fonts/OpenSauceSans-SemiBold.ttf'),
+    'OpenSauceSans-Bold': require('../assets/fonts/OpenSauceSans-Bold.ttf'),
+    'OpenSauceSans-ExtraBold': require('../assets/fonts/OpenSauceSans-ExtraBold.ttf'),
+    'OpenSauceSans-Black': require('../assets/fonts/OpenSauceSans-Black.ttf'),
+    'OpenSauceSans-Light': require('../assets/fonts/OpenSauceSans-Light.ttf'),
   });
   if (!fontsLoaded) {
     return null;
@@ -47,7 +48,7 @@ export default function MainNavigator() {
       // Navbar Styling
       tabBarOptions={{
         activeTintColor: '#59D9A8',
-        inactiveTintColor: 'grey'
+        inactiveTintColor: 'grey',
       }}
     >
       {/* Navbar Selections */}
@@ -60,13 +61,13 @@ export default function MainNavigator() {
             
           },
           headerTitleStyle: {
-            fontFamily: 'Montserrat-Medium',
+            fontFamily: 'OpenSauceSans-Medium',
           }
         }} />
       <Tab.Screen name={profileName} component={Profile} options={{
         headerShown: true,
         headerTitleStyle: {
-          fontFamily: 'Montserrat-Medium',
+          fontFamily: 'OpenSauceSans-Medium',
         }
       }} />
     </Tab.Navigator>
