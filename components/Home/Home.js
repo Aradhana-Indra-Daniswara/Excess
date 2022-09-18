@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, Text, TextInput, SafeAreaView, StatusBar } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList } from 'react-native'
 import AppText from '../AppText';
 import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 import SearchBar from './SearchBar';
+import { doc, getDoc } from "firebase/firestore";
+import { firestore, storage } from '../../config/firebase-config';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 // Icons
 import { Ionicons } from '@expo/vector-icons';
@@ -15,23 +18,79 @@ import Vendor_icon from '../../assets/vendor_icon.svg';
 export default function Home() {
   const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const getLimitedTimeProducts = async () => {
-    const url = Platform.OS === 'ios'
-      ? "http://localhost:3000/home"
-      : "http://10.0.2.2:3000/home"
 
+  const getData = async () => {
+    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
     try {
-      const repsonse = await fetch(url)
-      const JSONResponse = await repsonse.json()
-      setProducts(JSONResponse.products)
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        let dataWithImage = []
+        const data = docSnap.data().products
+        data.forEach(async (product) => {
+          const url = await getDownloadURL(ref(storage, product.uri))
+          dataWithImage.push({
+            ...product,
+            imageUrl: url
+          })
+          setProducts(dataWithImage);
+        })
+      }
+    }
+    catch (e) {
+      console.log(e.message);
+    }
+    finally {
       setIsLoading(false)
-    } catch (e) {
-      console.warn(e)
     }
   }
 
+  const renderItem = ({ item }) => {
+    return (
+      <View style={{
+        borderRadius: 6,
+        backgroundColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 3,
+        marginRight: 16,
+        width: 160
+      }}>
+        <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 120 }} />
+        <View style={{ padding: 8, }}>
+          <AppText fontFamily={'Montserrat-Medium'}>{item.name}</AppText>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 6
+          }}>
+            <Vendor_icon height={12} width={12} color='#666666' />
+            <AppText style={{ marginLeft: 4 }} size={12}>{'Testing Bakery'}</AppText>
+          </View>
+          <AppText fontFamily={'Montserrat-Bold'}>Rp{item.price}</AppText>
+        </View>
+      </View>
+    )
+  }
+
+  // const getLimitedTimeProducts = async () => {
+  //   const url = Platform.OS === 'ios'
+  //     ? "http://localhost:3000/home"
+  //     : "http://10.0.2.2:3000/home"
+
+  //   try {
+  //     const repsonse = await fetch(url)
+  //     const JSONResponse = await repsonse.json()
+  //     setProducts(JSONResponse.products)
+  //     setIsLoading(false)
+  //   } catch (e) {
+  //     console.warn(e)
+  //   }
+  // }
+
   useEffect(() => {
-    getLimitedTimeProducts()
+    getData();
   }, [])
 
   if (isLoading) {
@@ -67,52 +126,26 @@ export default function Home() {
         <View style={styles.maincategory}>
           <View style={styles.maincategory_items}>
             <Nearme_icon width={120} height={40} />
-            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Near Me</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14 }}>Near Me</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Bestprice_icon width={120} height={40} />
-            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Best Price</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14 }}>Best Price</AppText>
           </View>
           <View style={styles.maincategory_items}>
             <Mostloved_icon width={120} height={40} />
-            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14}}>Most Loved</AppText>
+            <AppText weight='500' color='#666666' style={{ marginTop: 8, fontSize: 14 }}>Most Loved</AppText>
           </View>
         </View>
 
         {/* Running Out */}
         <AppText weight='700' style={{ marginLeft: 18 }}>Running Out</AppText>
         <ScrollView contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 18 }} horizontal={true} showsHorizontalScrollIndicator={false}>
-          {
-            products.map((product) => {
-              return (
-                <View key={product.id} style={{
-                  borderRadius: 6,
-                  backgroundColor: 'white',
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  marginRight: 16,
-                  width: 160
-                }}>
-                  <Image source={{ uri: `http://10.0.2.2:3000/product_images/${product.image_id}.png` }} style={{ width: '100%', height: 120 }} />
-                  <View style={{ padding: 8, }}>
-                    <AppText fontFamily={'Montserrat-Medium'}>{product.name}</AppText>
-                    <View style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginBottom: 6
-                    }}>
-                      <Vendor_icon height={12} width={12} color='#666666' />
-                      <AppText style={{ marginLeft: 4 }} size={12}>{'Testing Bakery'}</AppText>
-                    </View>
-                    <AppText fontFamily={'Montserrat-Bold'}>Rp{product.price}</AppText>
-                  </View>
-                </View>
-              )
-            })
-          }
+          <FlatList
+            data={products}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+          />
         </ScrollView>
 
         {/* Selected Partners */}

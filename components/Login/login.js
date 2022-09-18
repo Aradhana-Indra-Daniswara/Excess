@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AppText from '../AppText';
 import { auth } from '../../config/firebase-config';
@@ -36,7 +36,7 @@ const Login = ({ navigation }) => {
     if(validateInput()) {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        navigation.navigate("Home");
+        navigation.navigate("Main");
       } catch(e) {
         setError(true);
         setErrorMessage(e.message);
@@ -50,11 +50,13 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if(user) {
-        navigation.navigate("Home")
+        navigation.navigate("Main")
       }
     })
   }, [])
-
+  if(!fontsLoaded){
+    return null;
+  }
   return (
     <SafeAreaView style={{ ...globalStyles.container, position: 'relative' }}>
       {/* Decorational Blob */}
