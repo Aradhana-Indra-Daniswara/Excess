@@ -92,7 +92,7 @@ export default function PageNavigator() {
               fontWeight: '900',
               fontSize: 20
             },
-            // animation: 'slide_from_bottom'
+            animation: 'slide_from_bottom'
           }}
         />
       </Stack.Group>

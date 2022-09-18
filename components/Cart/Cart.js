@@ -64,14 +64,45 @@ export default function Cart({ navigation }) {
 
   const [grandTotal, setGrandTotal] = useState(0);
 
+  // Run once when page first load
   useEffect(() => {
-    const total = ORDER_ITEMS.reduce((prev, curr) => prev + curr.price, 0)
+    const total = ORDER_ITEMS.reduce((prev, curr) => prev + curr.price * curr.qty, 0)
     setGrandTotal(total)
-  }, [ORDER_ITEMS])
+  }, [])
 
   const deleteItem = (id) => {
     const filteredItem = ORDER_ITEMS.filter(item => item.product_id !== id)
     setORDER_ITEMS(filteredItem)
+  }
+
+  // probs need to refactor this, O(N)
+  const updateItem = (id, action) => {
+    const filteredItem = []
+    
+    // search for item, push any other item directly to filteredItem
+    ORDER_ITEMS.forEach((product) => {
+      if(product.product_id !== id) {
+        filteredItem.push(product)
+      } else {
+        // Update item's qty and update grand total to only subtract/add item's price
+        switch(action) {
+          case "increment":
+            product.qty += 1
+            setGrandTotal(grandTotal + product.price)
+            break
+          case "decrement":
+            product.qty > 1 
+              ? product.qty -= 1
+              : null
+            setGrandTotal(grandTotal - product.price)
+            break
+        }
+        filteredItem.push(product)
+      }
+    })
+
+    // renew ORDER_ITEMS w/ all items
+    setORDER_ITEMS(filteredItem);
   }
 
   const renderItem = ({item}) => {
@@ -82,6 +113,7 @@ export default function Cart({ navigation }) {
         productPrice={item.price}
         productImageId={`${item.vendor_id}_${item.product_id}`}
         // productQty={item.qty}
+        updateItem={updateItem}
       />
     )
   }
@@ -117,7 +149,7 @@ export default function Cart({ navigation }) {
       {/* Vendor Information */}
       <View style={{ alignItems: 'flex-start' }} > 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 4 }} />
+          <SimpleLineIcons name="clock" size={20} color="black" style={{ marginRight: 6 }} />
           <AppText fontFamily="Montserrat-SemiBold" size={16} >
             {VENDOR_DETAILS.openingHour}.00 - {VENDOR_DETAILS.closingHour}.00
           </AppText>

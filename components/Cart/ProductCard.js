@@ -26,11 +26,22 @@ const Styles = StyleSheet.create({
   }
 })
 
-export default function ProductCard({ productId, productName, productPrice, productImageId }) {
+export default function ProductCard({ productId, productName, productPrice, productImageId, updateItem }) {
   const [qty, setQty] = useState(1);
 
-  const decrementQty = () => {
-    qty === 1 ? null : setQty(qty - 1)
+  const qtyHandler = (action) => {
+    switch(action) {
+      case "increment":
+        setQty(qty + 1)
+        updateItem(productId, action)
+        break
+      case "decrement":
+        if(qty > 1) {
+          setQty(qty - 1)
+          updateItem(productId, action)
+          break
+        }
+    }
   }
 
   return (
@@ -50,14 +61,14 @@ export default function ProductCard({ productId, productName, productPrice, prod
         
         {/* QTY BTN */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center',  width: 140, marginTop: 18 }}>
-          <Pressable onPress={() => decrementQty()} >
+          <Pressable onPress={() => qtyHandler('decrement')} >
             <AntDesign name="minuscircle" size={35} color="black" />
           </Pressable>
           <View style={[Styles.centerContainer, Styles.qtyContainer]}>
             <AppText fontFamily={"Montserrat-Regular"}>{qty}</AppText>
           </View>
-          <Pressable onPress={() => setQty(qty + 1)} >
-          <AntDesign name="pluscircle" size={35} color="black" />
+          <Pressable onPress={() => qtyHandler('increment')} >
+            <AntDesign name="pluscircle" size={35} color="black" />
           </Pressable>
         </View>
       </View>
