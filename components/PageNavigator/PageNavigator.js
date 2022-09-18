@@ -40,7 +40,22 @@ export default function PageNavigator() {
         // )
       }}
     >
+
       <Stack.Group>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerShown: false
+          }}
+        />
         <Stack.Screen
           name="Main"
           component={MainNavigator}
@@ -63,20 +78,7 @@ export default function PageNavigator() {
             animation: 'slide_from_right',
           }}
         />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{
-            headerShown: true
-          }}
-        />
+
 
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

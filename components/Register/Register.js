@@ -3,48 +3,15 @@ import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, 
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import AppText from '../AppText'
 
-const Styles = StyleSheet.create({
-  centerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  label: {
-    fontSize: 15,
-    fontWeight: '500',
-    letterSpacing: -0.33
-  },
-  inputField: {
-    width: 250,
-    height: 45,
-    padding: 10,
-    borderColor: '#000000',
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 250,
-    height: 45,
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10
-  },
-  buttonFont: {
-    color: '#FFFFFF',
-    fontSize: 20
-  }
-})
+// Icons
+import Excess_Logo_White from '../../assets/excess_logo-white.svg';
+import Excess_Logo_Text from '../../assets/excess_text-white.svg';
+import Tosca_Blob from '../../assets/tosca_elipse.svg'
+
+// Styling
+import { colorStyles, globalStyles } from '../Styling/GlobalStyles';
 
 export default function Register({ navigation }) {
-
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
@@ -54,12 +21,12 @@ export default function Register({ navigation }) {
   const [errorMessage, setErrorMessage] = useState('')
 
   const validateInput = () => {
-    if(name === '' 
-        || phoneNumber === ''
-        || email === ''
-        || password === '' 
-        || !isAgreed
-      ){
+    if (name === ''
+      || phoneNumber === ''
+      || email === ''
+      || password === ''
+      || !isAgreed
+    ) {
       setError(true)
       setErrorMessage('All fields must be filled')
       return false
@@ -69,12 +36,12 @@ export default function Register({ navigation }) {
     }
   }
 
-  const registerHandler = async() => {
-    if(validateInput()) {
-      const url = Platform.OS === 'ios' 
+  const registerHandler = async () => {
+    if (validateInput()) {
+      const url = Platform.OS === 'ios'
         ? 'http://localhost:3000/register'
         : 'http://10.0.2.2:3000/register'
-        
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -82,15 +49,15 @@ export default function Register({ navigation }) {
         },
         body: JSON.stringify({
           name,
-          phoneNumber, 
+          phoneNumber,
           email,
           password
         })
       })
 
-      const {error, message} = await response.json()
+      const { error, message } = await response.json()
 
-      if(!error) {
+      if (!error) {
         navigation.navigate("Home")
       } else {
         setError(true)
@@ -98,90 +65,134 @@ export default function Register({ navigation }) {
       }
     }
   }
-  
+
   return (
-    <SafeAreaView style={[Styles.centerContainer, { marginTop: 112 }]}>
-      <AppText fontFamily={'Montserrat-ExtraBold'} size={30}>Welcome Aboard!</AppText>
-
-      <View style={{ marginTop: 25, alignItems: 'flex-start', width: 250 }}>
-        <View>
-          <AppText fontFamily={'Montserrat-Medium'} size={16}>Nama Lengkap</AppText>
-          <TextInput 
-            style={[Styles.inputField]}
-            autoCapitalize='words'
-            autoComplete='name'
-            autoCorrect='false'
-            autoFocus
-            onChangeText={(input) => setName(input)}
-          />
-        </View>
-
-        <View style={{ marginTop: 11 }}>
-          <AppText fontFamily={'Montserrat-Medium'} size={16}>No. Handphone</AppText>
-          <TextInput 
-            style={[Styles.inputField]}
-            keyboardType='phone-pad'
-            onChangeText={(input) => setPhoneNumber(input)}
-          />
-        </View>
-
-        <View style={{ marginTop: 11 }}>
-          <AppText fontFamily={'Montserrat-Medium'} size={16}>Email</AppText>
-          <TextInput 
-            style={[Styles.inputField]}
-            autoCapitalize='none'
-            autoComplete='email'
-            autoCorrect='false'
-            keyboardType='email-address'
-            onChangeText={(input) => setEmail(input)}
-          />
-        </View>
-
-        <View style={{ marginTop: 11 }}>
-          <AppText fontFamily={'Montserrat-Medium'} size={16}>Password</AppText>
-          <TextInput 
-            style={[Styles.inputField]}
-            autoCapitalize='none'
-            autoCorrect='false'
-            secureTextEntry
-            onChangeText={(input) => setPassword(input)}
-          />
-        </View>
-        
-        <View style={{ marginTop: 11, flexDirection: 'row', alignItems: 'center' }}>
-          <BouncyCheckbox
-            text="I agree to the terms and conditions"
-            textStyle={{
-              textDecorationLine: 'none',
-              color: '#000',
-              fontSize: 12
-            }}
-            size={32}
-            fillColor="#51C699"
-            innerIconStyle={{  
-              borderRadius:10,
-              borderColor: 'black'
-            }}
-            iconStyle={{ 
-              borderRadius: 10
-            }}
-            onPress={() => setIsAgreed(!isAgreed)}
-          />
-        </View>
-
-        {error && <Text>{errorMessage}</Text>}
-
-        <View style={{ marginTop: 43 }}>
-          <TouchableOpacity
-            style={[Styles.button, { backgroundColor: '#51C699' }]}
-            onPress={registerHandler}
-          >
-            <AppText fontFamily={'Montserrat-SemiBold'} size={20} color="white">
-              Register
-            </AppText>
-          </TouchableOpacity>
-        </View>
+    <SafeAreaView style={{ ...globalStyles.container, position: 'relative' }}>
+      <View
+        style={{
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+          top: -210,
+          left: 0,
+          right: 0,
+        }}>
+        <Tosca_Blob />
       </View>
+      <View style={{ marginTop: 64 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <Excess_Logo_White />
+          <Excess_Logo_Text style={{ marginLeft: 10 }} />
+        </View>
+        <AppText style={{ color: colorStyles['white'], fontSize: 18, textAlign: 'center', marginTop: 16 }}>Good Food, Cheap Prices</AppText>
+      </View>
+
+      <AppText weight={'700'} style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}>Sign up</AppText>
+      <View style={{ marginTop: 32, width: '100%' }}>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Full Name</AppText>
+        <TextInput
+          style={[Styles.inputField]}
+          autoCapitalize='words'
+          autoComplete='name'
+          autoCorrect={false}
+          onChangeText={(input) => setName(input)}
+          placeholder='Full Name'
+        />
+      </View>
+
+      <View style={{ marginTop: 14 }}>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Phone Number</AppText>
+        <TextInput
+          style={[Styles.inputField]}
+          keyboardType='phone-pad'
+          onChangeText={(input) => setPhoneNumber(input)}
+          placeholder='+62xxxxxxx'
+        />
+      </View>
+
+      <View style={{ marginTop: 14 }}>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Email</AppText>
+        <TextInput
+          style={[Styles.inputField]}
+          autoCapitalize='none'
+          autoComplete='email'
+          autoCorrect={false}
+          keyboardType='email-address'
+          onChangeText={(input) => setEmail(input)}
+          placeholder='example@gmail.com'
+        />
+      </View>
+
+      <View style={{ marginTop: 14 }}>
+        <AppText weight={'500'} size={16} style={{ color: colorStyles[20] }}>Password</AppText>
+        <TextInput
+          style={[Styles.inputField]}
+          autoCapitalize='none'
+          autoCorrect={false}
+          secureTextEntry
+          onChangeText={(input) => setPassword(input)}
+          placeholder='******'
+        />
+      </View>
+
+      <View style={{ marginTop: 14, flexDirection: 'row', alignItems: 'center' }}>
+        <BouncyCheckbox
+          text="I agree to the terms and conditions"
+          textStyle={{
+            textDecorationLine: 'none',
+            color: colorStyles[20],
+            fontSize: 12,
+            fontFamily: 'OpenSauceSans-Regular'
+          }}
+          size={24}
+          fillColor={colorStyles['excess']}
+          innerIconStyle={{
+            borderRadius: 5,
+            borderColor: colorStyles[80],
+          }}
+          iconStyle={{
+            borderRadius: 5
+          }}
+          onPress={() => setIsAgreed(!isAgreed)}
+        />
+      </View>
+
+      {error && <Text>{errorMessage}</Text>}
+
+      <View style={{ marginTop: 32 }}>
+        <TouchableOpacity
+          style={[Styles.button, { backgroundColor: '#51C699' }]}
+          onPress={registerHandler}
+        >
+          <AppText weight='600' style={{ fontSize: 16, color: colorStyles['white'] }}>Sign up</AppText>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'center' }}>
+        <AppText fontFamily={"Montserrat-SemiBold"} style={{ color: colorStyles[50] }}>Already made an account? </AppText>
+        <AppText onPress={() => { navigation.navigate('Login') }} weight='700' style={{ color: colorStyles['excess'] }}>Log in</AppText>
+      </View>
+
     </SafeAreaView>
   )
 }
+const Styles = StyleSheet.create({
+  inputField: {
+    width: '100%',
+    marginTop: 4,
+    height: 40,
+    padding: 10,
+    borderColor: colorStyles[80],
+    borderRadius: 5,
+    borderWidth: 1,
+    fontFamily: 'OpenSauceSans-Regular'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+  },
+})
