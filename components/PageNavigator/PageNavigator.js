@@ -14,7 +14,7 @@ export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
 
   const [fontsLoaded] = useFonts({
-    'Montserrat-ExtraBold': require('../../assets/fonts/Montserrat-ExtraBold.ttf')
+    'OpenSauceSans-ExtraBold': require('../../assets/fonts/OpenSauceSans-ExtraBold.ttf')
   })
 
   if (!fontsLoaded) {
@@ -31,7 +31,7 @@ export default function PageNavigator() {
         },
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: 'Montserrat-ExtraBold'
+          fontFamily: 'OpenSauceSans-ExtraBold'
         },
         // headerLeft: () => (
         //   <Pressable>
@@ -40,7 +40,6 @@ export default function PageNavigator() {
         // )
       }}
     >
-
       <Stack.Group>
         <Stack.Screen
           name="Login"
