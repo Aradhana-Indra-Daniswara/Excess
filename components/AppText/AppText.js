@@ -1,8 +1,8 @@
 import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
-
+import PropTypes from 'prop-types';
 export default function AppText(props) {
-  const { children, style, weight, onPress} = props;
+  const { children, style, weight, onPress } = props;
   const [fontsLoaded] = useFonts({
     'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
     'OpenSauceSans-Medium': require('../../assets/fonts/OpenSauceSans-Medium.ttf'),
@@ -21,18 +21,19 @@ export default function AppText(props) {
     '800': 'OpenSauceSans-ExtraBold',
     '900': 'OpenSauceSans-Black',
   }
-  const handlePress = (e) =>{
-    if(onPress){
-      onPress(e);
-    }
-  }
   if (!fontsLoaded) {
     return null;
   }
   return (
-    <Text onPress={handlePress} style={{
+    <Text onPress={onPress ?? onPress} style={{
       fontFamily: weight ? weightFont[weight] : weightFont[400],
       ...style
     }}>{children}</Text>
   )
 }
+
+AppText.propTypes = {
+  weight: PropTypes.string,
+  onPress: PropTypes.func
+}
+

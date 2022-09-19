@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList, Text } from 'react-native'
 import AppText from '../AppText';
 import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 import SearchBar from './SearchBar';
@@ -13,82 +13,36 @@ import Nearme_icon from '../../assets/nearme.svg';
 import Bestprice_icon from '../../assets/bestprice.svg';
 import Mostloved_icon from '../../assets/mostloved.svg';
 import Vendor_icon from '../../assets/vendor_icon.svg';
+import { colorStyles } from '../Styling/GlobalStyles';
+import Clock_icon from '../../assets/clock_icon.svg';
 
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
-    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
+    const docRef = doc(firestore, "vendors", "kRz3YWwLpsawOneXQjzL");
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        let dataWithImage = []
-        const data = docSnap.data().products
-        data.forEach(async (product) => {
+        const data = docSnap.data().products;
+        const dataWithImage = []
+        for (const product of data) {
           const url = await getDownloadURL(ref(storage, product.uri))
           dataWithImage.push({
             ...product,
             imageUrl: url
           })
-          setProducts(dataWithImage);
-        })
+        }
+        setProducts(dataWithImage);
+        setIsLoading(false);
       }
     }
     catch (e) {
       console.log(e.message);
     }
-    finally {
-      setIsLoading(false)
-    }
   }
-
-  const renderItem = ({ item }) => {
-    return (
-      <View style={{
-        borderRadius: 6,
-        backgroundColor: 'white',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 3,
-        marginRight: 16,
-        width: 160
-      }}>
-        <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 120 }} />
-        <View style={{ padding: 8, }}>
-          <AppText fontFamily={'Montserrat-Medium'}>{item.name}</AppText>
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 6
-          }}>
-            <Vendor_icon height={12} width={12} color='#666666' />
-            <AppText style={{ marginLeft: 4 }} size={12}>{'Testing Bakery'}</AppText>
-          </View>
-          <AppText fontFamily={'Montserrat-Bold'}>Rp{item.price}</AppText>
-        </View>
-      </View>
-    )
-  }
-
-  // const getLimitedTimeProducts = async () => {
-  //   const url = Platform.OS === 'ios'
-  //     ? "http://localhost:3000/home"
-  //     : "http://10.0.2.2:3000/home"
-
-  //   try {
-  //     const repsonse = await fetch(url)
-  //     const JSONResponse = await repsonse.json()
-  //     setProducts(JSONResponse.products)
-  //     setIsLoading(false)
-  //   } catch (e) {
-  //     console.warn(e)
-  //   }
-  // }
-
   useEffect(() => {
     getData();
   }, [])
@@ -97,29 +51,61 @@ export default function Home() {
     return null;
   }
 
+  const itemList = ({ item }) => {
+    return (
+      <View style={{
+        borderRadius: 6,
+        backgroundColor: 'white',
+        marginRight: 16,
+        width: 160
+      }}>
+        <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 120, borderRadius: 5 }} />
+        <View style={{ padding: 4, marginVertical: 8, borderRadius: 5, backgroundColor: '#FCDEDE', flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start' }}>
+          <Clock_icon />
+          <AppText style={{ color: '#FB6868', marginLeft: 4 }}>{item.max_order_time.slice(0, 2) + ":" + item.max_order_time.slice(2)}</AppText>
+        </View>
+        <View>
+          <AppText weight='500' style={{ fontSize: 16, color: colorStyles[20] }}>{item.name}</AppText>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 6
+          }}>
+            <Vendor_icon height={12} width={12} color={colorStyles[50]} />
+            <AppText style={{ marginLeft: 4, color: colorStyles[50], fontSize: 12 }} >{'Testing Bakery'}</AppText>
+          </View>
+          <AppText weight='700' style={{ color: colorStyles[20] }}>Rp{item.price}</AppText>
+        </View>
+      </View>
+    )
+  }
+
+
+
   return (
     <SafeAreaView style={{
       backgroundColor: 'white',
-      paddingTop: StatusBar.currentHeight,
-      height: '100%'
+      height: '100%',
+      width: '100%'
     }}>
+      <StatusBar barStyle="dark-content" backgroundColor={'white'} />
 
       {/* Header */}
       <View style={styles.header}>
-        <AppText>Delivery Area</AppText>
+        <AppText style={{ fontSize: 12 }}>Delivery Area</AppText>
         <View style={styles.actionHeader}>
-          <AppText weight='700'>Tangerang, Banten</AppText>
+          <AppText weight='700' style={{ fontSize: 14 }}>Tangerang, Banten</AppText>
           <Ionicons name='caret-down-sharp' size={14} color={'black'} style={{ marginLeft: 4 }} />
         </View>
       </View>
 
       {/* Main Content */}
-      <ScrollView>
+      <ScrollView style={{ width: '100%' }}>
 
         {/* Banner */}
-        <View style={{ position: 'relative', marginBottom: 32 }}>
+        <View style={{ position: 'relative', marginBottom: 32, width: '100%' }}>
           <Image source={require('../../assets/mainbanner.png')} style={{ width: '100%', height: 200, resizeMode: 'contain' }} />
-          <SearchBar placeholder='Cheap Snack?' />
+          <SearchBar placeholder='Cheap Snack?' onPress={() => navigation.navigate('SearchVendor')} />
         </View>
 
         {/* Category */}
@@ -139,18 +125,31 @@ export default function Home() {
         </View>
 
         {/* Running Out */}
-        <AppText weight='700' style={{ marginLeft: 18 }}>Running Out</AppText>
-        <ScrollView contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 18 }} horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            data={products}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
-        </ScrollView>
+        <AppText weight='700' style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}>Running Out</AppText>
+        <FlatList
+          data={products}
+          renderItem={itemList}
+          keyExtractor={item => item.id}
+          horizontal={true}
+          contentContainerStyle={{
+            paddingVertical: 8,
+            paddingHorizontal: 18
+          }}
+          showsHorizontalScrollIndicator={false}
+        />
+
 
         {/* Selected Partners */}
-        <AppText weight='700' style={{ marginLeft: 18 }}>Selected Partners</AppText>
-        <ScrollView style={styles.maincontent} horizontal={true} showsHorizontalScrollIndicator={false}>
+        <AppText weight='700' style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}>Selected Partners</AppText>
+        <ScrollView
+          style={styles.maincontent}
+          contentContainerStyle={{
+            paddingVertical: 8,
+            paddingHorizontal: 18
+          }}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
           <View style={styles.horizontalCards}>
             <AutoDimensionImage
               source={require('../../assets/partner_1.png')}
@@ -201,10 +200,7 @@ const styles = StyleSheet.create({
   maincategory_items: {
     alignItems: 'center'
   },
-  maincontent: {
-    width: '100%',
-    paddingHorizontal: 18,
-  },
+
   horizontalCards: {
     padding: 8,
     borderWidth: 1,

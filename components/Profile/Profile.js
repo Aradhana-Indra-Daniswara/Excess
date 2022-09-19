@@ -1,40 +1,70 @@
+import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import AppText from '../AppText';
+import { auth } from '../../config/firebase-config';
+import { signOut } from "firebase/auth";
 
 export default function Profile() {
+  const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
-    'Montserrat-Regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
-    'Montserrat-Medium': require('../../assets/fonts/Montserrat-Medium.ttf'),
-    'Montserrat-SemiBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
-    'Montserrat-Bold': require('../../assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Black': require('../../assets/fonts/Montserrat-Black.ttf'),
-    'Montserrat-Light': require('../../assets/fonts/Montserrat-Light.ttf'),
+    'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
+    'OpenSauceSans-Medium': require('../../assets/fonts/OpenSauceSans-Medium.ttf'),
+    'OpenSauceSans-SemiBold': require('../../assets/fonts/OpenSauceSans-SemiBold.ttf'),
+    'OpenSauceSans-Bold': require('../../assets/fonts/OpenSauceSans-Bold.ttf'),
+    'OpenSauceSans-ExtraBold': require('../../assets/fonts/OpenSauceSans-ExtraBold.ttf'),
+    'OpenSauceSans-Black': require('../../assets/fonts/OpenSauceSans-Black.ttf'),
+    'OpenSauceSans-Light': require('../../assets/fonts/OpenSauceSans-Light.ttf'),
   });
   if (!fontsLoaded) {
     return null;
   }
+  
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      navigation.navigate("Login")
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
   return (
-    <View style={{
+    <SafeAreaView style={{
       backgroundColor: 'white',
       height: '100%',
-      padding: 16
+      justifyContent: 'space-between',
+      padding: 16,
+      paddingBottom: 48
     }}>
-      <View style={styles.section}>
-        <AppText fontFamily={'Montserrat-Bold'}>Name</AppText>
-        <TextInput style={styles.textInput} value='Aradhana Satrio Devin'></TextInput>
-      </View>
-      <View style={styles.section}>
-        <AppText fontFamily={'Montserrat-Bold'}>Mobile Number</AppText>
-        <TextInput style={styles.textInput} value='08123456789'></TextInput>
-      </View>
-      <View style={styles.section}>
-        <AppText fontFamily={'Montserrat-Bold'}>Email</AppText>
-        <TextInput style={styles.textInput} value='aratriodev@gmail.com'></TextInput>
+      <View>
+        <View style={styles.section}>
+          <AppText fontFamily={'OpenSauceSans-Bold'}>Name</AppText>
+          <TextInput style={styles.textInput} value='Aradhana Satrio Devin'></TextInput>
+        </View>
+        <View style={styles.section}>
+          <AppText fontFamily={'OpenSauceSans-Bold'}>Mobile Number</AppText>
+          <TextInput style={styles.textInput} value='08123456789'></TextInput>
+        </View>
+        <View style={styles.section}>
+          <AppText fontFamily={'OpenSauceSans-Bold'}>Email</AppText>
+          <TextInput style={styles.textInput} value='aratriodev@gmail.com'></TextInput>
+        </View>
       </View>
 
-    </View>
+      <TouchableOpacity style={{
+        alignItems: 'center',
+        borderWidth: 1,
+        paddingVertical: 16,
+        borderColor: '#BF4040',
+        borderRadius: 5
+      }}
+        onPress={handleSignOut}
+      >
+        <AppText style={{
+          color: '#BF4040'
+        }}>Log Out</AppText>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
@@ -44,7 +74,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 16,
     padding: 4,
-    fontFamily: 'Montserrat-Regular'
+    fontFamily: 'OpenSauceSans-Regular'
   },
   section: {
     marginBottom: 16

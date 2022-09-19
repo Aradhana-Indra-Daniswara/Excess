@@ -5,6 +5,9 @@ import Activity from "./Activity/Activity";
 import Profile from './Profile/Profile';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'react-native';
+import HomeStackScreen from './Home/HomeStackScreen';
+
+
 const Tab = createBottomTabNavigator();
 
 // Screens
@@ -44,22 +47,27 @@ export default function MainNavigator() {
           return <Ionicons name={iconName} size={size} color={color} />
         },
         headerShown: false,
+        // Navbar Styling
+        tabBarActiveTintColor: '#59D9A8',
+        tabBarInactiveTintColor: 'grey',
+        tabBarLabelStyle: {
+          fontFamily: 'OpenSauceSans-Regular',
+        },
+        tabBarStyle:{
+          height: 60,
+        },
+        tabBarItemStyle:{
+          padding: 5,
+        }
+        
       })}
-      // Navbar Styling
-      tabBarOptions={{
-        activeTintColor: '#59D9A8',
-        inactiveTintColor: 'grey',
-      }}
+      
     >
       {/* Navbar Selections */}
-      <Tab.Screen name={homeName} component={Home} />
+      <Tab.Screen name={homeName} component={HomeStackScreen} />
       <Tab.Screen name={activityName} component={Activity}
         options={{
           headerShown: true,
-          headerTitleContainerStyle: 
-          { 
-            
-          },
           headerTitleStyle: {
             fontFamily: 'OpenSauceSans-Medium',
           }
