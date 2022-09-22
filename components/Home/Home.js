@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList, Platform } from 'react-native'
 import AppText from '../AppText';
 import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 import SearchBar from './SearchBar';
@@ -74,21 +74,6 @@ export default function Home() {
     )
   }
 
-  // const getLimitedTimeProducts = async () => {
-  //   const url = Platform.OS === 'ios'
-  //     ? "http://localhost:3000/home"
-  //     : "http://10.0.2.2:3000/home"
-
-  //   try {
-  //     const repsonse = await fetch(url)
-  //     const JSONResponse = await repsonse.json()
-  //     setProducts(JSONResponse.products)
-  //     setIsLoading(false)
-  //   } catch (e) {
-  //     console.warn(e)
-  //   }
-  // }
-
   useEffect(() => {
     getData();
   }, [])
@@ -103,6 +88,8 @@ export default function Home() {
       paddingTop: StatusBar.currentHeight,
       height: '100%'
     }}>
+
+      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
 
       {/* Header */}
       <View style={styles.header}>
