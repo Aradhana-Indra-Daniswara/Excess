@@ -43,7 +43,7 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{
@@ -65,7 +65,7 @@ export default function PageNavigator() {
               color: "black",
             },
           }}
-        /> */}
+        />
         <Stack.Screen
           name="SearchVendor"
           component={SearchVendor}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
 import { firestore, storage } from '../../config/firebase-config';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { collection, doc, getDoc } from "firebase/firestore";
@@ -52,7 +52,11 @@ export default function VendorList({ vendor }) {
   }, [])
 
   if (isLoading) {
-    return <AppText>Loading</AppText>;
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+      );
   }
 
   return (

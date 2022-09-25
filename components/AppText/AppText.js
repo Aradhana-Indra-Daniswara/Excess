@@ -28,7 +28,7 @@ export default function AppText({children, style, weight, onPress}) {
 
   if(onPress) {
     return (
-      <Text onPress={handlePress} style={{
+      <Text onPress={onPress} style={{
         fontFamily: weight ? weightFont[weight] : weightFont[400],
         ...style,
       }}>{children}</Text>
