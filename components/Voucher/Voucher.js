@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -7,9 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AppText from "../AppText";
 import VoucherContainer from "./VoucherContainer";
-import { firestore } from "../../config/firebase-config";
-import { collection, getDocs } from "firebase/firestore";
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -37,26 +36,6 @@ const Styles = StyleSheet.create({
 export default function Voucher({ route, navigation }) {
   const [voucher, setVoucher] = useState(null);
   const [voucherData, setVoucherData] = useState(route?.params?.voucherData);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getVouchers = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(firestore, "vouchers"));
-      const filteredData = [];
-      querySnapshot.forEach((doc) => {
-        filteredData.push({ id: doc.id, ...doc.data() });
-      });
-      setVoucherData(filteredData);
-    } catch (e) {
-      console.warn(e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // getVouchers();
-  }, []);
 
   const renderVoucher = ({ item }) => {
     const [backgroundColor, color] =
@@ -80,6 +59,7 @@ export default function Voucher({ route, navigation }) {
           data={voucherData}
           renderItem={renderVoucher}
           showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
         />
         <View style={{ height: 100 }}></View>
       </SafeAreaView>
@@ -95,7 +75,9 @@ export default function Voucher({ route, navigation }) {
             })
           }
         >
-          <Text style={Styles.buttonFont}>Apply Voucher</Text>
+          <AppText weight={"900"} style={Styles.buttonFont}>
+            Apply Voucher
+          </AppText>
         </TouchableOpacity>
       )}
     </View>
