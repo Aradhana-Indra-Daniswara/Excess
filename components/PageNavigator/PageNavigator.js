@@ -9,15 +9,14 @@ import MainNavigator from "../MainNavigator";
 import { useFonts } from "expo-font";
 // import { AntDesign } from "@expo/vector-icons";
 // import { Pressable } from "react-native";
-import SearchVendor from '../SearchVendor/SearchVendor'
-
+import SearchVendor from "../SearchVendor/SearchVendor";
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator();
 
   const [fontsLoaded] = useFonts({
-    'OpenSauceSans-ExtraBold': require('../../assets/fonts/OpenSauceSans-ExtraBold.ttf')
-  })
+    "OpenSauceSans-ExtraBold": require("../../assets/fonts/OpenSauceSans-ExtraBold.ttf"),
+  });
 
   if (!fontsLoaded) {
     return null;
@@ -33,17 +32,16 @@ export default function PageNavigator() {
         },
         headerTitleStyle: {
           fontSize: 20,
-          fontFamily: 'OpenSauceSans-ExtraBold'
+          fontFamily: "OpenSauceSans-ExtraBold",
         },
         // headerLeft: () => (
         //   <Pressable>
         //     <AntDesign name="left" size={24} color="black" />
         //   </Pressable>
         // )
-      }}
-    >
+      }}>
       <Stack.Group>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{
@@ -72,7 +70,7 @@ export default function PageNavigator() {
           options={{
             headerShown: false
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Cart"
           component={Cart}
