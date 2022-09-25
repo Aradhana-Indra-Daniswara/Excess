@@ -74,8 +74,6 @@ export default function PageNavigator() {
             headerShown: true
           }}
         />
-
-
         <Stack.Screen
           name="Checkout"
           component={Checkout}
@@ -85,8 +83,6 @@ export default function PageNavigator() {
             animation: 'slide_from_right',
           }}
         />
-
-
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
