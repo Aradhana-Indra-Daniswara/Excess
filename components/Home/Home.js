@@ -81,7 +81,6 @@ export default function Home({ navigation }) {
   }
 
 
-
   return (
     <SafeAreaView style={{
       backgroundColor: 'white',
@@ -89,6 +88,8 @@ export default function Home({ navigation }) {
       width: '100%'
     }}>
       <StatusBar barStyle="dark-content" backgroundColor={'white'} />
+
+      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
 
       {/* Header */}
       <View style={styles.header}>

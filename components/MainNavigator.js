@@ -1,32 +1,34 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 import Home from "./Home/Home";
 import Activity from "./Activity/Activity";
-import Profile from './Profile/Profile';
-import { useFonts } from 'expo-font';
-import { StatusBar } from 'react-native';
 
+import Profile from "./Profile/Profile";
+import { useFonts } from "expo-font";
+import { StatusBar } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
 // Screens
-const homeName = 'Home';
-const activityName = 'Activity';
-const profileName = 'Profile';
+const homeName = "Home";
+const activityName = "Activity";
+const profileName = "Profile";
 
 export default function MainNavigator() {
   const [fontsLoaded] = useFonts({
-    'OpenSauceSans-Regular': require('../assets/fonts/OpenSauceSans-Regular.ttf'),
-    'OpenSauceSans-Medium': require('../assets/fonts/OpenSauceSans-Medium.ttf'),
-    'OpenSauceSans-SemiBold': require('../assets/fonts/OpenSauceSans-SemiBold.ttf'),
-    'OpenSauceSans-Bold': require('../assets/fonts/OpenSauceSans-Bold.ttf'),
-    'OpenSauceSans-ExtraBold': require('../assets/fonts/OpenSauceSans-ExtraBold.ttf'),
-    'OpenSauceSans-Black': require('../assets/fonts/OpenSauceSans-Black.ttf'),
-    'OpenSauceSans-Light': require('../assets/fonts/OpenSauceSans-Light.ttf'),
+    "OpenSauceSans-Regular": require("../assets/fonts/OpenSauceSans-Regular.ttf"),
+    "OpenSauceSans-Medium": require("../assets/fonts/OpenSauceSans-Medium.ttf"),
+    "OpenSauceSans-SemiBold": require("../assets/fonts/OpenSauceSans-SemiBold.ttf"),
+    "OpenSauceSans-Bold": require("../assets/fonts/OpenSauceSans-Bold.ttf"),
+    "OpenSauceSans-ExtraBold": require("../assets/fonts/OpenSauceSans-ExtraBold.ttf"),
+    "OpenSauceSans-Black": require("../assets/fonts/OpenSauceSans-Black.ttf"),
+    "OpenSauceSans-Light": require("../assets/fonts/OpenSauceSans-Light.ttf"),
   });
+
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <Tab.Navigator
       initialRouteName={homeName}
@@ -35,15 +37,13 @@ export default function MainNavigator() {
           let iconName;
           let routeName = route.name;
           if (routeName === homeName) {
-            iconName = focused ? 'home' : 'home-outline'
+            iconName = focused ? "home" : "home-outline";
+          } else if (routeName === activityName) {
+            iconName = focused ? "reader" : "reader-outline";
+          } else if (routeName === profileName) {
+            iconName = focused ? "person" : "person-outline";
           }
-          else if (routeName === activityName) {
-            iconName = focused ? 'reader' : 'reader-outline'
-          }
-          else if (routeName === profileName) {
-            iconName = focused ? 'person' : 'person-outline'
-          }
-          return <Ionicons name={iconName} size={size} color={color} />
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         headerShown: false,
         // Navbar Styling
@@ -60,24 +60,37 @@ export default function MainNavigator() {
         }
         
       })}
-      
+
+      // Navbar Styling
+      tabBarOptions={{
+        activeTintColor: "#59D9A8",
+        inactiveTintColor: "grey",
+      }}
     >
       {/* Navbar Selections */}
       <Tab.Screen name={homeName} component={Home} />
-      <Tab.Screen name={activityName} component={Activity}
+      <Tab.Screen
+        name={activityName}
+        component={Activity}
+        options={{
+          headerShown: true,
+
+          headerTitleContainerStyle: {},
+          headerTitleStyle: {
+            fontFamily: "OpenSauceSans-Medium",
+          },
+        }}
+      />
+      <Tab.Screen
+        name={profileName}
+        component={Profile}
         options={{
           headerShown: true,
           headerTitleStyle: {
-            fontFamily: 'OpenSauceSans-Medium',
-          }
-        }} />
-      <Tab.Screen name={profileName} component={Profile} options={{
-        headerShown: true,
-        headerTitleStyle: {
-          fontFamily: 'OpenSauceSans-Medium',
-        }
-      }} />
+            fontFamily: "OpenSauceSans-Medium",
+          },
+        }}
+      />
     </Tab.Navigator>
-  )
+  );
 }
-
