@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList, Text } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, SafeAreaView, StatusBar, FlatList, Text, ActivityIndicator } from 'react-native'
 import AppText from '../AppText';
 import AutoDimensionImage, { imageDimensionTypes } from 'react-native-auto-dimensions-image';
 import SearchBar from './SearchBar';
@@ -48,7 +48,11 @@ export default function Home({ navigation }) {
   }, [])
 
   if (isLoading) {
-    return null;
+    return(
+      <View style={{ height: '100%', width: '100%' }}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 
   const itemList = ({ item }) => {

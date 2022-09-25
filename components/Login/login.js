@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import React, { useState, useEffect } from 'react'
-import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AppText from '../AppText';
 import { auth } from '../../config/firebase-config';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
@@ -55,7 +55,11 @@ const Login = ({ navigation }) => {
     })
   }, [])
   if(!fontsLoaded){
-    return null;
+    return(
+      <View style={{ height: '100%', width: '100%' }}>
+        <ActivityIndicator />
+      </View>
+    )
   }
   return (
     <SafeAreaView style={{ ...globalStyles.container, position: 'relative' }}>

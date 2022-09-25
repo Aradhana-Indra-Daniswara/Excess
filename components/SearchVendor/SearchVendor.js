@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, TextInput, TouchableOpacity, View } from 'react-native';
 import SearchIcon_Gray from '../../assets/search_icon_gray.svg';
 import CrossIcon_Gray from '../../assets/cross_icon_gray.svg';
 import Back_button from '../../assets/Back_button.svg';
