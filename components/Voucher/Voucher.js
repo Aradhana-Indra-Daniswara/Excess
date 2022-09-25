@@ -8,9 +8,8 @@ import {
   View,
 } from "react-native";
 import VoucherContainer from "./VoucherContainer";
-import { firestore, storage } from "../../config/firebase-config";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { getDownloadURL, ref } from "firebase/storage";
+import { firestore } from "../../config/firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 const Styles = StyleSheet.create({
   centerContainer: {
@@ -35,10 +34,10 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Voucher({ navigation, route }) {
+export default function Voucher({ route, navigation }) {
   const [voucher, setVoucher] = useState(null);
-  const [voucherData, setVoucherData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [voucherData, setVoucherData] = useState(route?.params?.voucherData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getVouchers = async () => {
     try {
@@ -55,26 +54,13 @@ export default function Voucher({ navigation, route }) {
     }
   };
 
-  const getData = async () => {
-    // specify document yang mana
-    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
-
-    // ambil documentnya (1 doang)
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log(docSnap.data());
-    }
-  };
-
   useEffect(() => {
-    getVouchers();
-    getData();
+    // getVouchers();
   }, []);
 
   const renderVoucher = ({ item }) => {
     const [backgroundColor, color] =
-      item.id === voucher?.id ? ["#51C699", "white"] : [null, "black"];
+      item.id === voucher?.id ? ["#51C699", "white"] : ["white", "black"];
 
     return (
       <VoucherContainer
@@ -90,15 +76,11 @@ export default function Voucher({ navigation, route }) {
   return (
     <View style={{ alignItems: "center", justifyContent: "center" }}>
       <SafeAreaView style={[Styles.centerContainer, { marginTop: 20 }]}>
-        {isLoading ? (
-          <Text>Loading</Text>
-        ) : (
-          <FlatList
-            data={voucherData}
-            renderItem={renderVoucher}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+        <FlatList
+          data={voucherData}
+          renderItem={renderVoucher}
+          showsVerticalScrollIndicator={false}
+        />
         <View style={{ height: 100 }}></View>
       </SafeAreaView>
 

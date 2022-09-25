@@ -1,5 +1,5 @@
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -45,8 +45,7 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Checkout({ navigation, route }) {
-  // TODO: price jadiin props dari Cart
+export default function Checkout({ route, navigation }) {
   // watch for voucher application & update grand total
   useEffect(() => {
     if (route.params?.voucherSelected) {
@@ -57,7 +56,20 @@ export default function Checkout({ navigation, route }) {
   }, [route.params?.voucherSelected]);
 
   useEffect(() => {
-    // getOrder();
+    const getVouchers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(firestore, "vouchers"));
+        const filteredData = [];
+        querySnapshot.forEach((doc) => {
+          filteredData.push({ id: doc.id, ...doc.data() });
+        });
+        setVoucherData(filteredData);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+
+    getVouchers();
   }, []);
 
   const orderHandler = async () => {
@@ -79,12 +91,14 @@ export default function Checkout({ navigation, route }) {
     } catch (e) {
       console.warn(e);
     } finally {
-      navigation.navigate("Activity");
+      // navigation.navigate("Activity");
+      console.log("Success");
     }
   };
 
-  const [price, setPrice] = useState(120000);
+  const [price, setPrice] = useState(route?.params?.total);
   const [voucher, setVoucher] = useState(0);
+  const [voucherData, setVoucherData] = useState([]);
   const [grandTotal, setGrandTotal] = useState(price - voucher);
 
   return (
@@ -140,7 +154,11 @@ export default function Checkout({ navigation, route }) {
               position: "relative",
             },
           ]}
-          onPress={() => navigation.navigate("Voucher")}
+          onPress={() =>
+            navigation.navigate("Voucher", {
+              voucherData,
+            })
+          }
         >
           <Image
             source={require("../../assets/discount-icon.png")}
@@ -234,6 +252,7 @@ export default function Checkout({ navigation, route }) {
       <View style={[Styles.centerContainer, { marginTop: 32 }]}>
         <TouchableOpacity
           style={[Styles.button, Styles.shadow, { backgroundColor: "#51C699" }]}
+          onPress={orderHandler}
         >
           <AppText weight={"800"} style={{ color: "white", fontSize: 17 }}>
             Place Order
