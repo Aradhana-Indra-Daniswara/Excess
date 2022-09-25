@@ -6,6 +6,7 @@ import Activity from "./Activity/Activity";
 import Profile from "./Profile/Profile";
 import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
+import { colorStyles } from "./Styling/GlobalStyles";
 
 const Tab = createBottomTabNavigator();
 
@@ -57,15 +58,10 @@ export default function MainNavigator() {
         },
         tabBarItemStyle:{
           padding: 5,
-        }
-        
+        },
+        tabBarActiveTintColor: "#59D9A8",
+        tabBarInactiveTintColor: colorStyles[50]
       })}
-
-      // Navbar Styling
-      tabBarOptions={{
-        activeTintColor: "#59D9A8",
-        inactiveTintColor: "grey",
-      }}
     >
       {/* Navbar Selections */}
       <Tab.Screen name={homeName} component={Home} />
@@ -74,7 +70,6 @@ export default function MainNavigator() {
         component={Activity}
         options={{
           headerShown: true,
-
           headerTitleContainerStyle: {},
           headerTitleStyle: {
             fontFamily: "OpenSauceSans-Medium",
