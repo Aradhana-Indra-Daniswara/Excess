@@ -162,7 +162,7 @@ const Login = ({ navigation }) => {
           </AppText>
         </TouchableOpacity>
       </View>
-
+      
       <View
         style={{
           marginTop: 16,

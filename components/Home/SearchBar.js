@@ -1,9 +1,12 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { useFonts } from 'expo-font';
 
 import Search_icon from '../../assets/search_icon.svg'
+import AppText from "../AppText";
+import { colorStyles } from "../Styling/GlobalStyles";
 
-export default function SearchBar({ placeholder }) {
+export default function SearchBar(props) {
+  const { onPress, placeholder } = props;
   const [fontsLoaded] = useFonts({
     'OpenSauceSans-Regular': require('../../assets/fonts/OpenSauceSans-Regular.ttf'),
   });
@@ -11,7 +14,7 @@ export default function SearchBar({ placeholder }) {
     return null;
   }
   return (
-    <View style={{
+    <TouchableOpacity style={{
       flexDirection: 'row',
       alignSelf: 'center',
       width: '80%',
@@ -26,16 +29,19 @@ export default function SearchBar({ placeholder }) {
       shadowOpacity: 0.5,
       shadowRadius: 2,
       elevation: 3,
-
-      position: 'absolute', 
-      bottom: -24
-    }}>
+      position: 'absolute',
+      bottom: -24,
+    }}
+      onPress={onPress}
+    >
       <Search_icon height={32} width={32} />
-      <TextInput style={{
-        marginLeft: 8,
-        fontFamily: 'OpenSauceSans-Regular',
-        width: '100%'
-      }} placeholder={placeholder} />
-    </View>
+      <View pointerEvents="none">
+        <AppText style={{
+          marginLeft: 8,
+          width: '100%',
+          color: colorStyles[70]
+        }}>{placeholder}</AppText>
+      </View>
+    </TouchableOpacity>
   )
 }

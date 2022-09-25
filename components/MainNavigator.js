@@ -2,9 +2,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "./Home/Home";
 import Activity from "./Activity/Activity";
+
 import Profile from "./Profile/Profile";
 import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
+
 const Tab = createBottomTabNavigator();
 
 // Screens
@@ -44,7 +46,21 @@ export default function MainNavigator() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         headerShown: false,
+        // Navbar Styling
+        tabBarActiveTintColor: '#59D9A8',
+        tabBarInactiveTintColor: 'grey',
+        tabBarLabelStyle: {
+          fontFamily: 'OpenSauceSans-Regular',
+        },
+        tabBarStyle:{
+          height: 60,
+        },
+        tabBarItemStyle:{
+          padding: 5,
+        }
+        
       })}
+
       // Navbar Styling
       tabBarOptions={{
         activeTintColor: "#59D9A8",
@@ -58,6 +74,7 @@ export default function MainNavigator() {
         component={Activity}
         options={{
           headerShown: true,
+
           headerTitleContainerStyle: {},
           headerTitleStyle: {
             fontFamily: "OpenSauceSans-Medium",

@@ -22,11 +22,6 @@ export default function AppText({children, style, weight, onPress}) {
     '800': 'OpenSauceSans-ExtraBold',
     '900': 'OpenSauceSans-Black',
   }
-  const handlePress = (e) =>{
-    if(onPress){
-      onPress(e);
-    }
-  }
   if (!fontsLoaded) {
     return null;
   }
