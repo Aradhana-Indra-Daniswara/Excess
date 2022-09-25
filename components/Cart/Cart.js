@@ -104,7 +104,7 @@ export default function Cart({ navigation }) {
     closingHour: 22,
   };
 
-  const [grandTotal, setGrandTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   // Run once when page first load
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function Cart({ navigation }) {
       (prev, curr) => prev + curr.price * curr.qty,
       0
     );
-    setGrandTotal(total);
+    setTotal(total);
   }, [ORDER_ITEMS]);
 
   const deleteItem = (id) => {
@@ -120,11 +120,16 @@ export default function Cart({ navigation }) {
 
     ORDER_ITEMS.forEach((item) => {
       if (item.product_id === id) {
-        setGrandTotal(grandTotal - item.price * item.qty);
+        setTotal(total - item.price * item.qty);
       } else {
         filteredItem.push(item);
       }
     });
+
+    // Go back to vendor https://reactnavigation.org/docs/navigation-actions/#goback
+    // if (filteredItem.length === 0) {
+    //   navigation.goBack();
+    // }
 
     // console.log(filteredItem)
     setORDER_ITEMS(filteredItem);
@@ -193,6 +198,8 @@ export default function Cart({ navigation }) {
         showsVerticalScrollIndicator={false}
         style={{
           marginBottom: 120,
+          // borderWidth: 1,
+          maxHeight: "70%",
         }}
         keyExtractor={({ product_id }) => product_id}
       />
@@ -204,13 +211,14 @@ export default function Cart({ navigation }) {
           {
             marginVertical: 20,
             position: "absolute",
-            bottom: 20,
+            bottom: 10,
             height: 100,
+            // borderWidth: 1
           },
         ]}
       >
         <AppText weight={"700"} style={{ fontSize: 18 }}>
-          Grand Total: {formatCurrency(grandTotal)}
+          Total: {formatCurrency(total)}
         </AppText>
         <TouchableOpacity
           style={[
@@ -221,7 +229,12 @@ export default function Cart({ navigation }) {
               marginTop: 20,
             },
           ]}
-          onPress={() => navigation.navigate("Checkout")}
+          onPress={() =>
+            navigation.navigate("Checkout", {
+              ORDER_ITEMS,
+              total,
+            })
+          }
         >
           <Text style={[Styles.buttonFont]}>Checkout</Text>
         </TouchableOpacity>
