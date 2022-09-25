@@ -5,7 +5,6 @@ import Activity from "./Activity/Activity";
 import Profile from './Profile/Profile';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'react-native';
-import HomeStackScreen from './Home/HomeStackScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -64,7 +63,7 @@ export default function MainNavigator() {
       
     >
       {/* Navbar Selections */}
-      <Tab.Screen name={homeName} component={HomeStackScreen} />
+      <Tab.Screen name={homeName} component={Home} />
       <Tab.Screen name={activityName} component={Activity}
         options={{
           headerShown: true,

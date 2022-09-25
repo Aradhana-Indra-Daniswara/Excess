@@ -9,6 +9,7 @@ import MainNavigator from '../MainNavigator'
 import { useFonts } from 'expo-font'
 import { AntDesign } from '@expo/vector-icons'
 import { Pressable } from 'react-native'
+import SearchVendor from '../SearchVendor/SearchVendor'
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator()
@@ -60,14 +61,19 @@ export default function PageNavigator() {
           component={MainNavigator}
         />
         <Stack.Screen
+          name="SearchVendor"
+          component={SearchVendor}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
           name="Cart"
           component={Cart}
           options={{
             headerShown: true
           }}
         />
-
-
         <Stack.Screen
           name="Checkout"
           component={Checkout}
@@ -77,8 +83,6 @@ export default function PageNavigator() {
             animation: 'slide_from_right',
           }}
         />
-
-
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
