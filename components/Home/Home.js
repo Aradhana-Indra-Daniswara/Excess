@@ -129,8 +129,6 @@ export default function Home({ navigation }) {
       }}>
       <StatusBar barStyle="dark-content" backgroundColor={"white"} />
 
-      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
-
       {/* Header */}
       <View style={styles.header}>
         <AppText style={{ fontSize: 12 }}>Delivery Area</AppText>

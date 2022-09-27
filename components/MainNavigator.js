@@ -48,44 +48,24 @@ export default function MainNavigator() {
         },
         headerShown: false,
         // Navbar Styling
-        tabBarActiveTintColor: '#59D9A8',
-        tabBarInactiveTintColor: 'grey',
+        tabBarActiveTintColor: "#59D9A8",
+        tabBarInactiveTintColor: "grey",
         tabBarLabelStyle: {
-          fontFamily: 'OpenSauceSans-Regular',
+          fontFamily: "OpenSauceSans-Regular",
         },
-        tabBarStyle:{
+        tabBarStyle: {
           height: 60,
         },
-        tabBarItemStyle:{
+        tabBarItemStyle: {
           padding: 5,
         },
         tabBarActiveTintColor: "#59D9A8",
-        tabBarInactiveTintColor: colorStyles[50]
-      })}
-    >
+        tabBarInactiveTintColor: colorStyles[50],
+      })}>
       {/* Navbar Selections */}
       <Tab.Screen name={homeName} component={Home} />
-      <Tab.Screen
-        name={activityName}
-        component={Activity}
-        options={{
-          headerShown: true,
-          headerTitleContainerStyle: {},
-          headerTitleStyle: {
-            fontFamily: "OpenSauceSans-Medium",
-          },
-        }}
-      />
-      <Tab.Screen
-        name={profileName}
-        component={Profile}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {
-            fontFamily: "OpenSauceSans-Medium",
-          },
-        }}
-      />
+      <Tab.Screen name={activityName} component={Activity} />
+      <Tab.Screen name={profileName} component={Profile} />
     </Tab.Navigator>
   );
 }
