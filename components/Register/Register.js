@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {
+  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -63,7 +65,7 @@ export default function Register({ navigation }) {
         //   phoneNumber
         // })
         console.log(userCredential);
-        navigation.navigate("Home");
+        navigation.navigate("Main");
       } catch (e) {
         setError(true);
         setErrorMessage(e.message);
@@ -75,7 +77,14 @@ export default function Register({ navigation }) {
   };
 
   return (
-    <View style={{ ...globalStyles.container, position: "relative" }}>
+    <KeyboardAvoidingView
+      behavior="position"
+      style={{ ...globalStyles.container }}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={colorStyles["excess"]}
+      />
+
       <View
         style={{
           position: "absolute",
@@ -84,8 +93,7 @@ export default function Register({ navigation }) {
           top: -210,
           left: 0,
           right: 0,
-        }}
-      >
+        }}>
         <Tosca_Blob />
       </View>
       <View style={{ marginTop: 64 }}>
@@ -94,8 +102,7 @@ export default function Register({ navigation }) {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Excess_Logo_White />
           <Excess_Logo_Text style={{ marginLeft: 10 }} />
         </View>
@@ -105,16 +112,14 @@ export default function Register({ navigation }) {
             fontSize: 18,
             textAlign: "center",
             marginTop: 16,
-          }}
-        >
+          }}>
           Good Food, Cheap Prices
         </AppText>
       </View>
 
       <AppText
         weight={"700"}
-        style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}
-      >
+        style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}>
         Sign up
       </AppText>
       <View style={{ marginTop: 32, width: "100%" }}>
@@ -173,8 +178,7 @@ export default function Register({ navigation }) {
       </View>
 
       <View
-        style={{ marginTop: 14, flexDirection: "row", alignItems: "center" }}
-      >
+        style={{ marginTop: 14, flexDirection: "row", alignItems: "center" }}>
         <BouncyCheckbox
           text="I agree to the terms and conditions"
           textStyle={{
@@ -201,12 +205,10 @@ export default function Register({ navigation }) {
       <View style={{ marginTop: 32 }}>
         <TouchableOpacity
           style={[Styles.button, { backgroundColor: "#51C699" }]}
-          onPress={registerHandler}
-        >
+          onPress={registerHandler}>
           <AppText
             weight="600"
-            style={{ fontSize: 16, color: colorStyles["white"] }}
-          >
+            style={{ fontSize: 16, color: colorStyles["white"] }}>
             Sign up
           </AppText>
         </TouchableOpacity>
@@ -217,12 +219,10 @@ export default function Register({ navigation }) {
           marginTop: 16,
           flexDirection: "row",
           justifyContent: "center",
-        }}
-      >
+        }}>
         <AppText
           fontFamily={"Montserrat-SemiBold"}
-          style={{ color: colorStyles[50] }}
-        >
+          style={{ color: colorStyles[50] }}>
           Already made an account?{" "}
         </AppText>
         <AppText
@@ -230,12 +230,11 @@ export default function Register({ navigation }) {
             navigation.navigate("Login");
           }}
           weight="700"
-          style={{ color: colorStyles["excess"] }}
-        >
+          style={{ color: colorStyles["excess"] }}>
           Log in
         </AppText>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 const Styles = StyleSheet.create({
