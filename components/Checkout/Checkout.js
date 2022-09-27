@@ -49,7 +49,8 @@ export default function Checkout({ route, navigation }) {
   // watch for voucher application & update grand total
   useEffect(() => {
     if (route.params?.voucherSelected) {
-      const discount = (price * route.params.voucherSelected.discount) / 100;
+      const discount =
+        (price * route.params.voucherSelected.discount_percentage) / 100;
       setVoucher(discount);
       setGrandTotal(price - discount);
     }
