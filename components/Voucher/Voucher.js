@@ -37,6 +37,15 @@ export default function Voucher({ route, navigation }) {
   const [voucher, setVoucher] = useState(null);
   const [voucherData, setVoucherData] = useState(route?.params?.voucherData);
 
+  const voucherHandler = (id) => {
+    if (voucher?.id === id) {
+      setVoucher(null);
+    } else {
+      setVoucher(voucherData.find((item) => item.id === id));
+    }
+    console.log(voucher);
+  };
+
   const renderVoucher = ({ item }) => {
     const [backgroundColor, color] =
       item.id === voucher?.id ? ["#51C699", "white"] : ["white", "black"];
@@ -45,7 +54,7 @@ export default function Voucher({ route, navigation }) {
       <VoucherContainer
         discount={item.discount_percentage}
         minimumOrder={item.minimum_order}
-        setVoucher={setVoucher}
+        setVoucher={voucherHandler}
         style={{ backgroundColor: backgroundColor, color: color }}
         id={item.id}
       />
