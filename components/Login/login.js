@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // navigation.navigate("Main");
+        navigation.navigate("Main");
       }
     });
   }, []);

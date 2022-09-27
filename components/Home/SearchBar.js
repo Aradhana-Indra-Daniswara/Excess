@@ -33,6 +33,7 @@ export default function SearchBar(props) {
         position: "absolute",
         bottom: -24,
       }}
+      activeOpacity={1}
       onPress={onPress}>
       <Search_icon height={32} width={32} />
       <View pointerEvents="none">
