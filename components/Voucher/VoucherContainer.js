@@ -33,9 +33,9 @@ export default function VoucherContainer({
       style={[
         Styles.centerContainer,
         Styles.voucherContainer,
-        { ...style, borderWidth: style?.color === "black" ?? 0 },
+        { ...style, borderWidth: style?.color === "black" ? 1 : 0 },
       ]}
-      onPress={() => setVoucher({ id, discount, minimumOrder })}
+      onPress={() => setVoucher(id)}
     >
       <AppText weight={"800"} style={{ marginBottom: 8, ...style }}>
         {discount}% Off
