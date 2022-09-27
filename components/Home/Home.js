@@ -127,7 +127,11 @@ export default function Home({ navigation }) {
         height: "100%",
         width: "100%",
       }}>
-      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
+      <StatusBar
+        animated={true}
+        barStyle="dark-content"
+        backgroundColor={"white"}
+      />
 
       {/* Header */}
       <View style={styles.header}>

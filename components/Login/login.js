@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import React, { useState, useEffect } from "react";
 import {
+  KeyboardAvoidingView,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -19,6 +20,7 @@ import Tosca_Blob from "../../assets/tosca_elipse.svg";
 
 // Styling
 import { colorStyles, globalStyles } from "../Styling/GlobalStyles";
+import { StatusBar } from "expo-status-bar";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -71,7 +73,9 @@ const Login = ({ navigation }) => {
   }
 
   return (
-    <View style={{ ...globalStyles.container, position: "relative" }}>
+    <KeyboardAvoidingView
+      behavior="position"
+      style={{ ...globalStyles.container, position: "relative" }}>
       {/* Decorational Blob */}
       <View
         style={{
@@ -176,7 +180,7 @@ const Login = ({ navigation }) => {
           Sign Up
         </AppText>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

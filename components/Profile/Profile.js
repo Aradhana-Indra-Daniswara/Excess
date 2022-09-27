@@ -12,8 +12,10 @@ import AppText from "../AppText";
 import { auth } from "../../config/firebase-config";
 import { signOut } from "firebase/auth";
 import { colorStyles } from "../Styling/GlobalStyles";
+import { getAuth } from "firebase/auth";
 
 export default function Profile() {
+  const user = getAuth().currentUser;
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
     "OpenSauceSans-Regular": require("../../assets/fonts/OpenSauceSans-Regular.ttf"),
@@ -24,6 +26,7 @@ export default function Profile() {
     "OpenSauceSans-Black": require("../../assets/fonts/OpenSauceSans-Black.ttf"),
     "OpenSauceSans-Light": require("../../assets/fonts/OpenSauceSans-Light.ttf"),
   });
+
   if (!fontsLoaded) {
     return null;
   }
@@ -70,21 +73,21 @@ export default function Profile() {
             </AppText>
             <TextInput
               style={styles.textInput}
-              value="Aradhana Satrio Devin"></TextInput>
+              value={user.displayName}></TextInput>
           </View>
           <View style={styles.section}>
             <AppText weight="600" style={{ fontSize: 16 }}>
               Mobile Number
             </AppText>
-            <TextInput style={styles.textInput} value="08123456789"></TextInput>
+            <TextInput
+              style={styles.textInput}
+              value={user.phoneNumber}></TextInput>
           </View>
           <View style={styles.section}>
             <AppText weight="600" style={{ fontSize: 16 }}>
               Email
             </AppText>
-            <TextInput
-              style={styles.textInput}
-              value="aratriodev@gmail.com"></TextInput>
+            <TextInput style={styles.textInput} value={user.email}></TextInput>
           </View>
         </View>
 
