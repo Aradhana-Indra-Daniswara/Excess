@@ -41,8 +41,8 @@ export default function SearchVendor() {
   const filteredVendors = () => {
     return vendors.filter(
       (vendor) =>
-        vendor.name.toLowerCase().includes(filterText) ||
-        vendor.area.toLowerCase().includes(filterText)
+        vendor.name.toLowerCase().includes(filterText.toLowerCase()) ||
+        vendor.area.toLowerCase().includes(filterText.toLowerCase())
     );
   };
   useEffect(() => {
@@ -52,6 +52,7 @@ export default function SearchVendor() {
   if (isLoading) {
     return null;
   }
+
   return (
     <SafeAreaView
       style={{
