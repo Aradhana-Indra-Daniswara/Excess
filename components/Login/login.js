@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // navigation.navigate("Main");
+        navigation.navigate("Main");
       }
     });
   }, []);
@@ -81,7 +81,8 @@ const Login = ({ navigation }) => {
           top: -210,
           left: 0,
           right: 0,
-        }}>
+        }}
+      >
         <Tosca_Blob />
       </View>
       <View style={{ marginTop: 64 }}>
@@ -90,7 +91,8 @@ const Login = ({ navigation }) => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Excess_Logo_White />
           <Excess_Logo_Text style={{ marginLeft: 10 }} />
         </View>
@@ -100,14 +102,16 @@ const Login = ({ navigation }) => {
             fontSize: 18,
             textAlign: "center",
             marginTop: 16,
-          }}>
+          }}
+        >
           Good Food, Cheap Prices
         </AppText>
       </View>
 
       <AppText
         weight={"700"}
-        style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}>
+        style={{ fontSize: 30, color: colorStyles[20], marginTop: 48 }}
+      >
         Login
       </AppText>
       <View style={{ marginTop: 32, width: "100%" }}>
@@ -129,7 +133,8 @@ const Login = ({ navigation }) => {
       <View style={{ marginTop: 14, width: "100%" }}>
         <AppText
           weight={"500"}
-          style={{ fontSize: 16, color: colorStyles[20] }}>
+          style={{ fontSize: 16, color: colorStyles[20] }}
+        >
           Password
         </AppText>
         <TextInput
@@ -147,10 +152,12 @@ const Login = ({ navigation }) => {
       <View style={{ marginTop: 32 }}>
         <TouchableOpacity
           style={[Styles.button, { backgroundColor: "#51C699" }]}
-          onPress={loginHandler}>
+          onPress={loginHandler}
+        >
           <AppText
             weight="600"
-            style={{ fontSize: 16, color: colorStyles["white"] }}>
+            style={{ fontSize: 16, color: colorStyles["white"] }}
+          >
             Login
           </AppText>
         </TouchableOpacity>
@@ -161,10 +168,12 @@ const Login = ({ navigation }) => {
           marginTop: 16,
           flexDirection: "row",
           justifyContent: "center",
-        }}>
+        }}
+      >
         <AppText
           fontFamily={"Montserrat-SemiBold"}
-          style={{ color: colorStyles[50] }}>
+          style={{ color: colorStyles[50] }}
+        >
           Don't have an account?{" "}
         </AppText>
         <AppText
@@ -172,7 +181,8 @@ const Login = ({ navigation }) => {
             navigation.navigate("Register");
           }}
           weight="700"
-          style={{ color: colorStyles["excess"] }}>
+          style={{ color: colorStyles["excess"] }}
+        >
           Sign Up
         </AppText>
       </View>

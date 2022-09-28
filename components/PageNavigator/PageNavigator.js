@@ -39,15 +39,16 @@ export default function PageNavigator() {
         //     <AntDesign name="left" size={24} color="black" />
         //   </Pressable>
         // )
-      }}>
+      }}
+    >
       <Stack.Group>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{
             headerShown: false,
           }}
-        /> 
+        />
         <Stack.Screen
           name="Register"
           component={Register}
@@ -68,9 +69,9 @@ export default function PageNavigator() {
           name="SearchVendor"
           component={SearchVendor}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
-        /> */}
+        />
         <Stack.Screen
           name="Cart"
           component={Cart}

@@ -48,19 +48,19 @@ export default function MainNavigator() {
         },
         headerShown: false,
         // Navbar Styling
-        tabBarActiveTintColor: '#59D9A8',
-        tabBarInactiveTintColor: 'grey',
+        tabBarActiveTintColor: "#59D9A8",
+        tabBarInactiveTintColor: "grey",
         tabBarLabelStyle: {
-          fontFamily: 'OpenSauceSans-Regular',
+          fontFamily: "OpenSauceSans-Regular",
         },
-        tabBarStyle:{
+        tabBarStyle: {
           height: 60,
         },
-        tabBarItemStyle:{
+        tabBarItemStyle: {
           padding: 5,
         },
         tabBarActiveTintColor: "#59D9A8",
-        tabBarInactiveTintColor: colorStyles[50]
+        tabBarInactiveTintColor: colorStyles[50],
       })}
     >
       {/* Navbar Selections */}
