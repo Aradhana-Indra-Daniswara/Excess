@@ -65,27 +65,8 @@ export default function MainNavigator() {
     >
       {/* Navbar Selections */}
       <Tab.Screen name={homeName} component={Home} />
-      <Tab.Screen
-        name={activityName}
-        component={Activity}
-        options={{
-          headerShown: true,
-          headerTitleContainerStyle: {},
-          headerTitleStyle: {
-            fontFamily: "OpenSauceSans-Medium",
-          },
-        }}
-      />
-      <Tab.Screen
-        name={profileName}
-        component={Profile}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {
-            fontFamily: "OpenSauceSans-Medium",
-          },
-        }}
-      />
+      <Tab.Screen name={activityName} component={Activity} />
+      <Tab.Screen name={profileName} component={Profile} />
     </Tab.Navigator>
   );
 }

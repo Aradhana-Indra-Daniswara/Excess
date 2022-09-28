@@ -32,8 +32,7 @@ export default function AppText({ children, style, weight, onPress }) {
         style={{
           fontFamily: weight ? weightFont[weight] : weightFont[400],
           ...style,
-        }}
-      >
+        }}>
         {children}
       </Text>
     );
@@ -44,8 +43,7 @@ export default function AppText({ children, style, weight, onPress }) {
       style={{
         fontFamily: weight ? weightFont[weight] : weightFont[400],
         ...style,
-      }}
-    >
+      }}>
       {children}
     </Text>
   );
