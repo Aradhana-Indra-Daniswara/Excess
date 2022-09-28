@@ -24,6 +24,7 @@ export default function SearchVendor() {
   const placeholder = "Cheap Snack?";
   const [isLoading, setIsLoading] = useState(true);
   const [vendors, setVendors] = useState();
+  const [filterText, setFilterText] = useState();
   const fetchVendorList = async () => {
     try {
       const vendorQuery = await getDocs(collection(firestore, "vendors"));
@@ -37,7 +38,13 @@ export default function SearchVendor() {
       console.log(error.message);
     }
   };
-
+  const filteredVendors = () => {
+    return vendors.filter(
+      (vendor) =>
+        vendor.name.toLowerCase().includes(filterText) ||
+        vendor.area.toLowerCase().includes(filterText)
+    );
+  };
   useEffect(() => {
     fetchVendorList();
   }, []);
@@ -89,6 +96,7 @@ export default function SearchVendor() {
                 fontFamily: "OpenSauceSans-Regular",
                 marginLeft: 10,
               }}
+              onChange={({ nativeEvent }) => setFilterText(nativeEvent.text)}
               placeholder={placeholder}
             />
           </View>
@@ -97,7 +105,7 @@ export default function SearchVendor() {
       </View>
 
       <FlatList
-        data={vendors}
+        data={filterText ? filteredVendors() : vendors}
         keyExtractor={(item) => item.id}
         renderItem={(vendor) => <VendorList vendor={vendor.item} />}
       />
