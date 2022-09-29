@@ -3,7 +3,6 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -37,13 +36,13 @@ export default function Voucher({ route, navigation }) {
   const [voucher, setVoucher] = useState(null);
   const [voucherData, setVoucherData] = useState(route?.params?.voucherData);
 
+  // Handles selecting and un-selecting the vouchers
   const voucherHandler = (id) => {
     if (voucher?.id === id) {
       setVoucher(null);
     } else {
       setVoucher(voucherData.find((item) => item.id === id));
     }
-    console.log(voucher);
   };
 
   const renderVoucher = ({ item }) => {
@@ -55,8 +54,9 @@ export default function Voucher({ route, navigation }) {
         discount={item.discount_percentage}
         minimumOrder={item.minimum_order}
         setVoucher={voucherHandler}
-        style={{ backgroundColor: backgroundColor, color: color }}
         id={item.id}
+        total={route.params.total}
+        isSelected={item.id === voucher?.id}
       />
     );
   };

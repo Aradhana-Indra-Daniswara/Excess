@@ -26,27 +26,39 @@ export default function VoucherContainer({
   discount,
   minimumOrder,
   setVoucher,
-  style,
+  total,
+  isSelected,
 }) {
+  const styles = { color: isSelected ? "white" : "black" };
+
   return (
     <TouchableOpacity
       style={[
         Styles.centerContainer,
         Styles.voucherContainer,
-        { ...style, borderWidth: style?.color === "black" ? 1 : 0 },
+        {
+          borderWidth: isSelected ? 0 : 1,
+          // spaghetti solution
+          backgroundColor: isSelected
+            ? "#51C699"
+            : total < minimumOrder
+            ? "grey"
+            : "white",
+        },
       ]}
       onPress={() => setVoucher(id)}
+      disabled={total < minimumOrder}
     >
-      <AppText weight={"800"} style={{ marginBottom: 8, ...style }}>
+      <AppText weight={"800"} style={{ marginBottom: 8, ...styles }}>
         {discount}% Off
       </AppText>
       {minimumOrder === 0 && (
-        <AppText weight={"600"} style={{ fontSize: 15, ...style }}>
+        <AppText weight={"600"} style={{ fontSize: 15, ...styles }}>
           No minimum order
         </AppText>
       )}
       {minimumOrder !== 0 && (
-        <AppText weight={"600"} style={{ fontSize: 15, ...style }}>
+        <AppText weight={"600"} style={{ fontSize: 15, ...styles }}>
           Min. Order {formatCurrency(minimumOrder)}
         </AppText>
       )}
