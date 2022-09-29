@@ -7,6 +7,7 @@ import Profile from "./Profile/Profile";
 import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
 import { colorStyles } from "./Styling/GlobalStyles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +17,9 @@ const activityName = "Activity";
 const profileName = "Profile";
 
 export default function MainNavigator() {
+  // use inset to account for the extra space at the botoom
+  const insets = useSafeAreaInsets();
+
   const [fontsLoaded] = useFonts({
     "OpenSauceSans-Regular": require("../assets/fonts/OpenSauceSans-Regular.ttf"),
     "OpenSauceSans-Medium": require("../assets/fonts/OpenSauceSans-Medium.ttf"),
@@ -54,7 +58,7 @@ export default function MainNavigator() {
           fontFamily: "OpenSauceSans-Regular",
         },
         tabBarStyle: {
-          height: 60,
+          height: 60 + insets.bottom,
         },
         tabBarItemStyle: {
           padding: 5,
