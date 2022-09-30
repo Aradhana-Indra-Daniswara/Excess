@@ -1,32 +1,73 @@
 import React, { useEffect, useState } from "react";
 import AppText from "../AppText";
+import NormalProductCard from "./NormalProductCard";
+import MainProductCard from "./MainProductCard";
+import { firestore, storage } from "../../config/firebase-config";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import {
   Text,
   View,
   StyleSheet,
   Image,
-  Button,
-  TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  Platform,
+  FlatList,
 } from "react-native";
 const onPress = () => {};
 const Vendorpage = () => {
   const [data, setData] = useState(null);
+  const [products, setProducts] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [mainProducts, setMainProducts] = useState([
+    // { name: "Pie 1", price: "15000" },
+    // { name: "Pie 2", price: "16000" },
+    // { name: "Pie 3", price: "17000" },
+    // { name: "Pie 4", price: "18000" },
+  ]);
+  const [type, SetType] = useState(null);
+  const [normalProduct, setNormalProduct] = useState([
+    // { name: "Pie 1", price: "15000" },
+    // { name: "Pie 2", price: "16000" },
+    // { name: "Pie 3", price: "17000" },
+    // { name: "Pie 4", price: "19000" },
+    // { name: "Pie 6", price: "20000" },
+    // { name: "Pie 7", price: "21000" },
+    // { name: "Pie 8", price: "22000" },
+  ]);
+  const [namevendor, SetNameVendor] = useState(null);
   const getdata = async () => {
-    const url =
-      Platform.OS === "ios"
-        ? "http://localhost:3000/vendors"
-        : "http://10.0.2.2:3000/vendors";
+    //sppecified document
+
+    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
     try {
-      const repsonse = await fetch(url);
-      const JSONResponse = await repsonse.json();
-      setData(JSONResponse);
-      setIsLoading(false);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log(docSnap.data());
+        setData(docSnap.data());
+        SetType(docSnap.data().type);
+        SetNameVendor(docSnap.data().name);
+        const data2 = docSnap.data().products;
+        const dataimage = [];
+        for (const product of data2) {
+          const url = await getDownloadURL(ref(storage, product.uri));
+          dataimage.push({
+            ...product,
+            imageUrl: url,
+          });
+          console.log(dataimage);
+        }
+        setIsLoading(false);
+        setProducts(dataimage);
+        setMainProducts(products.slice(0, 4));
+
+        for (let i = 0; i < 4; i++) {
+          products.shift();
+        }
+        setNormalProduct(products);
+      }
     } catch (e) {
-      console.warn(e);
+      console.log(e.message);
     }
   };
   useEffect(() => {
@@ -36,29 +77,33 @@ const Vendorpage = () => {
     return null;
   }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View>
-          <Text
+        <View style={{ marginLeft: 40 }}>
+          <AppText
+            weight="900"
             style={{
               color: "black",
               fontWeight: "800",
               display: "flex",
               fontSize: 20,
-            }}>
-            {data.vendor_name}
-          </Text>
-          <View>
-            <Text></Text>
-          </View>
-          <Text
+            }}
+          >
+            {namevendor}
+          </AppText>
+
+          <AppText
+            fontFamily={"OpenSauceSans-Bold"}
             style={{
-              width: 120,
+              width: 200,
               height: 100,
-              marginTop: -20,
-            }}>
-            {data.vendor_cuisine_type}
-          </Text>
+              // marginTop: 10,
+              marginRight: 40,
+              fontSize: 12,
+            }}
+          >
+            {type}
+          </AppText>
         </View>
         <View style={styles.box}>
           <Image
@@ -79,7 +124,8 @@ const Vendorpage = () => {
               justifyContent: "center",
               alignSelf: "center",
               // marginTop : 30,
-            }}>
+            }}
+          >
             Delivered in 10 minutes
           </Text>
         </View>
@@ -93,286 +139,62 @@ const Vendorpage = () => {
               fontWeight: "600",
               lineHeight: 19.5,
               marginBottom: 11,
-            }}>
+            }}
+          >
             Running Out
           </Text>
         </View>
-        <ScrollView>
-          <View style={styles.flexbox}>
-            <View style={[styles.rectangle, styles.rec1]}>
-              <Image
-                style={styles.imgdummy}
-                source={require("../../assets/dummyfooddata.png")}
-                // source={{ uri: 'http://10.0.2.2:3000/product_images/pretzels.png' }}
+        <View style={styles.flexbox}>
+          <FlatList
+            numColumns={2}
+            // horizontal={true}
+            // data={mainProducts}
+            // products
+            data={mainProducts}
+            renderItem={({ item }) => (
+              <MainProductCard
+                productName={item.name}
+                productPrice={item.price}
+                imageuri={item.imageUrl}
               />
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textvendor}>
-                Pie
-              </AppText>
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textprice}>
-                Rp.15.000,00
-              </AppText>
-              <View style={styles.btn}>
-                {/* <Button
-                title="Add"
-                color='#51C699'
-                /> */}
-                <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                  <AppText fontFamily={"Montserrat-Bold"} style={styles.txtadd}>
-                    Add
-                  </AppText>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={[styles.rectangle, styles.rec2]}>
-              <Image
-                style={styles.imgdummy}
-                source={{
-                  uri: "http://10.0.2.2:3000/product_images/macaron.png",
+            )}
+          />
+        </View>
+        <View styles={styles.flex2}>
+          <FlatList
+            ItemSeparatorComponent={() => (
+              <View
+                style={{
+                  marginTop: 20,
+                  width: 320,
+                  // marginRight: 40,
+                  height: 2,
+                  alignSelf: "center",
+                  backgroundColor: "black",
+                  opacity: 0.2,
+                  marginBottom: 10,
                 }}
-              />
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textvendor}>
-                Macaron
-              </AppText>
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textprice}>
-                Rp.32.000,00
-              </AppText>
-              <View style={styles.btn}>
-                <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                  <AppText fontFamily={"Montserrat-Bold"} style={styles.txtadd}>
-                    Add
-                  </AppText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.flexbox, styles.flx2]}>
-            <View style={[styles.rectangle, styles.rec1]}>
-              <Image
-                style={styles.imgdummy}
-                source={{
-                  uri: "http://10.0.2.2:3000/product_images/eclairs.png",
-                }}
-              />
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textvendor}>
-                Eclairs
-              </AppText>
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textprice}>
-                Rp.23.000,00
-              </AppText>
-              <View style={styles.btn}>
-                <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                  <Text style={styles.txtadd}>Add</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={[styles.rectangle, styles.rec2]}>
-              <Image
-                style={styles.imgdummy}
-                source={{
-                  uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                }}
-              />
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textvendor}>
-                Pretzels
-              </AppText>
-              <AppText fontFamily={"Montserrat-Bold"} style={styles.textprice}>
-                Rp.42.000,00
-              </AppText>
-              <View style={styles.btn}>
-                <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                  <AppText fontFamily={"Montserrat-Bold"} style={styles.txtadd}>
-                    Add
-                  </AppText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.linee}></View>
-          <View>
-            <View style={styles.cotainerkecil}>
-              <View style={styles.kotakkirii}>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.Pretzelstxt}>
-                  Pretzels
-                </AppText>
-                <AppText
-                  fontFamily={"Montserrat-Bold"}
-                  style={styles.hargakecil}>
-                  Rp. 42000
-                </AppText>
-                <View style={styles.btn}>
-                  <TouchableOpacity onPress={onPress} style={styles.rnd}>
-                    <Text style={styles.txtadd}>Add</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.kotakkanan}>
-                <Image
-                  style={[styles.imgdummy, styles.imgg]}
-                  source={{
-                    uri: "http://10.0.2.2:3000/product_images/pretzels.png",
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+              ></View>
+            )}
+            data={normalProduct}
+            renderItem={({ item }) => <NormalProductCard product={item} />}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
+  // flex2:{
+  //     marginLeft:20,
+  // },
+  flex2: {},
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    // alignItems: 'center',
+    marginTop: 50,
+  },
   imgg: {
     marginTop: 10,
     marginBottom: 10,
@@ -394,28 +216,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#C4C4C4",
   },
   Pretzelstxt: {
-    // fontWeight :'2   00',
     width: 65,
     height: 20,
     marginBottom: 5,
-
     fontSize: 16,
-    // fontWeight:600,
   },
   txtadd: {
-    // alignContent :'center',
-    // alignContent : 'center',
     marginTop: 8,
     color: "white",
     alignSelf: "center",
     lineHeight: 18,
     fontSize: 15,
-    // fontWeight:'600',
   },
   rnd: {
     marginTop: 5,
     backgroundColor: "#51C699",
-    // padding: 20,
     width: 80,
     height: 31,
     borderRadius: 14,
@@ -433,12 +248,12 @@ const styles = StyleSheet.create({
     marginTop: -56,
     borderColor: "#51C699",
     alignSelf: "center",
-    // justifyContent : 'center',
-    // alignItems : 'center',
-    // margin :'auto',
   },
   flexbox: {
     flex: 1,
+    marginLeft: 40,
+    // alignSelf:'center',
+    // justifyContent:'center',
     flexDirection: "row",
   },
   rectangle: {
@@ -454,14 +269,9 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   rec1: {
-    // marginLeft:20,
     marginRight: 34,
-    // marginBottom:50,
   },
-  rec2: {
-    // marginLeft:15,
-    // marginRight:38,
-  },
+  rec2: {},
   imgdummy: {
     borderRadius: 14,
     width: 135,
@@ -483,26 +293,12 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 15,
   },
-  // buttonadd:{
-  //     width:82,
-  //     height:31,
-  //     color:'#51C699',
-
-  // },
   btn: {
     width: 82,
     height: 31,
     alignSelf: "center",
     borderRadius: 14,
-    // marginRight: 40,
-    //   marginLeft: 40,
-    //   marginTop: 10,
-    //   paddingTop: 20,
-    //   paddingBottom: 20,
-    //   backgroundColor: '#68a0cf',
     borderRadius: 20,
-    //   borderWidth: 1,
-    //   borderColor: '#fff',
   },
 });
 
