@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Image, View } from "react-native";
+import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native";
 import { firestore, storage } from "../../config/firebase-config";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { collection, doc, getDoc } from "firebase/firestore";
 import AppText from "../AppText";
 import { colorStyles } from "../Styling/GlobalStyles";
 import Star_icon from "../../assets/star_icon.svg";
+import { useNavigation } from "@react-navigation/native";
 
 export default function VendorList({ vendor }) {
+  const navigation = useNavigation();
   const [promoAmount, setPromoAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [vendorIconURI, setVendorIconURI] = useState();
@@ -47,6 +49,13 @@ export default function VendorList({ vendor }) {
     await fetchVendorImage();
     setIsLoading(false);
   };
+
+  const directToVendorPage = () => {
+    navigation.navigate("vendorPage", {
+      vendor,
+      vendorIconURI,
+    });
+  };
   useEffect(() => {
     loadVendorData();
   }, []);
@@ -60,12 +69,13 @@ export default function VendorList({ vendor }) {
   }
 
   return (
-    <View
+    <TouchableOpacity
       style={{
         flexDirection: "row",
         marginVertical: 4,
         marginHorizontal: 16,
-      }}>
+      }}
+      onPress={directToVendorPage}>
       <Image
         source={{ uri: vendorIconURI }}
         style={{ width: 90, height: 90, marginRight: 8 }}
@@ -105,6 +115,6 @@ export default function VendorList({ vendor }) {
           </AppText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

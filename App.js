@@ -3,5 +3,9 @@ import React from "react";
 import PageNavigator from "./components/PageNavigator";
 import Vendorpage from "./components/vendorpage/vendorpage";
 export default function App() {
-  return <Vendorpage />;
+  return (
+    <NavigationContainer>
+      <PageNavigator />
+    </NavigationContainer>
+  );
 }
