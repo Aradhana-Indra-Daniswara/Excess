@@ -74,12 +74,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowRadius: 3,
     elevation: 5,
-    marginBottom: 60,
+    // marginBottom: 60,
   },
   rec1: {
     // marginLeft:20,
-    marginRight: 34,
+    // marginRight: 34,
     // marginBottom:50,
+    margin: 10,
   },
   imgdummy: {
     borderRadius: 14,
