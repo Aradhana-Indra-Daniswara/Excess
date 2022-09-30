@@ -6,10 +6,8 @@ import { firestore, storage } from "../../config/firebase-config";
 import { ref, getDownloadURL } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import {
-  Text,
   View,
   StyleSheet,
-  Image,
   ScrollView,
   SafeAreaView,
   FlatList,
@@ -20,7 +18,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    marginTop: 50,
   },
   imgg: {
     marginTop: 10,
@@ -127,7 +124,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const onPress = () => {};
 const Vendorpage = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -185,85 +181,20 @@ const Vendorpage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ScrollView> */}
-
-      {/* Vendor Info */}
-      <View style={{ marginLeft: 40 }}>
-        <AppText
-          weight="900"
-          style={{
-            color: "black",
-            fontWeight: "800",
-            display: "flex",
-            fontSize: 20,
-          }}
-        >
-          {namevendor}
-        </AppText>
-
-        <AppText
-          fontFamily={"OpenSauceSans-Bold"}
-          style={{
-            width: 200,
-            height: 100,
-            marginRight: 40,
-            fontSize: 12,
-          }}
-        >
-          {type}
-        </AppText>
-      </View>
-
-      {/* x minutes */}
-      <View style={styles.box}>
-        <Image
-          style={{
-            width: 40,
-            height: 40,
-            marginLeft: 20,
-            marginRight: 17,
-            marginTop: 10,
-          }}
-          source={require("../../assets/fast-delivery-1.png")}
-        />
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "600",
-            alignItems: "center",
-            justifyContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          Delivered in 10 minutes
-        </Text>
-      </View>
-
-      {/* Main Products */}
       <ScrollView
-        style={{ width: "100%" }}
         contentContainerStyle={{
           display: "flex",
           alignItems: "center",
+          marginTop: 20,
         }}
       >
-        {/* Running Out */}
-        <View>
-          <Text
-            style={{
-              marginTop: 20,
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 16,
-              fontWeight: "600",
-              lineHeight: 19.5,
-              marginBottom: 11,
-            }}
-          >
-            Running Out
-          </Text>
-        </View>
-        <View style={{ alignItems: "center", width: "100%" }}>
+        <View
+          style={{
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {/* Main Products */}
           <FlatList
             numColumns={2}
             data={mainProducts}
@@ -278,14 +209,20 @@ const Vendorpage = () => {
             style={{
               marginBottom: 30,
             }}
+            ListHeaderComponent={() => (
+              <AppText fontWeight="700" style={{ fontSize: 18 }}>
+                Running Out
+              </AppText>
+            )}
           />
+
+          {/* Normal Products */}
           <FlatList
             ItemSeparatorComponent={() => (
               <View
                 style={{
                   marginTop: 20,
                   width: 320,
-                  // marginRight: 40,
                   height: 2,
                   alignSelf: "center",
                   backgroundColor: "black",
@@ -300,11 +237,6 @@ const Vendorpage = () => {
           />
         </View>
       </ScrollView>
-
-      {/* Normal Productss */}
-      {/* <View styles={styles.flex2}> */}
-      {/* </View> */}
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
