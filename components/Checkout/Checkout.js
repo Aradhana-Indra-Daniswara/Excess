@@ -64,6 +64,9 @@ export default function Checkout({ route, navigation }) {
         querySnapshot.forEach((doc) => {
           filteredData.push({ id: doc.id, ...doc.data() });
         });
+        filteredData.sort((a, b) =>
+          a.minimum_order > b.minimum_order ? 1 : -1
+        );
         setVoucherData(filteredData);
       } catch (e) {
         console.warn(e);
@@ -158,6 +161,7 @@ export default function Checkout({ route, navigation }) {
           onPress={() =>
             navigation.navigate("Voucher", {
               voucherData,
+              total: price,
             })
           }
         >

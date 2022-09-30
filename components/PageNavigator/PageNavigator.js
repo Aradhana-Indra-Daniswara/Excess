@@ -39,7 +39,8 @@ export default function PageNavigator() {
         //     <AntDesign name="left" size={24} color="black" />
         //   </Pressable>
         // )
-      }}>
+      }}
+    >
       <Stack.Group>
         <Stack.Screen
           name="Login"

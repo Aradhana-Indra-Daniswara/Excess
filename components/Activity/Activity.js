@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  SafeAreaView,
 } from "react-native";
 import ActivityList from "./ActivityList";
 import AppText from "../AppText";
@@ -16,11 +17,12 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Activity() {
   return (
-    <View
+    <SafeAreaView
       style={{
         height: "100%",
         backgroundColor: "white",
-      }}>
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -29,7 +31,8 @@ export default function Activity() {
           paddingHorizontal: 16,
           justifyContent: "flex-start",
           alignItems: "center",
-        }}>
+        }}
+      >
         <AppText style={{ color: colorStyles[20], fontSize: 28 }} weight="700">
           Activity
         </AppText>
@@ -40,17 +43,20 @@ export default function Activity() {
           fontSize: 16,
           backgroundColor: "white",
           paddingHorizontal: 16,
-        }}>
+        }}
+      >
         <View
           style={{
             marginBottom: 32,
-          }}>
+          }}
+        >
           <AppText
             weight="600"
             style={{
               marginBottom: 16,
               fontSize: 16,
-            }}>
+            }}
+          >
             Ongoing
           </AppText>
           <ActivityList
@@ -63,13 +69,15 @@ export default function Activity() {
         <View
           style={{
             marginBottom: 32,
-          }}>
+          }}
+        >
           <AppText
             weight="600"
             style={{
               marginBottom: 16,
               fontSize: 16,
-            }}>
+            }}
+          >
             Recently Ordered
           </AppText>
           <ActivityList
@@ -80,7 +88,7 @@ export default function Activity() {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

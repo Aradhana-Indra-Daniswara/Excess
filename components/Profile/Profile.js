@@ -46,7 +46,8 @@ export default function Profile() {
         backgroundColor: "white",
         height: "100%",
         paddingBottom: 100,
-      }}>
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -55,7 +56,8 @@ export default function Profile() {
           paddingHorizontal: 16,
           justifyContent: "flex-start",
           alignItems: "center",
-        }}>
+        }}
+      >
         <AppText style={{ color: colorStyles[20], fontSize: 28 }} weight="700">
           Profile
         </AppText>
@@ -65,7 +67,8 @@ export default function Profile() {
           justifyContent: "space-between",
           height: "100%",
           // paddingBottom: 100,
-        }}>
+        }}
+      >
         <View>
           <View style={styles.section}>
             <AppText weight="600" style={{ fontSize: 16 }}>
@@ -73,7 +76,8 @@ export default function Profile() {
             </AppText>
             <TextInput
               style={styles.textInput}
-              value={user.displayName}></TextInput>
+              value={user.displayName}
+            ></TextInput>
           </View>
           <View style={styles.section}>
             <AppText weight="600" style={{ fontSize: 16 }}>
@@ -81,7 +85,8 @@ export default function Profile() {
             </AppText>
             <TextInput
               style={styles.textInput}
-              value={user.phoneNumber}></TextInput>
+              value={user.phoneNumber}
+            ></TextInput>
           </View>
           <View style={styles.section}>
             <AppText weight="600" style={{ fontSize: 16 }}>
@@ -100,11 +105,13 @@ export default function Profile() {
             borderColor: "#BF4040",
             borderRadius: 5,
           }}
-          onPress={handleSignOut}>
+          onPress={handleSignOut}
+        >
           <AppText
             style={{
               color: "#BF4040",
-            }}>
+            }}
+          >
             Log Out
           </AppText>
         </TouchableOpacity>
