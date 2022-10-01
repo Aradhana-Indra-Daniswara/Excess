@@ -66,7 +66,7 @@ export default function Profile() {
         style={{
           justifyContent: "space-between",
           height: "100%",
-          // paddingBottom: 100,
+          paddingBottom: 100,
         }}
       >
         <View>
