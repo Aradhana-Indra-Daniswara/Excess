@@ -13,11 +13,14 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import CartButton from "./CartButton";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    display: "flex",
     backgroundColor: "#fff",
+    alignItems: "center",
   },
   imgg: {
     marginTop: 10,
@@ -124,56 +127,82 @@ const styles = StyleSheet.create({
   },
 });
 
-const Vendorpage = () => {
-  const [data, setData] = useState(null);
+const Vendorpage = ({ navigation }) => {
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mainProducts, setMainProducts] = useState([]);
-  const [type, SetType] = useState(null);
-  const [normalProduct, setNormalProduct] = useState([]);
-  const [namevendor, SetNameVendor] = useState(null);
+  const [cart, setCart] = useState([]);
 
-  // get vendor's items
-  const getdata = async () => {
-    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setData(docSnap.data());
-        SetType(docSnap.data().type);
-        SetNameVendor(docSnap.data().name);
+  // get vendor's data on mount
+  useEffect(() => {
+    const getVendordata = async () => {
+      try {
+        const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
+        const docSnap = await getDoc(docRef);
 
-        // get url for product images
-        const products = docSnap.data().products;
-        const dataimage = [];
+        if (docSnap.exists()) {
+          setData(docSnap.data());
 
-        for (const product of products) {
-          const url = await getDownloadURL(ref(storage, product.uri));
-          dataimage.push({
-            ...product,
-            imageUrl: url,
-          });
+          // get url for product images
+          const products = docSnap.data().products;
+          const finalData = [];
+
+          for (const product of products) {
+            const url = await getDownloadURL(ref(storage, product.uri));
+            finalData.push({
+              ...product,
+              imageUrl: url,
+            });
+          }
+
+          // finalize data
+          setData(finalData);
         }
-
-        // set main and normal products
-        setMainProducts(dataimage.slice(0, 4));
-
-        for (let i = 0; i < 4; i++) {
-          dataimage.shift();
-        }
-
-        setNormalProduct(dataimage);
+      } catch (e) {
+        console.warn(e.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      console.warn(e.message);
-    } finally {
-      setIsLoading(false);
+    };
+
+    getVendordata();
+  }, []);
+
+  const navigationHandler = () => {
+    navigation.navigate("Cart", {
+      items: cart,
+    });
+  };
+
+  // Will only count item once. enaknya gimana?
+  const cartHandler = (item) => {
+    if (!cart.find((product) => product.id === item.id)) {
+      setCart([...cart, { ...item, qty: 1 }]);
     }
   };
 
-  // get vendor's data
-  useEffect(() => {
-    getdata();
-  }, []);
+  const renderMainProducts = ({ item }) => {
+    return <MainProductCard item={item} cartHandler={cartHandler} />;
+  };
+
+  const renderNormalProducts = ({ item }) => {
+    return <NormalProductCard item={item} cartHandler={cartHandler} />;
+  };
+
+  const renderItemSeparatorComponent = () => {
+    return (
+      <View
+        style={{
+          marginTop: 20,
+          width: 300,
+          height: 2,
+          alignSelf: "center",
+          backgroundColor: "black",
+          opacity: 0.2,
+          marginBottom: 10,
+        }}
+      ></View>
+    );
+  };
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -187,6 +216,7 @@ const Vendorpage = () => {
           alignItems: "center",
           marginTop: 20,
         }}
+        showsVerticalScrollIndicator={false}
       >
         <View
           style={{
@@ -196,16 +226,9 @@ const Vendorpage = () => {
         >
           {/* Main Products */}
           <FlatList
-            numColumns={2}
-            data={mainProducts}
-            renderItem={({ item }) => (
-              <MainProductCard
-                productName={item.name}
-                productPrice={item.price}
-                imageuri={item.imageUrl}
-              />
-            )}
-            scrollEnabled={false}
+            data={data.slice(0, 4)}
+            renderItem={renderMainProducts}
+            keyExtractor={(item) => item.id}
             style={{
               marginBottom: 30,
             }}
@@ -214,29 +237,30 @@ const Vendorpage = () => {
                 Running Out
               </AppText>
             )}
+            numColumns={2}
+            scrollEnabled={false}
           />
 
           {/* Normal Products */}
           <FlatList
-            ItemSeparatorComponent={() => (
-              <View
-                style={{
-                  marginTop: 20,
-                  width: 320,
-                  height: 2,
-                  alignSelf: "center",
-                  backgroundColor: "black",
-                  opacity: 0.2,
-                  marginBottom: 10,
-                }}
-              ></View>
+            data={data.slice(4, data.length)}
+            renderItem={renderNormalProducts}
+            ItemSeparatorComponent={renderItemSeparatorComponent}
+            ListFooterComponent={() => (
+              <View style={{ marginBottom: 20 }}></View>
             )}
-            data={normalProduct}
-            renderItem={({ item }) => <NormalProductCard product={item} />}
             scrollEnabled={false}
           />
         </View>
       </ScrollView>
+
+      {/* BUG: viewnya jadi ke-cut pas muncul?? */}
+      {cart.length !== 0 && (
+        <CartButton
+          itemCount={cart.length}
+          navigationHandler={navigationHandler}
+        />
+      )}
     </SafeAreaView>
   );
 };

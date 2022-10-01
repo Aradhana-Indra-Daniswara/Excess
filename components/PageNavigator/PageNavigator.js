@@ -10,6 +10,7 @@ import { useFonts } from "expo-font";
 // import { AntDesign } from "@expo/vector-icons";
 // import { Pressable } from "react-native";
 import SearchVendor from "../SearchVendor/SearchVendor";
+import Vendorpage from "../vendorpage/vendorpage";
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator();
@@ -49,6 +50,7 @@ export default function PageNavigator() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name="Register"
           component={Register}
@@ -56,6 +58,7 @@ export default function PageNavigator() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name="Main"
           component={MainNavigator}
@@ -65,6 +68,7 @@ export default function PageNavigator() {
             },
           }}
         />
+
         <Stack.Screen
           name="SearchVendor"
           component={SearchVendor}
@@ -72,11 +76,25 @@ export default function PageNavigator() {
             headerShown: false,
           }}
         />
+
+        <Stack.Screen
+          name="Vendor"
+          component={Vendorpage}
+          options={({ route }) => ({
+            // configure param component
+            // https://reactnavigation.org/docs/headers/#setting-the-header-title
+            title: route?.params?.vendor || "get title from route",
+            headerShown: true,
+            headerBackButtonMenuEnabled: true,
+          })}
+        />
+
         <Stack.Screen
           name="Cart"
           component={Cart}
           options={{
             headerShown: true,
+            headerBackTitle: "Vendor",
           }}
         />
 

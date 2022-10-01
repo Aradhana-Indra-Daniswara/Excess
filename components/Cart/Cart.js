@@ -48,52 +48,9 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default function Cart({ navigation }) {
+export default function Cart({ route, navigation }) {
   // ini jadiin props dikasih dari vendorpage?
-  const [ORDER_ITEMS, setORDER_ITEMS] = useState([
-    {
-      vendor_id: 1,
-      product_id: 1,
-      product_name: "Product 1",
-      price: 30000,
-      qty: 1,
-    },
-    {
-      vendor_id: 1,
-      product_id: 2,
-      product_name: "Product 2",
-      price: 40000,
-      qty: 1,
-    },
-    {
-      vendor_id: 1,
-      product_id: 3,
-      product_name: "Product 3",
-      price: 50000,
-      qty: 1,
-    },
-    {
-      vendor_id: 1,
-      product_id: 4,
-      product_name: "Product 4",
-      price: 60000,
-      qty: 1,
-    },
-    {
-      vendor_id: 1,
-      product_id: 5,
-      product_name: "Product 5",
-      price: 60000,
-      qty: 1,
-    },
-    {
-      vendor_id: 1,
-      product_id: 6,
-      product_name: "Product 6",
-      price: 60000,
-      qty: 1,
-    },
-  ]);
+  const [ORDER_ITEMS, setORDER_ITEMS] = useState(route?.params?.items);
 
   // ini juga jadiin props, jadiin satu aja sama ORDER_ITEMS(?)
   const VENDOR_DETAILS = {
@@ -119,7 +76,7 @@ export default function Cart({ navigation }) {
     const filteredItem = [];
 
     ORDER_ITEMS.forEach((item) => {
-      if (item.product_id === id) {
+      if (item.id === id) {
         setTotal(total - item.price * item.qty);
       } else {
         filteredItem.push(item);
@@ -141,7 +98,7 @@ export default function Cart({ navigation }) {
 
     // search for item, push any other item directly to filteredItem
     ORDER_ITEMS.forEach((product) => {
-      if (product.product_id === id) {
+      if (product.id === id) {
         product.qty = qty;
       }
 
@@ -201,7 +158,7 @@ export default function Cart({ navigation }) {
           // borderWidth: 1,
           maxHeight: "70%",
         }}
-        keyExtractor={({ product_id }) => product_id}
+        keyExtractor={({ id }) => id}
       />
 
       {/* Footer */}

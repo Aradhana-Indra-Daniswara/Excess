@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   addButton: {
-    marginTop: 5,
+    marginTop: 15,
     width: 82,
     height: 31,
     alignItems: "center",
@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     width: 137,
-    height: 210,
+    height: 230,
     backgroundColor: "#F9F9F9",
     borderWidth: 0.25,
-    borderColor: "#dedede",
+    borderColor: "#DEDEDE",
     margin: 10,
   },
   productImage: {
@@ -39,21 +39,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainProductCard = ({ productName, productPrice, imageuri }) => {
+const MainProductCard = ({ item, cartHandler }) => {
   return (
     <View style={[styles.container, styles.shadow]}>
-      <Image style={styles.productImage} source={{ uri: imageuri }} />
+      <Image style={styles.productImage} source={{ uri: item.imageUrl }} />
       <AppText
         weight="600"
-        style={{ marginTop: 5, marginBottom: 6, fontSize: 16 }}
+        style={{ marginTop: 10, marginBottom: 6, fontSize: 16 }}
       >
-        {productName}
+        {item.name}
       </AppText>
       <AppText weight="500" style={{ fontSize: 13 }}>
-        {formatCurrency(productPrice)}
+        {formatCurrency(item.price)}
       </AppText>
 
-      <TouchableOpacity style={[styles.addButton, styles.shadow]}>
+      <TouchableOpacity
+        style={[styles.addButton, styles.shadow]}
+        onPress={() => cartHandler(item)}
+      >
         <AppText weight="600" style={{ color: "white", fontSize: 13 }}>
           Add
         </AppText>

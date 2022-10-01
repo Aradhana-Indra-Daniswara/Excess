@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const NormalProductCard = ({ product }) => {
+const NormalProductCard = ({ item, cartHandler }) => {
   return (
     <View style={styles.container}>
       {/* Left Column */}
@@ -48,14 +48,17 @@ const NormalProductCard = ({ product }) => {
           weight="600"
           style={{ height: 20, marginBottom: 5, fontSize: 16 }}
         >
-          {product.name}
+          {item.name}
         </AppText>
         <AppText weight="400" style={{ fontSize: 14, marginBottom: 20 }}>
-          {formatCurrency(product.price)}
+          {formatCurrency(item.price)}
         </AppText>
 
         {/* Add Button */}
-        <TouchableOpacity style={[styles.addButton]}>
+        <TouchableOpacity
+          style={[styles.addButton]}
+          onPress={() => cartHandler(item)}
+        >
           <AppText
             weight={"600"}
             style={{
@@ -69,7 +72,7 @@ const NormalProductCard = ({ product }) => {
       </View>
 
       {/* Right Column */}
-      <Image style={[styles.productImage]} source={{ uri: product.imageUrl }} />
+      <Image style={[styles.productImage]} source={{ uri: item.imageUrl }} />
     </View>
   );
 };
