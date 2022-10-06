@@ -8,7 +8,6 @@ import { doc, getDoc } from "firebase/firestore";
 import {
   View,
   StyleSheet,
-  ScrollView,
   SafeAreaView,
   FlatList,
   ActivityIndicator,
@@ -127,10 +126,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Vendorpage = ({ navigation }) => {
+const Vendorpage = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cart, setCart] = useState([]);
+  const [vendor, setVendor] = useState({});
 
   // get vendor's data on mount
   useEffect(() => {
@@ -140,7 +140,17 @@ const Vendorpage = ({ navigation }) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setData(docSnap.data());
+          // Store vendor info to pass to cart
+          const { address, area, opening_hour, closing_hour, name } =
+            docSnap.data();
+          setVendor({
+            address,
+            area,
+            opening_hour,
+            closing_hour,
+            name,
+            id: "GWGoNQfs6jU0yf0Uy0ml",
+          });
 
           // get url for product images
           const products = docSnap.data().products;
@@ -170,6 +180,7 @@ const Vendorpage = ({ navigation }) => {
   const navigationHandler = () => {
     navigation.navigate("Cart", {
       items: cart,
+      vendor,
     });
   };
 
@@ -204,57 +215,60 @@ const Vendorpage = ({ navigation }) => {
     );
   };
 
+  const renderFooter = () => {
+    return (
+      <View style={{ marginTop: 20 }}>
+        <FlatList
+          data={data.slice(4, data.length)}
+          renderItem={renderNormalProducts}
+          ItemSeparatorComponent={renderItemSeparatorComponent}
+          ListFooterComponent={() => <View style={{ marginBottom: 70 }}></View>}
+        />
+      </View>
+    );
+  };
+
   if (isLoading) {
-    return <ActivityIndicator />;
+    return (
+      <SafeAreaView
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
+      <View
+        style={{
           display: "flex",
           alignItems: "center",
           marginTop: 20,
         }}
-        showsVerticalScrollIndicator={false}
       >
-        <View
-          style={{
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          {/* Main Products */}
-          <FlatList
-            data={data.slice(0, 4)}
-            renderItem={renderMainProducts}
-            keyExtractor={(item) => item.id}
-            style={{
-              marginBottom: 30,
-            }}
-            ListHeaderComponent={() => (
-              <AppText fontWeight="700" style={{ fontSize: 18 }}>
-                Running Out
-              </AppText>
-            )}
-            numColumns={2}
-            scrollEnabled={false}
-          />
+        {/* Main Products */}
+        <FlatList
+          data={data.slice(0, 4)}
+          renderItem={renderMainProducts}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => (
+            <AppText fontWeight="700" style={{ fontSize: 18 }}>
+              Running Out
+            </AppText>
+          )}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooter} // Normal products goes here
+        />
+      </View>
 
-          {/* Normal Products */}
-          <FlatList
-            data={data.slice(4, data.length)}
-            renderItem={renderNormalProducts}
-            ItemSeparatorComponent={renderItemSeparatorComponent}
-            ListFooterComponent={() => (
-              <View style={{ marginBottom: 20 }}></View>
-            )}
-            scrollEnabled={false}
-          />
-        </View>
-      </ScrollView>
-
-      {/* BUG: viewnya jadi ke-cut pas muncul?? */}
+      {/* Cart button will show when first item is added */}
       {cart.length !== 0 && (
         <CartButton
           itemCount={cart.length}
