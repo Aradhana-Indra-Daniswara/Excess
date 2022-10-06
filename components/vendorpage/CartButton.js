@@ -5,14 +5,13 @@ import ShoppingCartIcon from "../../assets/shopping-cart.svg";
 
 const Styles = StyleSheet.create({
   container: {
-    width: 225,
-    height: 50,
-    marginBottom: 20,
+    width: 260,
+    height: 55,
     backgroundColor: "#59D9A8",
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    bottom: 20,
+    bottom: 70,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -22,7 +21,7 @@ const Styles = StyleSheet.create({
 const CartButton = ({ itemCount, navigationHandler }) => {
   return (
     <TouchableOpacity style={Styles.container} onPress={navigationHandler}>
-      <View style={{ position: "absolute", left: 10 }}>
+      <View style={{ position: "absolute", left: 20 }}>
         <ShoppingCartIcon />
       </View>
       <AppText weight={"700"} style={{ color: "white", fontSize: 14 }}>
