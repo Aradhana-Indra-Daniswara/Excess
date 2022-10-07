@@ -98,7 +98,9 @@ export default function Checkout({ route, navigation }) {
         voucher: voucher,
       });
 
-      navigation.navigate("Activity");
+      navigation.navigate("Main", {
+        goToActivity: true,
+      });
     } catch (e) {
       console.warn(e);
     }

@@ -11,6 +11,7 @@ import { useFonts } from "expo-font";
 // import { Pressable } from "react-native";
 import SearchVendor from "../SearchVendor/SearchVendor";
 import Vendorpage from "../vendorpage/vendorpage";
+import Activity from "../Activity/Activity";
 
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator();
@@ -60,16 +61,6 @@ export default function PageNavigator() {
         />
 
         <Stack.Screen
-          name="Main"
-          component={MainNavigator}
-          screenOptions={{
-            statusbar: {
-              color: "black",
-            },
-          }}
-        />
-
-        <Stack.Screen
           name="SearchVendor"
           component={SearchVendor}
           options={{
@@ -87,6 +78,16 @@ export default function PageNavigator() {
             headerShown: true,
             headerBackButtonMenuEnabled: true,
           })}
+        />
+
+        <Stack.Screen
+          name="Main"
+          component={MainNavigator}
+          screenOptions={{
+            statusbar: {
+              color: "black",
+            },
+          }}
         />
 
         <Stack.Screen
