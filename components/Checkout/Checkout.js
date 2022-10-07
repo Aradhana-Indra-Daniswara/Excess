@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { auth, firestore } from "../../config/firebase-config";
 import formatCurrency from "../../utils/formatters/formatCurrency";
+import formatTime from "../../utils/formatters/formatTime";
 import AppText from "../AppText";
 
 const Styles = StyleSheet.create({
@@ -46,16 +47,26 @@ const Styles = StyleSheet.create({
 });
 
 export default function Checkout({ route, navigation }) {
+  // get price, vendor and items from route params
+  const price = route?.params?.total;
+  const vendor = route?.params?.vendor;
+  const items = route?.params?.items;
+
+  const [voucher, setVoucher] = useState(0);
+  const [voucherData, setVoucherData] = useState([]);
+  const [grandTotal, setGrandTotal] = useState(price - voucher);
+
   // watch for voucher application & update grand total
   useEffect(() => {
-    if (route.params?.voucherSelected) {
+    if (route?.params?.voucherSelected) {
       const discount =
         (price * route.params.voucherSelected.discount_percentage) / 100;
       setVoucher(discount);
       setGrandTotal(price - discount);
     }
-  }, [route.params?.voucherSelected]);
+  }, [route?.params?.voucherSelected]);
 
+  // get vouchers on load to save time & calls
   useEffect(() => {
     const getVouchers = async () => {
       try {
@@ -78,35 +89,33 @@ export default function Checkout({ route, navigation }) {
 
   const orderHandler = async () => {
     try {
-      const docRef = await addDoc(collection(firestore, "orders"), {
+      await addDoc(collection(firestore, "orders"), {
         created_at: Timestamp.now(),
         finished_at: null,
-        item: [
-          {
-            item_id: "makeBetterStructure",
-            item_price: 0,
-            item_quantity: 1,
-          },
-        ],
-        vendor_id: "GWGoNQfs6jU0yf0Uy0ml",
-        user_id: auth.currentUser?.uid, // Assume user is logged in (fix with Authorization later)
+        vendor_id: vendor.id,
+        user_id: auth.currentUser?.uid,
+        items: items,
         voucher: voucher,
+      });
+
+      navigation.navigate("Main", {
+        goToActivity: true,
       });
     } catch (e) {
       console.warn(e);
-    } finally {
-      // navigation.navigate("Activity");
-      console.log("Success");
     }
   };
 
-  const [price, setPrice] = useState(route?.params?.total);
-  const [voucher, setVoucher] = useState(0);
-  const [voucherData, setVoucherData] = useState([]);
-  const [grandTotal, setGrandTotal] = useState(price - voucher);
+  const voucherNavigationHandler = () => {
+    navigation.navigate("Voucher", {
+      voucherData,
+      total: price,
+    });
+  };
 
   return (
     <SafeAreaView style={[Styles.centerContainer]}>
+      {/* Vendor information */}
       <View
         style={[
           Styles.centerContainer,
@@ -127,11 +136,12 @@ export default function Checkout({ route, navigation }) {
             style={{ marginRight: 6 }}
           />
           <AppText weight={"600"} style={{ fontSize: 15 }}>
-            09.00 - 22.00
+            {formatTime(vendor.opening_hour)} -{" "}
+            {formatTime(vendor.closing_hour)}
           </AppText>
         </View>
         <AppText weight={"700"} style={{ color: "#51C699", fontSize: 18 }}>
-          Garlic Bread
+          {vendor.name}
         </AppText>
       </View>
 
@@ -158,12 +168,7 @@ export default function Checkout({ route, navigation }) {
               position: "relative",
             },
           ]}
-          onPress={() =>
-            navigation.navigate("Voucher", {
-              voucherData,
-              total: price,
-            })
-          }
+          onPress={voucherNavigationHandler}
         >
           <Image
             source={require("../../assets/discount-icon.png")}

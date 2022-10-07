@@ -1,107 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AppText from "../AppText";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-const onPress = () => {};
-const MainProductCard = ({ productName, productPrice, imageuri }) => {
-  return (
-    <View style={[styles.rectangle, styles.rec1]}>
-      <Image
-        style={styles.imgdummy}
-        // source={require("../../assets/dummyfooddata.png")}
-        source={{ uri: imageuri }}
-      />
-      <AppText weight="700" style={styles.textvendor}>
-        {productName}
-      </AppText>
-      <AppText weight="700" style={styles.textprice}>
-        {productPrice}
-      </AppText>
-      <View style={styles.btn}>
-        {/* <Button
-            title="Add"
-            color='#51C699'
-             /> */}
-        <TouchableOpacity onPress={onPress} style={styles.rnd}>
-          <AppText weight="700" style={styles.txtadd}>
-            Add
-          </AppText>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+import formatCurrency from "../../utils/formatters/formatCurrency";
+
 const styles = StyleSheet.create({
-  txtadd: {
-    // alignContent :'center',
-    // alignContent : 'center',
-    marginTop: 8,
-    color: "white",
-    alignSelf: "center",
-    lineHeight: 18,
-    fontSize: 15,
-    // fontWeight:'600',
+  shadow: {
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 4,
   },
-  rnd: {
-    marginTop: 5,
-    backgroundColor: "#51C699",
-    // padding: 20,
-    width: 80,
-    height: 31,
-    borderRadius: 14,
-  },
-  btn: {
+  addButton: {
+    marginTop: 15,
     width: 82,
     height: 31,
-    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 14,
-    // marginRight: 40,
-    //   marginLeft: 40,
-    //   marginTop: 10,
-    //   paddingTop: 20,
-    //   paddingBottom: 20,
-    //   backgroundColor: '#68a0cf',
     borderRadius: 20,
-    //   borderWidth: 1,
-    //   borderColor: '#fff',
+    backgroundColor: "#51C699",
   },
-  rectangle: {
-    borderRadius: 14,
+  container: {
+    alignItems: "center",
+    borderRadius: 25,
     width: 137,
-    height: 207,
-    backgroundColor: "#dddede",
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 2,
-    shadowRadius: 3,
-    elevation: 5,
-    // marginBottom: 60,
-  },
-  rec1: {
-    // marginLeft:20,
-    // marginRight: 34,
-    // marginBottom:50,
+    height: 230,
+    backgroundColor: "#F9F9F9",
+    borderWidth: 0.25,
+    borderColor: "#DEDEDE",
     margin: 10,
   },
-  imgdummy: {
+  productImage: {
     borderRadius: 14,
     width: 135,
     height: 115,
-    alignContent: "center",
     marginTop: 2,
-    alignSelf: "center",
-  },
-  textvendor: {
-    textAlign: "center",
-    alignSelf: "center",
-    marginTop: 5,
-    fontSize: 19,
-    fontWeight: "600",
-  },
-  textprice: {
-    alignItems: "center",
-    alignSelf: "center",
-    fontWeight: "600",
-    fontSize: 15,
   },
 });
+
+const MainProductCard = ({ item, cartHandler }) => {
+  return (
+    <View style={[styles.container, styles.shadow]}>
+      <Image style={styles.productImage} source={{ uri: item.imageUrl }} />
+      <AppText
+        weight="600"
+        style={{ marginTop: 10, marginBottom: 6, fontSize: 16 }}
+      >
+        {item.name}
+      </AppText>
+      <AppText weight="500" style={{ fontSize: 13 }}>
+        {formatCurrency(item.price)}
+      </AppText>
+
+      <TouchableOpacity
+        style={[styles.addButton, styles.shadow]}
+        onPress={() => cartHandler(item)}
+      >
+        <AppText weight="600" style={{ color: "white", fontSize: 13 }}>
+          Add
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 export default MainProductCard;

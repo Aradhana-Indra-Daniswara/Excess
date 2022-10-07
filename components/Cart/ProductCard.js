@@ -43,7 +43,7 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
   };
 
   useEffect(() => {
-    updateItem(product.product_id, qty);
+    updateItem(product.id, qty);
   }, [qty]);
 
   return (
@@ -53,7 +53,7 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
           <View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <AppText weight={"600"} style={{ fontSize: 18 }}>
-                {product.product_name}
+                {product.name}
               </AppText>
               <Pressable
                 style={{
@@ -62,7 +62,7 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
                   width: 40,
                   alignItems: "center",
                 }}
-                onPress={() => deleteItem(product.product_id)}
+                onPress={() => deleteItem(product.id)}
               >
                 <Ionicons name="md-trash-outline" size={28} color="black" />
               </Pressable>
@@ -99,7 +99,10 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
 
       {/* product image */}
       <View>
-        <Image source={require("../../assets/1-1.png")} />
+        <Image
+          source={{ uri: product.imageUrl }}
+          style={{ height: 100, width: 100, borderRadius: 10 }}
+        />
       </View>
     </View>
   );

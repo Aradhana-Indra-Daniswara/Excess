@@ -16,7 +16,7 @@ const homeName = "Home";
 const activityName = "Activity";
 const profileName = "Profile";
 
-export default function MainNavigator() {
+export default function MainNavigator({ route }) {
   // use inset to account for the extra space at the botoom
   const insets = useSafeAreaInsets();
 
@@ -36,7 +36,7 @@ export default function MainNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName={homeName}
+      initialRouteName={route?.params?.goToActivity ? activityName : homeName}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

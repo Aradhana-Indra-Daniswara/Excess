@@ -6,21 +6,20 @@ import { firestore, storage } from "../../config/firebase-config";
 import { ref, getDownloadURL } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import {
-  Text,
   View,
   StyleSheet,
-  Image,
-  ScrollView,
   SafeAreaView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import CartButton from "./CartButton";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    display: "flex",
     backgroundColor: "#fff",
-    marginTop: 50,
+    alignItems: "center",
   },
   imgg: {
     marginTop: 10,
@@ -127,184 +126,155 @@ const styles = StyleSheet.create({
   },
 });
 
-const onPress = () => {};
-const Vendorpage = () => {
-  const [data, setData] = useState(null);
+const Vendorpage = ({ route, navigation }) => {
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mainProducts, setMainProducts] = useState([]);
-  const [type, SetType] = useState(null);
-  const [normalProduct, setNormalProduct] = useState([]);
-  const [namevendor, SetNameVendor] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [vendor, setVendor] = useState({});
 
-  // get vendor's items
-  const getdata = async () => {
-    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setData(docSnap.data());
-        SetType(docSnap.data().type);
-        SetNameVendor(docSnap.data().name);
+  // get vendor's data on mount
+  useEffect(() => {
+    const getVendordata = async () => {
+      try {
+        const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
+        const docSnap = await getDoc(docRef);
 
-        // get url for product images
-        const products = docSnap.data().products;
-        const dataimage = [];
-
-        for (const product of products) {
-          const url = await getDownloadURL(ref(storage, product.uri));
-          dataimage.push({
-            ...product,
-            imageUrl: url,
+        if (docSnap.exists()) {
+          // Store vendor info to pass to cart
+          const { address, area, opening_hour, closing_hour, name } =
+            docSnap.data();
+          setVendor({
+            address,
+            area,
+            opening_hour,
+            closing_hour,
+            name,
+            id: "GWGoNQfs6jU0yf0Uy0ml",
           });
+
+          // get url for product images
+          const products = docSnap.data().products;
+          const finalData = [];
+
+          for (const product of products) {
+            const url = await getDownloadURL(ref(storage, product.uri));
+            finalData.push({
+              ...product,
+              imageUrl: url,
+            });
+          }
+
+          // finalize data
+          setData(finalData);
         }
-
-        // set main and normal products
-        setMainProducts(dataimage.slice(0, 4));
-
-        for (let i = 0; i < 4; i++) {
-          dataimage.shift();
-        }
-
-        setNormalProduct(dataimage);
+      } catch (e) {
+        console.warn(e.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      console.warn(e.message);
-    } finally {
-      setIsLoading(false);
+    };
+
+    getVendordata();
+  }, []);
+
+  const navigationHandler = () => {
+    navigation.navigate("Cart", {
+      items: cart,
+      vendor,
+    });
+  };
+
+  // Will only count item once. enaknya gimana?
+  const cartHandler = (item) => {
+    if (!cart.find((product) => product.id === item.id)) {
+      setCart([...cart, { ...item, qty: 1 }]);
     }
   };
 
-  // get vendor's data
-  useEffect(() => {
-    getdata();
-  }, []);
+  const renderMainProducts = ({ item }) => {
+    return <MainProductCard item={item} cartHandler={cartHandler} />;
+  };
+
+  const renderNormalProducts = ({ item }) => {
+    return <NormalProductCard item={item} cartHandler={cartHandler} />;
+  };
+
+  const renderItemSeparatorComponent = () => {
+    return (
+      <View
+        style={{
+          marginTop: 20,
+          width: 300,
+          height: 2,
+          alignSelf: "center",
+          backgroundColor: "black",
+          opacity: 0.2,
+          marginBottom: 10,
+        }}
+      ></View>
+    );
+  };
+
+  const renderFooter = () => {
+    return (
+      <View style={{ marginTop: 20 }}>
+        <FlatList
+          data={data.slice(4, data.length)}
+          renderItem={renderNormalProducts}
+          ItemSeparatorComponent={renderItemSeparatorComponent}
+          ListFooterComponent={() => <View style={{ marginBottom: 70 }}></View>}
+        />
+      </View>
+    );
+  };
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return (
+      <SafeAreaView
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ScrollView> */}
-
-      {/* Vendor Info */}
-      <View style={{ marginLeft: 40 }}>
-        <AppText
-          weight="900"
-          style={{
-            color: "black",
-            fontWeight: "800",
-            display: "flex",
-            fontSize: 20,
-          }}
-        >
-          {namevendor}
-        </AppText>
-
-        <AppText
-          fontFamily={"OpenSauceSans-Bold"}
-          style={{
-            width: 200,
-            height: 100,
-            marginRight: 40,
-            fontSize: 12,
-          }}
-        >
-          {type}
-        </AppText>
-      </View>
-
-      {/* x minutes */}
-      <View style={styles.box}>
-        <Image
-          style={{
-            width: 40,
-            height: 40,
-            marginLeft: 20,
-            marginRight: 17,
-            marginTop: 10,
-          }}
-          source={require("../../assets/fast-delivery-1.png")}
-        />
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "600",
-            alignItems: "center",
-            justifyContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          Delivered in 10 minutes
-        </Text>
-      </View>
-
-      {/* Main Products */}
-      <ScrollView
-        style={{ width: "100%" }}
-        contentContainerStyle={{
+      <View
+        style={{
           display: "flex",
           alignItems: "center",
+          marginTop: 20,
         }}
       >
-        {/* Running Out */}
-        <View>
-          <Text
-            style={{
-              marginTop: 20,
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 16,
-              fontWeight: "600",
-              lineHeight: 19.5,
-              marginBottom: 11,
-            }}
-          >
-            Running Out
-          </Text>
-        </View>
-        <View style={{ alignItems: "center", width: "100%" }}>
-          <FlatList
-            numColumns={2}
-            data={mainProducts}
-            renderItem={({ item }) => (
-              <MainProductCard
-                productName={item.name}
-                productPrice={item.price}
-                imageuri={item.imageUrl}
-              />
-            )}
-            scrollEnabled={false}
-            style={{
-              marginBottom: 30,
-            }}
-          />
-          <FlatList
-            ItemSeparatorComponent={() => (
-              <View
-                style={{
-                  marginTop: 20,
-                  width: 320,
-                  // marginRight: 40,
-                  height: 2,
-                  alignSelf: "center",
-                  backgroundColor: "black",
-                  opacity: 0.2,
-                  marginBottom: 10,
-                }}
-              ></View>
-            )}
-            data={normalProduct}
-            renderItem={({ item }) => <NormalProductCard product={item} />}
-            scrollEnabled={false}
-          />
-        </View>
-      </ScrollView>
+        {/* Main Products */}
+        <FlatList
+          data={data.slice(0, 4)}
+          renderItem={renderMainProducts}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => (
+            <AppText fontWeight="700" style={{ fontSize: 18 }}>
+              Running Out
+            </AppText>
+          )}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooter} // Normal products goes here
+        />
+      </View>
 
-      {/* Normal Productss */}
-      {/* <View styles={styles.flex2}> */}
-      {/* </View> */}
-      {/* </ScrollView> */}
+      {/* Cart button will show when first item is added */}
+      {cart.length !== 0 && (
+        <CartButton
+          itemCount={cart.length}
+          navigationHandler={navigationHandler}
+        />
+      )}
     </SafeAreaView>
   );
 };
