@@ -9,112 +9,107 @@ import Star_icon from "../../assets/star_icon.svg";
 import { useNavigation } from "@react-navigation/native";
 
 export default function VendorList({ vendor }) {
-  const navigation = useNavigation();
-  const [promoAmount, setPromoAmount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [vendorIconURI, setVendorIconURI] = useState();
+	const navigation = useNavigation();
+	const [promoAmount, setPromoAmount] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
+	const [vendorIconURI, setVendorIconURI] = useState();
 
-  const countPromoAmount = async () => {
-    try {
-      const docRef = doc(firestore, "vendors", vendor.id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const vendorProducts = docSnap.data().products;
-        const promoAmount = vendorProducts.filter(
-          (product) => product.limited_time === true
-        ).length;
-        setPromoAmount(promoAmount);
-      }
-    } catch (e) {
-      console.log("countPromoAmount() " + e.message);
-    }
-  };
+	const countPromoAmount = async () => {
+		try {
+			const docRef = doc(firestore, "vendors", vendor.id);
+			const docSnap = await getDoc(docRef);
+			if (docSnap.exists()) {
+				const vendorProducts = docSnap.data().products;
+				const promoAmount = vendorProducts.filter((product) => product.limited_time === true).length;
+				setPromoAmount(promoAmount);
+			}
+		} catch (e) {
+			console.log("countPromoAmount() " + e.message);
+		}
+	};
 
-  const fetchVendorImage = async () => {
-    const docRef = doc(firestore, "vendors", vendor.id);
+	const fetchVendorImage = async () => {
+		const docRef = doc(firestore, "vendors", vendor.id);
 
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const vendorImageUrl = await getDownloadURL(ref(storage, vendor.logo));
-        setVendorIconURI(vendorImageUrl);
-      }
-    } catch (error) {
-      console.log("fetchVendorImage() " + error.message);
-    }
-  };
+		try {
+			const docSnap = await getDoc(docRef);
+			if (docSnap.exists()) {
+				const vendorImageUrl = await getDownloadURL(ref(storage, vendor.logo));
+				setVendorIconURI(vendorImageUrl);
+			}
+		} catch (error) {
+			console.log("fetchVendorImage() " + error.message);
+		}
+	};
 
-  const loadVendorData = async () => {
-    await countPromoAmount();
-    await fetchVendorImage();
-    setIsLoading(false);
-  };
+	const loadVendorData = async () => {
+		await countPromoAmount();
+		await fetchVendorImage();
+		setIsLoading(false);
+	};
 
-  const directToVendorPage = () => {
-    navigation.navigate("vendorPage", {
-      vendor,
-      vendorIconURI,
-    });
-  };
-  useEffect(() => {
-    loadVendorData();
-  }, []);
+	const directToVendorPage = () => {
+		navigation.navigate("Vendor", {
+			vendor,
+			vendorIconURI,
+		});
+	};
+	useEffect(() => {
+		loadVendorData();
+	}, []);
 
-  if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
-  }
+	if (isLoading) {
+		return (
+			<View>
+				<ActivityIndicator />
+			</View>
+		);
+	}
 
-  return (
-    <TouchableOpacity
-      style={{
-        flexDirection: "row",
-        marginVertical: 4,
-        marginHorizontal: 16,
-      }}
-      onPress={directToVendorPage}>
-      <Image
-        source={{ uri: vendorIconURI }}
-        style={{ width: 90, height: 90, marginRight: 8 }}
-      />
-      <View style={{ flex: 1, marginVertical: 10 }}>
-        <View>
-          <AppText
-            style={{ color: colorStyles["excess"], fontSize: 12 }}
-            weight="700">
-            {promoAmount} items on promo
-          </AppText>
-          <AppText
-            style={{ color: colorStyles["20"], fontSize: 14 }}
-            weight="700">
-            {vendor.name} - {vendor.area}
-          </AppText>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 4,
-          }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AppText
-              style={{
-                color: colorStyles["50"],
-                fontSize: 12,
-                marginRight: 4,
-              }}>
-              4.9
-            </AppText>
-            <Star_icon />
-          </View>
-          <AppText style={{ color: colorStyles["50"], fontSize: 12 }}>
-            {" "}
-            • 2.1 km
-          </AppText>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+	return (
+		<TouchableOpacity
+			style={{
+				flexDirection: "row",
+				marginVertical: 4,
+				marginHorizontal: 16,
+			}}
+			onPress={directToVendorPage}>
+			<Image
+				source={{ uri: vendorIconURI }}
+				style={{ width: 90, height: 90, marginRight: 8 }}
+			/>
+			<View style={{ flex: 1, marginVertical: 10 }}>
+				<View>
+					<AppText
+						style={{ color: colorStyles["excess"], fontSize: 12 }}
+						weight='700'>
+						{promoAmount} items on promo
+					</AppText>
+					<AppText
+						style={{ color: colorStyles["20"], fontSize: 14 }}
+						weight='700'>
+						{vendor.name} - {vendor.area}
+					</AppText>
+				</View>
+				<View
+					style={{
+						flexDirection: "row",
+						marginTop: 4,
+					}}>
+					<View style={{ flexDirection: "row", alignItems: "center" }}>
+						<AppText
+							style={{
+								color: colorStyles["50"],
+								fontSize: 12,
+								marginRight: 4,
+							}}>
+							4.9
+						</AppText>
+						<Star_icon />
+					</View>
+					<AppText style={{ color: colorStyles["50"], fontSize: 12 }}> • 2.1 km</AppText>
+				</View>
+			</View>
+		</TouchableOpacity>
+	);
 }
