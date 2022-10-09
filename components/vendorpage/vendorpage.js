@@ -3,12 +3,13 @@ import AppText from "../AppText";
 import { firestore, storage } from "../../config/firebase-config";
 import { ref, getDownloadURL } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
-import { View, StyleSheet, SafeAreaView, FlatList, ActivityIndicator, Text, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, SafeAreaView, FlatList, ActivityIndicator, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import Back_button from "../../assets/Back_button.svg";
 import CartButton from "./CartButton";
 import { colorStyles } from "../Styling/GlobalStyles";
 import Star_icon from "../../assets/star_icon.svg";
 import Store_icon from "../../assets/store_icon.svg";
+import SmallProductCard from "./SmallProductCard";
 
 const VendorPage = ({ route, navigation }) => {
 	const [data, setData] = useState([]);
@@ -90,10 +91,10 @@ const VendorPage = ({ route, navigation }) => {
 	}
 
 	return (
-		<View style={{ backgroundColor: "white", height: "100%", paddingTop: 16 }}>
-			<View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between", marginBottom: 16 }}>
+		<SafeAreaView style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16 }}>
+			<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16 }}>
 				{/* Vendor Name, Rating, Open Time */}
-				<View style={{ marginLeft: 16 }}>
+				<View style={{ marginLeft: 16, alignSelf: "flex-start", width: 250 }}>
 					<TouchableOpacity
 						onPress={() => {
 							navigation.navigate("SearchVendor");
@@ -148,10 +149,10 @@ const VendorPage = ({ route, navigation }) => {
 				<FlatList
 					data={data}
 					keyExtractor={(item) => item.id}
-					renderItem={(data) => <SmallProductCard product={data} />}
+					renderItem={(data) => <SmallProductCard product={data.item} />}
 				/>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 };
 
