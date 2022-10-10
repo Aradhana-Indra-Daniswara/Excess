@@ -4,9 +4,6 @@ import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
 export default function ProductCard({ product }) {
-	useEffect(()=>{
-		console.log(product)
-	}, [])
 	return (
 		<View
 			style={{

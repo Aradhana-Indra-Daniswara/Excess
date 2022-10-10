@@ -3,11 +3,12 @@ import { Image, Text, View } from "react-native";
 import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
+import AutoDimensionImage from "react-native-auto-dimensions-image";
 
 export default function BigProductCard({ product }){
-	useEffect(() => {
-		// console.log(product);
-	}, []);
+	// useEffect(() => {
+	// 	console.log(product);
+	// }, []);
 
 	return (
 		<View
@@ -19,21 +20,18 @@ export default function BigProductCard({ product }){
 				marginVertical: 4,
 				justifyContent: "space-between",
 				marginHorizontal: 16,
-				// // alignSelf: 'flex-start',
-				// flex: 1,
-				// flexWrap: 'wrap',
 			}}>
-			<View style={{ alignItems: "center", width: 150 }}>
+			<View style={{ alignItems: "flex-start", width: 150 }}>
 				<View>
 					<Image
 						source={{ uri: product.imageUrl }}
-						style={{ width: 72, height: 72, marginRight: 8, borderRadius: 5 }}
+						style={{ width: 150, height: 150, borderRadius: 5 }}
 					/>
 				</View>
-				<View style={{ marginLeft: 10 }}>
-					<AppText style={{ fontSize: 14 }}>{product.name}</AppText>
+				<View >
+					<AppText style={{ fontSize: 16, marginTop: 8 }}>{product.name}</AppText>
 					<AppText
-						style={{ fontSize: 12, marginTop: 8 }}
+						style={{ fontSize: 12, marginTop: 4, marginBottom: 12 }}
 						weight='500'>
 						Rp{product.price}
 					</AppText>

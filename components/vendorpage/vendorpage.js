@@ -65,12 +65,21 @@ const VendorPage = ({ route, navigation }) => {
 			setProducts([
 				{
 					title: "Running Out Products",
-					renderItem: ({item}) => <BigProductCard product={item}/>,
-					data: runningOutProducts,
+					tileType: "BigProducts",
+					// renderItem: ({ item }) => (
+					// 	<FlatList
+					// 		data={item}
+					// 		numColumns={2}
+					// 		keyExtractor={(item) => item.id}
+					// 		renderItem={({ item }) => <BigProductCard product={item} />}
+					// 	/>
+					// ),
+					data: [runningOutProducts],
 				},
 				{
 					title: "All Products",
-					renderItem: ({item}) => <ProductCard product={item}/>,
+					// tileType: 'BigProducts',
+					renderItem: ({ item }) => <ProductCard product={item} />,
 					data: allProducts,
 				},
 			]);
@@ -79,9 +88,6 @@ const VendorPage = ({ route, navigation }) => {
 		getVendordata();
 	}, []);
 
-	useEffect(() => {
-		console.log(products);
-	}, [products]);
 	const navigationHandler = () => {
 		navigation.navigate("Cart", {
 			items: cart,
@@ -163,7 +169,19 @@ const VendorPage = ({ route, navigation }) => {
 				sections={products}
 				keyExtractor={(item, index) => item + index}
 				ListHeaderComponent={<Header />}
-				renderItem={({ section: {renderItem} }) => <View>{renderItem}</View>}
+				renderItem={({ section }) => {
+					if (section.tileType === "BigProducts") {
+						return (
+							<FlatList
+								data={section.data[0]}
+								numColumns={2}
+								keyExtractor={(item) => item.id}
+								renderItem={({ item }) => <BigProductCard product={item} />}
+							/>
+						);
+					}
+					return <View>{section.renderItem}</View>;
+				}}
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText
 						style={{ marginHorizontal: 16, fontSize: 14, marginTop: 16, marginBottom: 8 }}
