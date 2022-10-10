@@ -91,7 +91,7 @@ const VendorPage = ({ route, navigation }) => {
 	}
 
 	return (
-		<SafeAreaView style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16 }}>
+		<View style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16 }}>
 			<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16 }}>
 				{/* Vendor Name, Rating, Open Time */}
 				<View style={{ marginLeft: 16, alignSelf: "flex-start", width: 250 }}>
@@ -139,6 +139,7 @@ const VendorPage = ({ route, navigation }) => {
 				style={{ marginHorizontal: 16, fontSize: 14 }}
 				weight='500'>
 				<AppText>Running Out</AppText>
+				<FlatList />
 			</View>
 
 			{/* All Products */}
@@ -147,12 +148,13 @@ const VendorPage = ({ route, navigation }) => {
 				weight='500'>
 				<AppText>All Products</AppText>
 				<FlatList
+					scrollEnabled={false}
 					data={data}
 					keyExtractor={(item) => item.id}
 					renderItem={(data) => <SmallProductCard product={data.item} />}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 
