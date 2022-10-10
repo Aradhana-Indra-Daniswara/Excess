@@ -4,7 +4,7 @@ import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
 
-export default function BigProductCard(){
+export default function BigProductCard({ product }){
 	useEffect(() => {
 		// console.log(product);
 	}, []);
@@ -12,15 +12,18 @@ export default function BigProductCard(){
 	return (
 		<View
 			style={{
-				flexDirection: "row",
 				borderWidth: 1,
 				borderColor: "#F2F2F2",
 				borderRadius: 5,
 				padding: 5,
 				marginVertical: 4,
 				justifyContent: "space-between",
+				marginHorizontal: 16,
+				// // alignSelf: 'flex-start',
+				// flex: 1,
+				// flexWrap: 'wrap',
 			}}>
-			<View style={{ flexDirection: "row", alignItems: "center", width: 150 }}>
+			<View style={{ alignItems: "center", width: 150 }}>
 				<View>
 					<Image
 						source={{ uri: product.imageUrl }}

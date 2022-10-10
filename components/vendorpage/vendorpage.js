@@ -10,6 +10,7 @@ import { colorStyles } from "../Styling/GlobalStyles";
 import Star_icon from "../../assets/star_icon.svg";
 import Store_icon from "../../assets/store_icon.svg";
 import ProductCard from "./ProductCard";
+import BigProductCard from "./BigProductCard";
 
 const VendorPage = ({ route, navigation }) => {
 	const [products, setProducts] = useState([]);
@@ -64,10 +65,12 @@ const VendorPage = ({ route, navigation }) => {
 			setProducts([
 				{
 					title: "Running Out Products",
+					renderItem: ({item}) => <BigProductCard product={item}/>,
 					data: runningOutProducts,
 				},
 				{
 					title: "All Products",
+					renderItem: ({item}) => <ProductCard product={item}/>,
 					data: allProducts,
 				},
 			]);
@@ -160,7 +163,7 @@ const VendorPage = ({ route, navigation }) => {
 				sections={products}
 				keyExtractor={(item, index) => item + index}
 				ListHeaderComponent={<Header />}
-				renderItem={({ item }) => <ProductCard product={item} />}
+				renderItem={({ section: {renderItem} }) => <View>{renderItem}</View>}
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText
 						style={{ marginHorizontal: 16, fontSize: 14, marginTop: 16, marginBottom: 8 }}
