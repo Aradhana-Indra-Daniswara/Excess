@@ -39,7 +39,7 @@ export default function BigProductCard({ product, cartHandler }) {
 					<Clock_icon />
 					<AppText style={{ color: "#FB6868", marginLeft: 4 }}>{product.max_order_time.slice(0, 2) + ":" + product.max_order_time.slice(2)}</AppText>
 				</View>
-				<View style={{ marginTop: 4 }}>
+				<View style={{ marginTop: 4, padding: 4 }}>
 					<AppText
 						style={{ fontSize: 14 }}
 						weight='600'>
@@ -52,7 +52,7 @@ export default function BigProductCard({ product, cartHandler }) {
 				</View>
 			</View>
 			<TouchableOpacity
-				style={{ flexDirection: "row", alignItems: "center" }}
+				style={{ flexDirection: "row", alignItems: "center", padding: 4 }}
 				onPress={() => cartHandler(product)}>
 				<AppText
 					style={{ marginRight: 4, color: colorStyles["excess"], fontSize: 14 }}

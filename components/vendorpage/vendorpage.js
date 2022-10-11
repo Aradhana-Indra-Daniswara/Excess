@@ -101,10 +101,10 @@ const VendorPage = ({ route, navigation }) => {
 
 	const Header = () => {
 		return (
-			<View>
-				<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16 }}>
+			<View style={{ width: '100%' }}>
+				<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16, marginHorizontal: 16 }}>
 					{/* Vendor Name, Rating, Open Time */}
-					<View style={{ marginLeft: 16, alignSelf: "flex-start", width: 250 }}>
+					<View style={{ alignSelf: "flex-start", width: 250, flex: 1 }}>
 						<TouchableOpacity
 							onPress={() => {
 								navigation.navigate("SearchVendor");
@@ -128,10 +128,10 @@ const VendorPage = ({ route, navigation }) => {
 						</View>
 					</View>
 					{/* Vendor Image */}
-					<View>
+					<View style={{ marginLeft: 8 }}>
 						<Image
 							source={{ uri: vendorIconURI }}
-							style={{ width: 90, height: 90, marginRight: 8 }}
+							style={{ width: 100, height: 100}}
 						/>
 					</View>
 				</View>
