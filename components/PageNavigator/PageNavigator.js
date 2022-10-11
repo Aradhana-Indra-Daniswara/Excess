@@ -10,7 +10,7 @@ import { useFonts } from "expo-font";
 // import { AntDesign } from "@expo/vector-icons";
 // import { Pressable } from "react-native";
 import SearchVendor from "../SearchVendor/SearchVendor";
-import Vendorpage from "../vendorpage/vendorpage";
+import VendorPage from "../vendorpage/VendorPage";
 import Activity from "../Activity/Activity";
 
 export default function PageNavigator() {
@@ -69,13 +69,13 @@ export default function PageNavigator() {
 
 				<Stack.Screen
 					name='Vendor'
-					component={Vendorpage}
+					component={VendorPage}
 					options={({ route }) => ({
 						// configure param component
 						// https://reactnavigation.org/docs/headers/#setting-the-header-title
 						title: route?.params?.vendor.name || "get title from route",
-						headerShown: true,
-						headerBackButtonMenuEnabled: true,
+						headerShown: false,
+						// headerBackButtonMenuEnabled: true,
 					})}
 				/>
 

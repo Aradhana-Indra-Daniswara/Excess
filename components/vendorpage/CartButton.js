@@ -1,32 +1,19 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AppText from "../AppText";
-import ShoppingCartIcon from "../../assets/shopping-cart.svg";
+import ShoppingCartIcon from "../../assets/shopping_cart.svg";
+import { colorStyles } from "../Styling/GlobalStyles";
 
-const Styles = StyleSheet.create({
-  container: {
-    width: 260,
-    height: 55,
-    backgroundColor: "#59D9A8",
-    display: "flex",
-    flexDirection: "row",
-    position: "relative",
-    bottom: 70,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 const CartButton = ({ itemCount, navigationHandler }) => {
   return (
-    <TouchableOpacity style={Styles.container} onPress={navigationHandler}>
-      <View style={{ position: "absolute", left: 20 }}>
+    <TouchableOpacity onPress={navigationHandler} style={{ position: "absolute", bottom: 20, right: 20 }}>
+      <View style={{ position: 'relative' }}>
         <ShoppingCartIcon />
+				<View style={{ position: 'absolute', right: -10, top: -10, backgroundColor: 'white', width: 32, height: 32, justifyContent: 'center', alignItems: 'center', borderRadius: 100}}>
+					<AppText style={{ color: colorStyles['excess'] }} weight='600'>{itemCount}</AppText>
+				</View>
       </View>
-      <AppText weight={"700"} style={{ color: "white", fontSize: 14 }}>
-        {itemCount} item(s) in your cart
-      </AppText>
     </TouchableOpacity>
   );
 };

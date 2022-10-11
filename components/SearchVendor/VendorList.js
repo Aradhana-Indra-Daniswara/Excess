@@ -30,7 +30,6 @@ export default function VendorList({ vendor }) {
 
 	const fetchVendorImage = async () => {
 		const docRef = doc(firestore, "vendors", vendor.id);
-
 		try {
 			const docSnap = await getDoc(docRef);
 			if (docSnap.exists()) {
