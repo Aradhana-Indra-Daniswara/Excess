@@ -52,12 +52,11 @@ const VendorPage = ({ route, navigation }) => {
 							...product,
 							imageUrl: url,
 						});
-					} else {
-						allProducts.push({
-							...product,
-							imageUrl: url,
-						});
 					}
+					allProducts.push({
+						...product,
+						imageUrl: url,
+					});
 				}
 			}
 
@@ -66,20 +65,16 @@ const VendorPage = ({ route, navigation }) => {
 				{
 					title: "Running Out Products",
 					tileType: "BigProducts",
-					// renderItem: ({ item }) => (
-					// 	<FlatList
-					// 		data={item}
-					// 		numColumns={2}
-					// 		keyExtractor={(item) => item.id}
-					// 		renderItem={({ item }) => <BigProductCard product={item} />}
-					// 	/>
-					// ),
 					data: [runningOutProducts],
 				},
 				{
 					title: "All Products",
-					// tileType: 'BigProducts',
-					renderItem: ({ item }) => <ProductCard product={item} />,
+					renderItem: ({ item }) => (
+						<ProductCard
+							product={item}
+							cartHandler={cartHandler}
+						/>
+					),
 					data: allProducts,
 				},
 			]);
@@ -88,6 +83,15 @@ const VendorPage = ({ route, navigation }) => {
 		getVendordata();
 	}, []);
 
+	// Will only count item once. enaknya gimana?
+	const cartHandler = (x) => {
+		if (!cart.find((cartProduct) => cartProduct.id === x.id)) {
+			setCart((prev)=> {
+				return [...prev, { ...x, qty: 1 }]
+			});
+		}
+	};
+
 	const navigationHandler = () => {
 		navigation.navigate("Cart", {
 			items: cart,
@@ -95,12 +99,11 @@ const VendorPage = ({ route, navigation }) => {
 		});
 	};
 
-	// Will only count item once. enaknya gimana?
-	const cartHandler = (item) => {
-		if (!cart.find((product) => product.id === item.id)) {
-			setCart([...cart, { ...item, qty: 1 }]);
-		}
-	};
+	useEffect(()=> {
+		console.log(cart);
+	}, [cart])
+
+	
 
 	const Header = () => {
 		return (
@@ -175,8 +178,17 @@ const VendorPage = ({ route, navigation }) => {
 							<FlatList
 								data={section.data[0]}
 								numColumns={2}
+								columnWrapperStyle={{
+									justifyContent: "space-between",
+									marginHorizontal: 16,
+								}}
 								keyExtractor={(item) => item.id}
-								renderItem={({ item }) => <BigProductCard product={item} />}
+								renderItem={({ item }) => (
+									<BigProductCard
+										product={item}
+										cartHandler={cartHandler}
+									/>
+								)}
 							/>
 						);
 					}
@@ -191,6 +203,14 @@ const VendorPage = ({ route, navigation }) => {
 				)}
 				renderScrollComponent={false}
 			/>
+
+			{/* Cart button will show when first item is added */}
+			{cart.length !== 0 && (
+				<CartButton
+					itemCount={cart.length}
+					navigationHandler={navigationHandler}
+				/>
+			)}
 		</View>
 	);
 };

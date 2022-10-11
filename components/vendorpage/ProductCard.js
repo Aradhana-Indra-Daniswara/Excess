@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, cartHandler }) {
 	return (
 		<View
 			style={{
@@ -32,14 +32,16 @@ export default function ProductCard({ product }) {
 					</AppText>
 				</View>
 			</View>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
+			<TouchableOpacity
+				style={{ flexDirection: "row", alignItems: "center" }}
+				onPress={() => cartHandler(product)}>
 				<AppText
 					style={{ marginRight: 4, color: colorStyles["excess"], fontSize: 14 }}
 					weight='500'>
 					Add to Cart
 				</AppText>
 				<Right_arrow_icon />
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }
