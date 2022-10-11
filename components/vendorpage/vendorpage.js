@@ -165,7 +165,7 @@ const VendorPage = ({ route, navigation }) => {
 			</SafeAreaView>
 		);
 	}
-
+	// Testing
 	return (
 		<View style={{ backgroundColor: "white", height: "100%", position: 'relative' }}>
 			<SectionList
