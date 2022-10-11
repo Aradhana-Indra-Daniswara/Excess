@@ -26,21 +26,12 @@ const VendorPage = ({ route, navigation }) => {
 		const getVendordata = async () => {
 			// Store vendor info to pass to cart
 			const { address, area, opening_hour, closing_hour, name, id, rating } = vendor;
-			setVendor({
-				address,
-				area,
-				opening_hour,
-				closing_hour,
-				name,
-				id,
-				rating,
-			});
 
 			// get url for product images
 			let rawProducts = [];
-			try{
+			try {
 				rawProducts = vendor.products;
-			}catch(error){
+			} catch (error) {
 				console.error(error);
 			}
 			const allProducts = [];
@@ -75,15 +66,21 @@ const VendorPage = ({ route, navigation }) => {
 				},
 				{
 					title: "All Products",
-					renderItem: ({ item }) => (
-						<ProductCard
-							product={item}
-							cartHandler={cartHandler}
-						/>
-					),
+					// renderItem: ({ item }) => (
+						
+					// ),
 					data: allProducts,
 				},
 			]);
+			setVendor({
+				address,
+				area,
+				opening_hour,
+				closing_hour,
+				name,
+				id,
+				rating,
+			});
 			setIsLoading(false);
 		};
 		getVendordata();
@@ -92,9 +89,7 @@ const VendorPage = ({ route, navigation }) => {
 	// Will only count item once. enaknya gimana?
 	const cartHandler = (x) => {
 		if (!cart.find((cartProduct) => cartProduct.id === x.id)) {
-			setCart((prev) => {
-				return [...prev, { ...x, qty: 1 }];
-			});
+			setCart([...cart, { ...x, qty: 1 }]);
 		}
 	};
 
@@ -107,7 +102,7 @@ const VendorPage = ({ route, navigation }) => {
 
 	const Header = () => {
 		return (
-			<View style={{ width: '100%', paddingTop: 16 }}>
+			<View style={{ width: "100%", paddingTop: 16 }}>
 				<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16, marginHorizontal: 16 }}>
 					{/* Vendor Name, Rating, Open Time */}
 					<View style={{ alignSelf: "flex-start", width: 250, flex: 1 }}>
@@ -137,7 +132,7 @@ const VendorPage = ({ route, navigation }) => {
 					<View style={{ marginLeft: 8 }}>
 						<Image
 							source={{ uri: vendorIconURI }}
-							style={{ width: 100, height: 100}}
+							style={{ width: 100, height: 100 }}
 						/>
 					</View>
 				</View>
@@ -167,13 +162,13 @@ const VendorPage = ({ route, navigation }) => {
 	}
 	// Testing
 	return (
-		<View style={{ backgroundColor: "white", height: "100%", position: 'relative' }}>
+		<View style={{ backgroundColor: "white", height: "100%", position: "relative" }}>
 			<SectionList
 				sections={products}
 				keyExtractor={(item, index) => item + index}
 				ListHeaderComponent={<Header />}
-				ListFooterComponent={<View style={{ paddingBottom: 16}}></View>}
-				renderItem={({ section }) => {
+				ListFooterComponent={<View style={{ paddingBottom: 16 }}></View>}
+				renderItem={({ item, section }) => {
 					if (section.tileType === "BigProducts") {
 						return (
 							<FlatList
@@ -182,7 +177,7 @@ const VendorPage = ({ route, navigation }) => {
 								columnWrapperStyle={{
 									justifyContent: "space-between",
 									marginHorizontal: 16,
-									marginVertical: 2
+									marginVertical: 2,
 								}}
 								keyExtractor={(item) => item.id}
 								renderItem={({ item }) => (
@@ -194,7 +189,12 @@ const VendorPage = ({ route, navigation }) => {
 							/>
 						);
 					}
-					return <View>{section.renderItem}</View>;
+					return (
+						<ProductCard
+							product={item}
+							cartHandler={cartHandler}
+						/>
+					);
 				}}
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText

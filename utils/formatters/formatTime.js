@@ -1,5 +1,5 @@
 const formatTime = (time) => {
-  return `${time.slice(0, 2)}:${time.slice(2, 4)}`;
+  return `${time.toString().slice(0, 2)}:${time.toString().slice(2, 4)}`;
 };
 
 export default formatTime;
