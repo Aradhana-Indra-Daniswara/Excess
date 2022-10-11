@@ -4,6 +4,8 @@ import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
 import AutoDimensionImage from "react-native-auto-dimensions-image";
+import formatCurrency from "../../utils/formatters/formatCurrency";
+import Clock_icon from "../../assets/clock_icon.svg";
 
 export default function BigProductCard({ product, cartHandler }) {
 	return (
@@ -15,8 +17,6 @@ export default function BigProductCard({ product, cartHandler }) {
 				padding: 5,
 				marginVertical: 4,
 				justifyContent: "space-between",
-				// marginHorizontal: 16,
-				// flex: 1,
 				width: "48%",
 			}}>
 			<View style={{ alignItems: "flex-start", width: "100%" }}>
@@ -26,13 +26,29 @@ export default function BigProductCard({ product, cartHandler }) {
 						style={{ width: "100%", height: 150, borderRadius: 5 }}
 					/>
 				</View>
-				<View>
+				<View
+					style={{
+						padding: 4,
+						marginVertical: 4,
+						borderRadius: 5,
+						backgroundColor: "#FCDEDE",
+						flexDirection: "row",
+						alignItems: "center",
+						alignSelf: "flex-start",
+					}}>
+					<Clock_icon />
+					<AppText style={{ color: "#FB6868", marginLeft: 4 }}>{product.max_order_time.slice(0, 2) + ":" + product.max_order_time.slice(2)}</AppText>
+				</View>
+				<View style={{ marginTop: 4 }}>
 					<AppText
-						style={{ fontSize: 14, marginTop: 8 }}
+						style={{ fontSize: 14 }}
 						weight='600'>
 						{product.name}
 					</AppText>
-					<AppText style={{ fontSize: 14, marginTop: 4, marginBottom: 12 }}>Rp{product.price}</AppText>
+					<View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
+						<AppText style={{ fontSize: 14 }}>{formatCurrency(product.discounted_price)}</AppText>
+						<AppText style={{ fontSize: 12, marginLeft: 8, textDecorationLine: "line-through" }}>{formatCurrency(product.price)}</AppText>
+					</View>
 				</View>
 			</View>
 			<TouchableOpacity

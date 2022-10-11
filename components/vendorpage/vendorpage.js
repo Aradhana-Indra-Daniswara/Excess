@@ -86,8 +86,8 @@ const VendorPage = ({ route, navigation }) => {
 	// Will only count item once. enaknya gimana?
 	const cartHandler = (x) => {
 		if (!cart.find((cartProduct) => cartProduct.id === x.id)) {
-			setCart((prev)=> {
-				return [...prev, { ...x, qty: 1 }]
+			setCart((prev) => {
+				return [...prev, { ...x, qty: 1 }];
 			});
 		}
 	};
@@ -98,12 +98,6 @@ const VendorPage = ({ route, navigation }) => {
 			vendor,
 		});
 	};
-
-	useEffect(()=> {
-		console.log(cart);
-	}, [cart])
-
-	
 
 	const Header = () => {
 		return (
@@ -167,7 +161,7 @@ const VendorPage = ({ route, navigation }) => {
 	}
 
 	return (
-		<View style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16 }}>
+		<View style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16, position: 'relative' }}>
 			<SectionList
 				sections={products}
 				keyExtractor={(item, index) => item + index}
@@ -181,6 +175,7 @@ const VendorPage = ({ route, navigation }) => {
 								columnWrapperStyle={{
 									justifyContent: "space-between",
 									marginHorizontal: 16,
+									marginVertical: 2
 								}}
 								keyExtractor={(item) => item.id}
 								renderItem={({ item }) => (

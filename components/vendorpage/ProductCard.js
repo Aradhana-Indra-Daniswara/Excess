@@ -3,6 +3,8 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import AppText from "../AppText";
 import Right_arrow_icon from "../../assets/right_arrow_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
+import formatCurrency from "../../utils/formatters/formatCurrency";
+
 export default function ProductCard({ product, cartHandler }) {
 	return (
 		<View
@@ -23,13 +25,14 @@ export default function ProductCard({ product, cartHandler }) {
 						style={{ width: 72, height: 72, marginRight: 8, borderRadius: 5 }}
 					/>
 				</View>
+
 				<View style={{ marginLeft: 10 }}>
-					<AppText style={{ fontSize: 14 }}>{product.name}</AppText>
 					<AppText
-						style={{ fontSize: 12, marginTop: 8 }}
+						style={{ fontSize: 14 }}
 						weight='500'>
-						Rp{product.price}
+						{product.name}
 					</AppText>
+					<AppText style={{ fontSize: 14, marginTop: 8 }}>{formatCurrency(product.price)}</AppText>
 				</View>
 			</View>
 			<TouchableOpacity
