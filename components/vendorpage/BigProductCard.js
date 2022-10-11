@@ -6,6 +6,7 @@ import { colorStyles } from "../Styling/GlobalStyles";
 import AutoDimensionImage from "react-native-auto-dimensions-image";
 import formatCurrency from "../../utils/formatters/formatCurrency";
 import Clock_icon from "../../assets/clock_icon.svg";
+import formatTime from "../../utils/formatters/formatTime";
 
 export default function BigProductCard({ product, cartHandler }) {
 	return (
@@ -37,7 +38,7 @@ export default function BigProductCard({ product, cartHandler }) {
 						alignSelf: "flex-start",
 					}}>
 					<Clock_icon />
-					<AppText style={{ color: "#FB6868", marginLeft: 4 }}>{product.max_order_time.slice(0, 2) + ":" + product.max_order_time.slice(2)}</AppText>
+					<AppText style={{ color: "#FB6868", marginLeft: 4 }}>{formatTime(product.max_order_time)}</AppText>
 				</View>
 				<View style={{ marginTop: 4, padding: 4 }}>
 					<AppText

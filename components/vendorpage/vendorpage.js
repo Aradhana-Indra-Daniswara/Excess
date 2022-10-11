@@ -11,6 +11,7 @@ import Star_icon from "../../assets/star_icon.svg";
 import Store_icon from "../../assets/store_icon.svg";
 import ProductCard from "./ProductCard";
 import BigProductCard from "./BigProductCard";
+import formatTime from "../../utils/formatters/formatTime";
 
 const VendorPage = ({ route, navigation }) => {
 	const [products, setProducts] = useState([]);
@@ -36,7 +37,12 @@ const VendorPage = ({ route, navigation }) => {
 			});
 
 			// get url for product images
-			const rawProducts = vendor.products;
+			let rawProducts = [];
+			try{
+				rawProducts = vendor.products;
+			}catch(error){
+				console.error(error);
+			}
 			const allProducts = [];
 			const runningOutProducts = [];
 			for (const product of rawProducts) {
@@ -101,7 +107,7 @@ const VendorPage = ({ route, navigation }) => {
 
 	const Header = () => {
 		return (
-			<View style={{ width: '100%' }}>
+			<View style={{ width: '100%', paddingTop: 16 }}>
 				<View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 16, marginHorizontal: 16 }}>
 					{/* Vendor Name, Rating, Open Time */}
 					<View style={{ alignSelf: "flex-start", width: 250, flex: 1 }}>
@@ -123,7 +129,7 @@ const VendorPage = ({ route, navigation }) => {
 								<Star_icon />
 							</View>
 							<AppText style={{ fontSize: 12, color: colorStyles[50], marginLeft: 8 }}>
-								Opens {vendor.opening_hour} - {vendor.closing_hour}
+								Opens {formatTime(vendor.opening_hour)} - {formatTime(vendor.closing_hour)}
 							</AppText>
 						</View>
 					</View>
@@ -161,11 +167,12 @@ const VendorPage = ({ route, navigation }) => {
 	}
 
 	return (
-		<View style={{ backgroundColor: "white", height: "100%", paddingTop: 16, paddingBottom: 16, position: 'relative' }}>
+		<View style={{ backgroundColor: "white", height: "100%", position: 'relative' }}>
 			<SectionList
 				sections={products}
 				keyExtractor={(item, index) => item + index}
 				ListHeaderComponent={<Header />}
+				ListFooterComponent={<View style={{ paddingBottom: 16}}></View>}
 				renderItem={({ section }) => {
 					if (section.tileType === "BigProducts") {
 						return (
