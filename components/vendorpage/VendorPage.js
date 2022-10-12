@@ -32,7 +32,7 @@ const VendorPage = ({ route, navigation }) => {
 			try {
 				rawProducts = vendor.products;
 			} catch (error) {
-				console.error(error);
+				console.log(error.message);
 			}
 			const allProducts = [];
 			const runningOutProducts = [];
@@ -66,9 +66,6 @@ const VendorPage = ({ route, navigation }) => {
 				},
 				{
 					title: "All Products",
-					// renderItem: ({ item }) => (
-						
-					// ),
 					data: allProducts,
 				},
 			]);
@@ -160,7 +157,7 @@ const VendorPage = ({ route, navigation }) => {
 			</SafeAreaView>
 		);
 	}
-	// Testing
+
 	return (
 		<View style={{ backgroundColor: "white", height: "100%", position: "relative" }}>
 			<SectionList

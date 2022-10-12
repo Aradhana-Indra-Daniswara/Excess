@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
 import { colorStyles } from "./Styling/GlobalStyles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ export default function MainNavigator({ route }) {
 
   return (
     <Tab.Navigator
-      initialRouteName={route?.params?.goToActivity ? activityName : homeName}
+      initialRouteName={homeName}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
