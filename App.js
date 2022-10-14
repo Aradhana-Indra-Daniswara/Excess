@@ -1,10 +1,17 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme  } from "@react-navigation/native";
 import React from "react";
 import PageNavigator from "./components/PageNavigator";
-// import Vendorpage from "./components/vendorpage/vendorpage";
+
+const JAJANTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'rgb(255, 255, 255)',
+  },
+};
 export default function App() {
 	return (
-		<NavigationContainer>
+		<NavigationContainer theme={JAJANTheme}>
 			<PageNavigator />
 		</NavigationContainer>
 	);
