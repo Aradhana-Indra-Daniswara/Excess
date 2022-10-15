@@ -45,6 +45,9 @@ export default function SearchVendor() {
         vendor.area.toLowerCase().includes(filterText.toLowerCase())
     );
   };
+	const clearSearch = () => {
+
+	}
   useEffect(() => {
     fetchVendorList();
   }, []);
@@ -97,11 +100,14 @@ export default function SearchVendor() {
                 fontFamily: "OpenSauceSans-Regular",
                 marginLeft: 10,
               }}
-              onChange={({ nativeEvent }) => setFilterText(nativeEvent.text)}
+              onChange={({ nativeEvent }) => {
+								setFilterText(nativeEvent.text)
+							}}
+							value={filterText}
               placeholder={placeholder}
             />
           </View>
-          <CrossIcon_Gray />
+          <CrossIcon_Gray onPress={()=> setFilterText()}/>
         </View>
       </View>
 
