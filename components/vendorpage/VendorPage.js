@@ -28,12 +28,7 @@ const VendorPage = ({ route, navigation }) => {
 			const { address, area, opening_hour, closing_hour, name, id, rating } = vendor;
 
 			// get url for product images
-			let rawProducts = [];
-			try {
-				rawProducts = vendor.products;
-			} catch (error) {
-				console.log(error.message);
-			}
+			const rawProducts = vendor.products || [];
 			const allProducts = [];
 			const runningOutProducts = [];
 			for (const product of rawProducts) {
@@ -164,7 +159,7 @@ const VendorPage = ({ route, navigation }) => {
 				sections={products}
 				keyExtractor={(item, index) => item + index}
 				ListHeaderComponent={<Header />}
-				ListFooterComponent={<View style={{ paddingBottom: 16 }}></View>}
+				ListFooterComponent={<View style={{ paddingBottom: 100 }}></View>}
 				renderItem={({ item, section }) => {
 					if (section.tileType === "BigProducts") {
 						return (
