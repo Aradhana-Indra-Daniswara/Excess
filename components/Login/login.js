@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import React, { useState, useEffect } from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   SafeAreaView,
   StyleSheet,
@@ -69,13 +70,24 @@ const Login = ({ navigation }) => {
   }, []);
 
   if (!fontsLoaded) {
-    return null;
+    return (
+      <SafeAreaView
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
   }
 
   return (
     <KeyboardAvoidingView
       behavior="position"
-      style={{ ...globalStyles.container, position: "relative" }}>
+      style={{ ...globalStyles.container, position: "relative" }}
+    >
       {/* Decorational Blob */}
       <View
         style={{
