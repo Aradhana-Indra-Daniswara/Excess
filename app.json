@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Excess",
-    "slug": "Excess",
+    "name": "JAJAN",
+    "slug": "JAJAN",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,12 +22,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/jajan_main_logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jajan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b1461a57-d968-4af3-af7a-0fd04f86b300"
+      }
     }
   }
 }

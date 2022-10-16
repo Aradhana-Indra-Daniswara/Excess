@@ -16,8 +16,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
 
 // Icons
-import Excess_Logo_White from "../../assets/excess_logo-white.svg";
-import Excess_Logo_Text from "../../assets/excess_text-white.svg";
+import JAJAN_logo from "../../assets/JAJAN_logo-white.svg";
+import JAJAN_text from "../../assets/JAJAN_text-white.svg";
 import Tosca_Blob from "../../assets/tosca_elipse.svg";
 
 // Styling
@@ -103,8 +103,8 @@ export default function Register({ navigation }) {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <Excess_Logo_White />
-          <Excess_Logo_Text style={{ marginLeft: 10 }} />
+          <JAJAN_logo />
+          <JAJAN_text style={{ marginLeft: 10 }} />
         </View>
         <AppText
           style={{
