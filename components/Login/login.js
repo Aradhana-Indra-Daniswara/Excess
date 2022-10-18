@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+	
 } from "react-native";
 import AppText from "../AppText";
 import { auth } from "../../config/firebase-config";
@@ -20,7 +22,6 @@ import Tosca_Blob from "../../assets/tosca_elipse.svg";
 
 // Styling
 import { colorStyles, globalStyles } from "../Styling/GlobalStyles";
-import { StatusBar } from "expo-status-bar";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -77,6 +78,7 @@ const Login = ({ navigation }) => {
       behavior="position"
       style={{ ...globalStyles.container, position: "relative" }}>
       {/* Decorational Blob */}
+			<StatusBar backgroundColor={colorStyles['excess']}/>
       <View
         style={{
           position: "absolute",
