@@ -8,6 +8,7 @@ import {
   StatusBar,
   FlatList,
   Text,
+	TouchableOpacity,
 } from "react-native";
 import AppText from "../AppText";
 import AutoDimensionImage, {
@@ -29,6 +30,7 @@ import Clock_icon from "../../assets/clock_icon.svg";
 
 export default function Home({ navigation }) {
   const [products, setProducts] = useState();
+	const [vendorData, setVendorData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
@@ -36,25 +38,42 @@ export default function Home({ navigation }) {
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const data = docSnap.data().products;
+				const fetchedVendorData = docSnap.data();
+			
+				// Fetch vendor's running out products
+        const data = fetchedVendorData.products;
         const dataWithImage = [];
         for (const product of data) {
-          const url = await getDownloadURL(ref(storage, product.uri));
+					const url = await getDownloadURL(ref(storage, product.uri));
           dataWithImage.push({
-            ...product,
+						...product,
             imageUrl: url,
           });
         }
         setProducts(dataWithImage);
+				
+				// Fetch vendor's data
+				const vendorImageUrl = await getDownloadURL(ref(storage, fetchedVendorData.logo));
+				fetchedVendorData.logoURI = vendorImageUrl;
+				setVendorData(fetchedVendorData);
         setIsLoading(false);
       }
     } catch (e) {
       console.log(e.message);
     }
   };
+
+	const directToVendorPage = () => {
+		navigation.navigate("Vendor", {
+			vendor: vendorData,
+			vendorIconURI: vendorData.logoURI,
+		});
+	};
+
   useEffect(() => {
     getData();
   }, []);
+	
 
   if (isLoading) {
     return null;
@@ -62,13 +81,14 @@ export default function Home({ navigation }) {
 
   const itemList = ({ item }) => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           borderRadius: 6,
           backgroundColor: "white",
           marginRight: 16,
           width: 160,
-        }}>
+        }}
+				onPress={directToVendorPage}>
         <Image
           source={{ uri: item.imageUrl }}
           style={{ width: "100%", height: 120, borderRadius: 5 }}
@@ -109,14 +129,14 @@ export default function Home({ navigation }) {
                 color: colorStyles[50],
                 fontSize: 12,
               }}>
-              {"Testing Bakery"}
+              {vendorData.name}
             </AppText>
           </View>
           <AppText weight="700" style={{ color: colorStyles[20] }}>
             Rp{item.price}
           </AppText>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
