@@ -8,7 +8,7 @@ import {
   StatusBar,
   FlatList,
   Text,
-	TouchableOpacity,
+  TouchableOpacity,
 } from "react-native";
 import AppText from "../AppText";
 import AutoDimensionImage, {
@@ -27,35 +27,38 @@ import Mostloved_icon from "../../assets/mostloved.svg";
 import Vendor_icon from "../../assets/vendor_icon.svg";
 import { colorStyles } from "../Styling/GlobalStyles";
 import Clock_icon from "../../assets/clock_icon.svg";
+import formatCurrency from "../../utils/formatters/formatCurrency";
 
 export default function Home({ navigation }) {
   const [products, setProducts] = useState();
-	const [vendorData, setVendorData] = useState();
+  const [vendorData, setVendorData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
-    const docRef = doc(firestore, "vendors", "kRz3YWwLpsawOneXQjzL");
+    const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-				const fetchedVendorData = docSnap.data();
-			
-				// Fetch vendor's running out products
+        const fetchedVendorData = docSnap.data();
+
+        // Fetch vendor's running out products
         const data = fetchedVendorData.products;
         const dataWithImage = [];
         for (const product of data) {
-					const url = await getDownloadURL(ref(storage, product.uri));
+          const url = await getDownloadURL(ref(storage, product.uri));
           dataWithImage.push({
-						...product,
+            ...product,
             imageUrl: url,
           });
         }
         setProducts(dataWithImage);
-				
-				// Fetch vendor's data
-				const vendorImageUrl = await getDownloadURL(ref(storage, fetchedVendorData.logo));
-				fetchedVendorData.logoURI = vendorImageUrl;
-				setVendorData(fetchedVendorData);
+
+        // Fetch vendor's data
+        const vendorImageUrl = await getDownloadURL(
+          ref(storage, fetchedVendorData.logo)
+        );
+        fetchedVendorData.logoURI = vendorImageUrl;
+        setVendorData(fetchedVendorData);
         setIsLoading(false);
       }
     } catch (e) {
@@ -63,17 +66,16 @@ export default function Home({ navigation }) {
     }
   };
 
-	const directToVendorPage = () => {
-		navigation.navigate("Vendor", {
-			vendor: vendorData,
-			vendorIconURI: vendorData.logoURI,
-		});
-	};
+  const directToVendorPage = () => {
+    navigation.navigate("Vendor", {
+      vendor: vendorData,
+      vendorIconURI: vendorData.logoURI,
+    });
+  };
 
   useEffect(() => {
     getData();
   }, []);
-	
 
   if (isLoading) {
     return null;
@@ -88,7 +90,8 @@ export default function Home({ navigation }) {
           marginRight: 16,
           width: 160,
         }}
-				onPress={directToVendorPage}>
+        onPress={directToVendorPage}
+      >
         <Image
           source={{ uri: item.imageUrl }}
           style={{ width: "100%", height: 120, borderRadius: 5 }}
@@ -102,7 +105,8 @@ export default function Home({ navigation }) {
             flexDirection: "row",
             alignItems: "center",
             alignSelf: "flex-start",
-          }}>
+          }}
+        >
           <Clock_icon />
           <AppText style={{ color: "#FB6868", marginLeft: 4 }}>
             {item.max_order_time.slice(0, 2) +
@@ -113,7 +117,8 @@ export default function Home({ navigation }) {
         <View>
           <AppText
             weight="500"
-            style={{ fontSize: 16, color: colorStyles[20] }}>
+            style={{ fontSize: 16, color: colorStyles[20] }}
+          >
             {item.name}
           </AppText>
           <View
@@ -121,19 +126,21 @@ export default function Home({ navigation }) {
               flexDirection: "row",
               alignItems: "center",
               marginBottom: 6,
-            }}>
+            }}
+          >
             <Vendor_icon height={12} width={12} color={colorStyles[50]} />
             <AppText
               style={{
                 marginLeft: 4,
                 color: colorStyles[50],
                 fontSize: 12,
-              }}>
+              }}
+            >
               {vendorData.name}
             </AppText>
           </View>
           <AppText weight="700" style={{ color: colorStyles[20] }}>
-            Rp{item.price}
+            {formatCurrency(item.price)}
           </AppText>
         </View>
       </TouchableOpacity>
@@ -146,7 +153,8 @@ export default function Home({ navigation }) {
         backgroundColor: "white",
         height: "100%",
         width: "100%",
-      }}>
+      }}
+    >
       <StatusBar
         animated={true}
         barStyle="dark-content"
@@ -177,7 +185,8 @@ export default function Home({ navigation }) {
             position: "relative",
             marginBottom: 32,
             width: "100%",
-          }}>
+          }}
+        >
           <Image
             source={require("../../assets/mainbanner.png")}
             style={{
@@ -198,7 +207,8 @@ export default function Home({ navigation }) {
             <Nearme_icon width={120} height={40} />
             <AppText
               weight="500"
-              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}>
+              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}
+            >
               Near Me
             </AppText>
           </View>
@@ -206,7 +216,8 @@ export default function Home({ navigation }) {
             <Bestprice_icon width={120} height={40} />
             <AppText
               weight="500"
-              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}>
+              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}
+            >
               Best Price
             </AppText>
           </View>
@@ -214,7 +225,8 @@ export default function Home({ navigation }) {
             <Mostloved_icon width={120} height={40} />
             <AppText
               weight="500"
-              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}>
+              style={{ marginTop: 8, fontSize: 14, color: colorStyles[40] }}
+            >
               Most Loved
             </AppText>
           </View>
@@ -223,7 +235,8 @@ export default function Home({ navigation }) {
         {/* Running Out */}
         <AppText
           weight="700"
-          style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}>
+          style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}
+        >
           Running Out
         </AppText>
         <FlatList
@@ -241,7 +254,8 @@ export default function Home({ navigation }) {
         {/* Selected Partners */}
         <AppText
           weight="700"
-          style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}>
+          style={{ fontSize: 18, marginLeft: 18, marginTop: 12 }}
+        >
           Selected Partners
         </AppText>
         <ScrollView
@@ -251,7 +265,8 @@ export default function Home({ navigation }) {
             paddingHorizontal: 18,
           }}
           horizontal={true}
-          showsHorizontalScrollIndicator={false}>
+          showsHorizontalScrollIndicator={false}
+        >
           <View style={styles.horizontalCards}>
             <AutoDimensionImage
               source={require("../../assets/partner_1.png")}
