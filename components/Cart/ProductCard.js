@@ -68,7 +68,7 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
               </Pressable>
             </View>
             <AppText weight={"300"} style={{ fontSize: 15 }}>
-              {formatCurrency(product.price)}
+              {formatCurrency(product.discounted_price)}
             </AppText>
           </View>
         </View>
