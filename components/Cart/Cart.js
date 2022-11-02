@@ -154,7 +154,7 @@ export default function Cart({ route, navigation }) {
             {formatTime(vendor.closing_hour)}
           </AppText>
         </View>
-        <View style={{ width: 250 }}>
+        <View style={{ width: 280 }}>
           <AppText style={{ color: "#59D9A8", fontSize: 18 }} weight={"700"}>
             {vendor.name}, {vendor.address}
           </AppText>
