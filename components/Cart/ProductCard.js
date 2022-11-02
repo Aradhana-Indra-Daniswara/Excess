@@ -9,7 +9,8 @@ const Styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    height: 130,
+    // height: 150,
+    maxHeight: 180,
     width: 310,
     borderColor: "#C2C2C2",
   },
@@ -51,8 +52,14 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
       <View style={{ marginTop: 16 }}>
         <View style={{ flexDirection: "row" }}>
           <View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <AppText weight={"600"} style={{ fontSize: 18 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: 170,
+              }}
+            >
+              <AppText weight={"600"} style={{ fontSize: 18, width: 120 }}>
                 {product.name}
               </AppText>
               <Pressable
@@ -60,14 +67,13 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
                   marginLeft: 10,
                   height: 30,
                   width: 40,
-                  alignItems: "center",
                 }}
                 onPress={() => deleteItem(product.id)}
               >
                 <Ionicons name="md-trash-outline" size={28} color="black" />
               </Pressable>
             </View>
-            <AppText weight={"300"} style={{ fontSize: 15 }}>
+            <AppText weight={"300"} style={{ fontSize: 15, marginTop: 5 }}>
               {formatCurrency(product.discounted_price)}
             </AppText>
           </View>
