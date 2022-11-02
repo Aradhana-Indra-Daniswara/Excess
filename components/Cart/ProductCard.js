@@ -33,11 +33,11 @@ export default function ProductCard({ product, updateItem, deleteItem }) {
   const qtyHandler = (action) => {
     switch (action) {
       case "increment":
-        setQty(qty + 1);
+        setQty((qty) => qty + 1);
         break;
       case "decrement":
         if (qty > 1) {
-          setQty(qty - 1);
+          setQty((qty) => qty - 1);
           break;
         }
     }

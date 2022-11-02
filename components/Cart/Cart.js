@@ -59,7 +59,10 @@ export default function Cart({ route, navigation }) {
 
   // Run once when page first load
   useEffect(() => {
-    const total = items.reduce((prev, curr) => prev + curr.price * curr.qty, 0);
+    const total = items.reduce(
+      (prev, curr) => prev + curr.discounted_price * curr.qty,
+      0
+    );
     setTotal(total);
   }, [items]);
 
