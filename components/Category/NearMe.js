@@ -1,147 +1,104 @@
 import React, { useEffect, useState } from "react";
 import AppText from "../AppText";
-import { firestore, storage } from "../../config/firebase-config";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-// import NearmePage from "NearMe.js";
-import NearMeCard from "./NearMe.js";
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  orderBy,
-  Query,
-  query,
-} from "firebase/firestore";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import Nearme from "../../assets/nearme1.svg";
-export default function Category() {
-  // const [mainProducts, setMainProducts] = useState([
-  //   { name: "Pie 1", price: "15000" },
-  //   { name: "Pie 2", price: "16000" },
-  //   { name: "Pie 3", price: "17000" },
-  //   { name: "Pie 4", price: "18000" },
-  // ]);
-  // console.log("akjsd hkjsadjkasdkjashdkjashdkjashdkjashdkjash");
-  const [data, setData] = useState(null);
-  const [products, setProducts] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [docs, setDocs] = useState(null);
-  const dataakhir = [];
-
-  const [temp, setTemp] = useState(null);
-  const getdata = async () => {
-    const citiesRef = collection(firestore, "vendors");
-    const temp1 = [];
-    const q = query(citiesRef, orderBy("distance"));
-    // console.log(q);
-    // temp.push();
-    const querySnapShot = await getDocs(q);
-    querySnapShot.forEach((doc) => {
-      temp1.push(doc.data());
-      // console.log(doc.id, "=>", doc.data().distance);
-    });
-    setDocs(temp1);
-    // console.log("hi");
-    // temp.forEach((aa) => {
-    //   console.log(aa.address);
-    // });
-    // console.log(temp1);
-    setTemp(temp1);
-    setIsLoading(false);
-    //sppecified document
-    // const docRef = doc(firestore, "vendors", "GWGoNQfs6jU0yf0Uy0ml");
-    // const querySnapShot = await getDocs(collection(firestore, "vendors"));
-    // let counter = 0;
-    // const vendors = querySnapShot.map;
-    // querySnapShot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, " => ", doc.data());
-    //   // console.log(doc.data().address);
-    //   dataakhir[counter] = doc.data().distance;
-    //   console.log(dataakhir[counter]);
-    //   counter++;
-    //   setIsLoading(false);
-    // });
-    // try {
-    //   const docSnap = await getDoc(docRef);
-    //   if (docSnap.exists()) {
-    //     console.log(docSnap.data());
-    //     setData(docSnap.data());
-    //     SetType(docSnap.data().type);
-    //     SetNameVendor(docSnap.data().name);
-    //     const data2 = docSnap.data().products;
-    //     const dataimage = [];
-    //     for (const product of data2) {
-    //       const url = await getDownloadURL(ref(storage, product.uri));
-    //       dataimage.push({
-    //         ...product,
-    //         imageUrl: url,
-    //       });
-    //       console.log(dataimage);
-    //     }
-    //     setIsLoading(false);
-    //     setProducts(dataimage);
-    //     setMainProducts(products.slice(0, 4));
-    //     for (let i = 0; i < 4; i++) {
-    //       products.shift();
-    //     }
-    //     setNormalProduct(products);
-    //   }
-    // } catch (e) {
-    //   console.log(e.message);
-    // }
-  };
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+const onPress = () => {};
+const NearMeCard = ({ productName, productPrice, imageuri }) => {
+  // useEffect(() => {
+  //   console.log(productName);
+  // }, []);
   useEffect(() => {
-    getdata();
+    console.log(productPrice);
   }, []);
-  useEffect(() => {
-    console.log(temp);
-  }, [temp]);
-  if (isLoading) {
-    return null;
-  }
   return (
-    <View>
-      <View style={styles.Nearme}>
-        <Nearme width={30} height={30} />
-        <AppText fontFamily={"OpenSauceSans-Bold"} style={styles.neartext}>
-          Near me
-        </AppText>
-      </View>
-      <View style={styles.flexbox}>
-        <FlatList
-          numColumns={2}
-          data={temp}
-          renderItem={({ item }) => (
-            <NearMeCard
-              productName={item.name}
-              productPrice={item.rating}
-              imageuri={item.address}
-            />
-          )}
-        />
+    <View style={[styles.rectangle, styles.rec1]}>
+      <Image style={styles.imgdummy} source={{ uri: imageuri }} />
+      <AppText weight="700" style={styles.textvendor}>
+        {productName}
+      </AppText>
+      <AppText weight="700" style={styles.textprice}>
+        {productPrice}
+      </AppText>
+      <View style={styles.btn}>
+        <TouchableOpacity onPress={onPress} style={styles.rnd}>
+          <AppText weight="700" style={styles.txtadd}>
+            Add
+          </AppText>
+        </TouchableOpacity>
       </View>
     </View>
   );
-}
-
+};
 const styles = StyleSheet.create({
-  Nearme: {
-    // flex: 1,
-    marginLeft: 20,
-    marginTop: 20,
-    flexDirection: "row",
+  txtadd: {
+    // alignContent :'center',
+    // alignContent : 'center',
+    marginTop: 8,
+    color: "white",
+    alignSelf: "center",
+    lineHeight: 18,
+    fontSize: 15,
+    // fontWeight:'600',
   },
-  neartext: {
-    marginLeft: 10,
+  rnd: {
     marginTop: 5,
+    backgroundColor: "#51C699",
+    // padding: 20,
+    width: 80,
+    height: 31,
+    borderRadius: 14,
   },
-  flexbox: {
-    flex: 1,
-    marginLeft: 40,
-    // alignSelf:'center',
-    // justifyContent:'center',
-    flexDirection: "row",
+  btn: {
+    width: 82,
+    height: 31,
+    alignSelf: "center",
+    borderRadius: 14,
+    // marginRight: 40,
+    //   marginLeft: 40,
+    //   marginTop: 10,
+    //   paddingTop: 20,
+    //   paddingBottom: 20,
+    //   backgroundColor: '#68a0cf',
+    borderRadius: 20,
+    //   borderWidth: 1,
+    //   borderColor: '#fff',
+  },
+  rectangle: {
+    borderRadius: 14,
+    width: 137,
+    height: 207,
+    backgroundColor: "#dddede",
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 2,
+    shadowRadius: 3,
+    elevation: 5,
+    marginBottom: 60,
+  },
+  rec1: {
+    // marginLeft:20,
+    marginRight: 34,
+    // marginBottom:50,
+  },
+  imgdummy: {
+    borderRadius: 14,
+    width: 135,
+    height: 115,
+    alignContent: "center",
+    marginTop: 2,
+    alignSelf: "center",
+  },
+  textvendor: {
+    textAlign: "center",
+    alignSelf: "center",
+    marginTop: 5,
+    fontSize: 19,
+    fontWeight: "600",
+  },
+  textprice: {
+    alignItems: "center",
+    alignSelf: "center",
+    fontWeight: "600",
+    fontSize: 15,
   },
 });
+export default NearMeCard;
