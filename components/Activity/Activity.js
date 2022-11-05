@@ -16,6 +16,8 @@ import { getAuth } from "firebase/auth/react-native";
 export default function Activity() {
   const [activities, setActivities] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+	// Fetch orders by user
   const fetchActivities = async () => {
     try {
       const auth = getAuth();

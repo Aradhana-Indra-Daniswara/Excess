@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppText from "../AppText";
 import { colorStyles } from "../Styling/GlobalStyles";
@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../../config/firebase-config";
 import formatCurrency from "../../utils/formatters/formatCurrency";
 import formatTimestamptoDate from "../../utils/formatters/formatTimestampToDate";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ActivtiyItem({ activity }) {
 	const completed = activity.finished_at ? true : false;
@@ -16,8 +17,10 @@ export default function ActivtiyItem({ activity }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [vendor, setVendor] = useState();
 	const [orderPrice, setOrderPrice] = useState(0);
+	const navigation = useNavigation();
 
 	const getActivityData = async () => {
+
 		// gets the vendor data
 		try {
 			const docRef = doc(firestore, "vendors", activity.vendor_id);
@@ -45,13 +48,19 @@ export default function ActivtiyItem({ activity }) {
 	}
 
 	return (
-		<View
+		<TouchableOpacity
 			style={{
 				flexDirection: "row",
 				alignItems: "center",
 				marginHorizontal: 16,
 				marginVertical: 8
-			}}>
+			}}
+			onPress={()=> {navigation.navigate('ActivityDetail', {
+				vendor,
+				created_at,
+				finished_at,
+				items: activity.items
+			})}}>
 			<View
 				style={{
 					flex: 1,
@@ -74,6 +83,6 @@ export default function ActivtiyItem({ activity }) {
 				</View>
 			</View>
 			<AppText style={{ color: statusColor }}>{completed ? formatCurrency(orderPrice) : "Waiting for pickup"}</AppText>
-		</View>
+		</TouchableOpacity>
 	);
 }

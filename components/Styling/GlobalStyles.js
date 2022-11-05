@@ -6,6 +6,7 @@ export const colorStyles = {
   excess: "#51C699",
   white: "#F9F9F9",
   20: "#333333",
+  40: "#666666",
   50: "#808080",
   70: "#B3B3B3",
   80: "#CCCCCC",
