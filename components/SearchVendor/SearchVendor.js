@@ -45,9 +45,6 @@ export default function SearchVendor() {
         vendor.area.toLowerCase().includes(filterText.toLowerCase())
     );
   };
-	const clearSearch = () => {
-
-	}
   useEffect(() => {
     fetchVendorList();
   }, []);

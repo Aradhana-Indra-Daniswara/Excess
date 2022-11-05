@@ -16,6 +16,8 @@ import { getAuth } from "firebase/auth/react-native";
 export default function Activity() {
   const [activities, setActivities] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+	// Fetch orders by user
   const fetchActivities = async () => {
     try {
       const auth = getAuth();
@@ -52,8 +54,15 @@ export default function Activity() {
 
   useEffect(() => {
     fetchActivities();
-  }, []);
+  });
 
+	const EmptyActivity = () => {
+		return(
+			<View>
+				<AppText>No Orders Yet</AppText>
+			</View>
+		)
+	}
 
   if (isLoading) {
     return (
@@ -106,6 +115,7 @@ export default function Activity() {
           <View style={{ marginBottom: 16 }}></View>
         )}
         renderItem={({ item }) => <ActivityItem activity={item} />}
+				ListEmptyComponent={()=> <EmptyActivity />}
       />
     </SafeAreaView>
   );
