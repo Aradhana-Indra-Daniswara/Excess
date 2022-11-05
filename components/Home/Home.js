@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   StatusBar,
   FlatList,
-  Text,
   TouchableOpacity,
 } from "react-native";
 import AppText from "../AppText";
@@ -17,7 +16,7 @@ import AutoDimensionImage, {
 import SearchBar from "./SearchBar";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore, storage } from "../../config/firebase-config";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
 
 // Icons
 import { Ionicons } from "@expo/vector-icons";
@@ -42,7 +41,9 @@ export default function Home({ navigation }) {
         const fetchedVendorData = docSnap.data();
 
         // Fetch vendor's running out products
-        const data = fetchedVendorData.products;
+        const data = fetchedVendorData.products.filter(
+          (item) => item.limited_time === true
+        );
         const dataWithImage = [];
         for (const product of data) {
           const url = await getDownloadURL(ref(storage, product.uri));
@@ -76,10 +77,6 @@ export default function Home({ navigation }) {
   useEffect(() => {
     getData();
   }, []);
-
-  if (isLoading) {
-    return null;
-  }
 
   const itemList = ({ item }) => {
     return (
@@ -140,12 +137,16 @@ export default function Home({ navigation }) {
             </AppText>
           </View>
           <AppText weight="700" style={{ color: colorStyles[20] }}>
-            {formatCurrency(item.price)}
+            {formatCurrency(item.discounted_price)}
           </AppText>
         </View>
       </TouchableOpacity>
     );
   };
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <SafeAreaView
