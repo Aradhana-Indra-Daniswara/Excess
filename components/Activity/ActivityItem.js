@@ -11,7 +11,17 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function ActivtiyItem({ activity }) {
 	const completed = activity.finished_at ? true : false;
-	const statusColor = completed ? colorStyles[20] : colorStyles["excess"];
+	let statusColor;
+	if(activity.cancelled){
+		statusColor = '#FB6868';
+	}
+	else if(completed){
+		statusColor = colorStyles[20];
+	}
+	else{
+		statusColor = colorStyles["excess"];
+	}
+
 	const created_at = activity.created_at ? formatTimestamptoDate(activity.created_at) : null;
 	const finished_at = activity.finished_at ? formatTimestamptoDate(activity.finished_at) : null;
 	const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +30,6 @@ export default function ActivtiyItem({ activity }) {
 	const navigation = useNavigation();
 
 	const getActivityData = async () => {
-
 		// gets the vendor data
 		try {
 			const docRef = doc(firestore, "vendors", activity.vendor_id);
@@ -33,8 +42,8 @@ export default function ActivtiyItem({ activity }) {
 			console.log(e.message);
 		}
 		let totalPrice = 0;
-		for(const item of activity.items){
-			totalPrice += Number(item.price)
+		for (const item of activity.items) {
+			totalPrice += Number(item.price);
 		}
 		setOrderPrice(totalPrice);
 	};
@@ -53,14 +62,18 @@ export default function ActivtiyItem({ activity }) {
 				flexDirection: "row",
 				alignItems: "center",
 				marginHorizontal: 16,
-				marginVertical: 8
+				marginVertical: 8,
 			}}
-			onPress={()=> {navigation.navigate('ActivityDetail', {
-				vendor,
-				created_at,
-				finished_at,
-				items: activity.items
-			})}}>
+			onPress={() => {
+				navigation.navigate("ActivityDetail", {
+					vendor,
+					created_at,
+					finished_at,
+					items: activity.items,
+					order_id: activity.id,
+					cancelled: activity.cancelled,
+				});
+			}}>
 			<View
 				style={{
 					flex: 1,
@@ -82,7 +95,7 @@ export default function ActivtiyItem({ activity }) {
 					</AppText>
 				</View>
 			</View>
-			<AppText style={{ color: statusColor }}>{completed ? formatCurrency(orderPrice) : "Waiting for pickup"}</AppText>
+			<AppText style={{ color: statusColor }}>{completed ? <>{activity.cancelled ? "Cancelled" : formatCurrency(orderPrice)}</> : "Waiting for pickup"}</AppText>
 		</TouchableOpacity>
 	);
 }

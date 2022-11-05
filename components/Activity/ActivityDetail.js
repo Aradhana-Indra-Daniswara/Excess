@@ -11,6 +11,10 @@ import User_icon from "../../assets/activtiy/user.svg";
 import { getAuth } from "firebase/auth";
 import formatCurrency from "../../utils/formatters/formatCurrency";
 
+// Database
+import { updateDoc, serverTimestamp, doc } from "firebase/firestore";
+import { firestore } from "../../config/firebase-config";
+
 export default function ActivityDetail({ route }) {
 	const auth = getAuth();
 	const user = auth.currentUser;
@@ -18,6 +22,8 @@ export default function ActivityDetail({ route }) {
 	const created_at = route?.params?.created_at;
 	const finished_at = route?.params?.finished_at;
 	const items = route?.params?.items;
+	const cancelled = route?.params?.cancelled;
+	const order_id = route?.params?.order_id;
 	const [totalPrice, setTotalPrice] = useState(0);
 
 	const navigation = useNavigation();
@@ -35,10 +41,29 @@ export default function ActivityDetail({ route }) {
 		});
 		setTotalPrice(temp);
 	};
+
+	const finishTransaction = async () => {
+		// Set order to have a finished at time
+		const transactionRef = doc(firestore, "orders", order_id);
+		await updateDoc(transactionRef, {
+			finished_at: serverTimestamp(),
+		});
+		navigation.navigate("Activity");
+	};
+
+	const cancelTransaction = async () => {
+		// Set order to have a finished at time
+		const transactionRef = doc(firestore, "orders", order_id);
+		await updateDoc(transactionRef, {
+			finished_at: serverTimestamp(),
+			cancelled: true
+		});
+		navigation.navigate("Activity");
+	};
+
 	useEffect(() => {
 		countTotalPrice();
 	}, []);
-
 	return (
 		<View>
 			<View
@@ -68,11 +93,26 @@ export default function ActivityDetail({ route }) {
 			</View>
 			<View style={{ margin: 16 }}>
 				{finished_at ? (
-					<AppText
-						style={{ fontSize: 24 }}
-						weight='700'>
-						Finished
-					</AppText>
+				<>
+					{cancelled ?
+						(
+							<AppText
+								style={{ fontSize: 24, color: '#FB6868' }}
+								weight='700'>
+								Cancelled
+							</AppText>
+						): 
+						(
+							<AppText
+								style={{ fontSize: 24 }}
+								weight='700'>
+								Finished
+							</AppText>
+						)
+					}
+					
+				</>
+					
 				) : (
 					<AppText
 						style={{ fontSize: 24, color: colorStyles["excess"] }}
@@ -84,9 +124,10 @@ export default function ActivityDetail({ route }) {
 				<AppText>
 					Starts {created_at.date} {created_at.month} {created_at.year} • {("0" + created_at.hours).slice(-2)}:{("0" + created_at.minutes).slice(-2)}
 				</AppText>
-				{finished_at != null ?? (
+
+				{finished_at && (
 					<AppText>
-						Starts {finished_at.date} {finished_at.month} {finished_at.year} • {("0" + finished_at.hours).slice(-2)}:{("0" + finished_at.minutes).slice(-2)}
+						Ends {finished_at.date} {finished_at.month} {finished_at.year} • {("0" + finished_at.hours).slice(-2)}:{("0" + finished_at.minutes).slice(-2)}
 					</AppText>
 				)}
 
@@ -137,23 +178,30 @@ export default function ActivityDetail({ route }) {
 			</View>
 
 			{/* Buttons */}
-			<View style={{ marginHorizontal: 16, marginTop: 32 }}>
-				<View style={{ backgroundColor: colorStyles["excess"], alignItems: "center", justifyContent: "center", paddingVertical: 16, paddingHorizontal: 18, borderRadius: 6 }}>
+			{!finished_at && (
+				<View style={{ marginHorizontal: 16, marginTop: 32 }}>
+				<TouchableOpacity
+					style={{ backgroundColor: colorStyles["excess"], alignItems: "center", justifyContent: "center", paddingVertical: 16, paddingHorizontal: 18, borderRadius: 6 }}
+					onPress={finishTransaction}>
 					<AppText
 						style={{ fontSize: 16, color: "white" }}
 						weight='700'>
 						Finish Order
 					</AppText>
-				</View>
+				</TouchableOpacity>
 
-				<View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 16, paddingHorizontal: 18, borderRadius: 6, borderColor: '#FB6868', borderWidth: 1, marginTop: 16 }}>
+				<TouchableOpacity style={{ alignItems: "center", justifyContent: "center", paddingVertical: 16, paddingHorizontal: 18, borderRadius: 6, borderColor: "#FB6868", borderWidth: 1, marginTop: 16 }}
+				onPress={cancelTransaction}
+				>
 					<AppText
 						style={{ fontSize: 16, color: "#FB6868" }}
 						weight='700'>
 						Cancel Order
 					</AppText>
-				</View>
+				</TouchableOpacity>
 			</View>
+			)}
+			
 
 			<AppText style={{ textAlign: "center", marginTop: 32 }}>Need help? Contact Us</AppText>
 		</View>
