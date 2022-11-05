@@ -5,7 +5,7 @@ import {
   SectionList,
   ActivityIndicator,
 } from "react-native";
-import ActivityList from "./ActivityList";
+import ActivityItem from "./ActivityItem";
 import AppText from "../AppText";
 import { colorStyles } from "../Styling/GlobalStyles";
 import { useEffect, useState } from "react";
@@ -20,7 +20,6 @@ export default function Activity() {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
-
       const q = query(
         collection(firestore, "orders"),
         where("user_id", "==", user.uid)
@@ -54,6 +53,7 @@ export default function Activity() {
   useEffect(() => {
     fetchActivities();
   }, []);
+
 
   if (isLoading) {
     return (
@@ -105,7 +105,7 @@ export default function Activity() {
         renderSectionFooter={({ section }) => (
           <View style={{ marginBottom: 16 }}></View>
         )}
-        renderItem={({ item }) => <ActivityList activity={item} />}
+        renderItem={({ item }) => <ActivityItem activity={item} />}
       />
     </SafeAreaView>
   );

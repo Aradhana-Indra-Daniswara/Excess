@@ -8,7 +8,7 @@ import { firestore } from "../../config/firebase-config";
 import formatCurrency from "../../utils/formatters/formatCurrency";
 import formatTimestamptoDate from "../../utils/formatters/formatTimestampToDate";
 
-export default function ActivityList({ activity }) {
+export default function ActivtiyItem({ activity }) {
 	const completed = activity.finished_at ? true : false;
 	const statusColor = completed ? colorStyles[20] : colorStyles["excess"];
 	const created_at = activity.created_at ? formatTimestamptoDate(activity.created_at) : null;
