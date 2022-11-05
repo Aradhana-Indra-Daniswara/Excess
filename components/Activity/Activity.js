@@ -54,7 +54,7 @@ export default function Activity() {
 
   useEffect(() => {
     fetchActivities();
-  }, []);
+  });
 
 
   if (isLoading) {
