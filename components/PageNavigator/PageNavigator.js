@@ -12,7 +12,7 @@ import { useFonts } from "expo-font";
 import SearchVendor from "../SearchVendor/SearchVendor";
 import VendorPage from "../vendorpage/VendorPage";
 import Activity from "../Activity/Activity";
-
+import Category from "../Category/Category";
 export default function PageNavigator() {
   const Stack = createNativeStackNavigator();
 
@@ -44,7 +44,7 @@ export default function PageNavigator() {
       }}
     >
       <Stack.Group>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{
@@ -105,6 +105,14 @@ export default function PageNavigator() {
           options={{
             headerShown: true,
             headerBackButtonMenuEnabled: true,
+          }}
+        /> */}
+        <Stack.Screen
+          name="Category"
+          component={Category}
+          options={{
+            headerShown: true,
+            // headerBackButtonMenuEnabled: true
           }}
         />
       </Stack.Group>
