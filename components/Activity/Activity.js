@@ -56,6 +56,13 @@ export default function Activity() {
     fetchActivities();
   });
 
+	const EmptyActivity = () => {
+		return(
+			<View>
+				<AppText>No Orders Yet</AppText>
+			</View>
+		)
+	}
 
   if (isLoading) {
     return (
@@ -108,6 +115,7 @@ export default function Activity() {
           <View style={{ marginBottom: 16 }}></View>
         )}
         renderItem={({ item }) => <ActivityItem activity={item} />}
+				ListEmptyComponent={()=> <EmptyActivity />}
       />
     </SafeAreaView>
   );

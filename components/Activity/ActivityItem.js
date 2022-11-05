@@ -21,7 +21,6 @@ export default function ActivtiyItem({ activity }) {
 	else{
 		statusColor = colorStyles["excess"];
 	}
-
 	const created_at = activity.created_at ? formatTimestamptoDate(activity.created_at) : null;
 	const finished_at = activity.finished_at ? formatTimestamptoDate(activity.finished_at) : null;
 	const [isLoading, setIsLoading] = useState(true);
