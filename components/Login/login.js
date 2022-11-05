@@ -2,14 +2,12 @@ import { useFonts } from "expo-font";
 import React, { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-	
 } from "react-native";
 import AppText from "../AppText";
 import { auth } from "../../config/firebase-config";
@@ -76,9 +74,13 @@ const Login = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior="position"
-      style={{ ...globalStyles.container, position: "relative" }}>
+      style={{ ...globalStyles.container, position: "relative" }}
+    >
       {/* Decorational Blob */}
-			<StatusBar backgroundColor={colorStyles['excess']}/>
+      <StatusBar
+        backgroundColor={colorStyles["excess"]}
+        barStyle={"light-content"}
+      />
       <View
         style={{
           position: "absolute",
